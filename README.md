@@ -2,16 +2,16 @@
 
 A single-file, in-browser RPG that teaches AI fundamentals for 2026 — basics, prompt engineering, model comparison, custom skills, and agents.
 
-## Run it
+## Play it
 
-Just open `index.html` in your browser. That's it.
+**Live:** https://ram1729.github.io/AILearningGamev0.1/
+
+Or just open `index.html` in your browser locally — it's the same file.
 
 - No build step
 - No dependencies (vanilla HTML / CSS / JavaScript)
 - No API calls (zero cost, fully offline)
 - Progress is saved to `localStorage`
-
-Or play it via GitHub Pages once enabled: `https://ram1729.github.io/AILearningGamev0.1/`
 
 ## What's inside
 
