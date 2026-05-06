@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>The Frontier AI Fundamental Training — The Substrate Academy</title>
+<title>Uncert | Free AI Training | Founded by Ram Srinivasan</title>
 <style>
   :root {
     --bg:        #F6F3EC;
@@ -445,52 +445,87 @@
   .cert-frame {
     background: #FCFAF3;
     background-image:
-      radial-gradient(circle at 12% 12%, rgba(166,128,62,0.04), transparent 40%),
-      radial-gradient(circle at 88% 88%, rgba(26,58,110,0.04), transparent 40%);
-    border: 6px double var(--ink);
-    padding: 56px 64px 64px;
+      radial-gradient(circle at 50% 0%, rgba(166,128,62,0.05), transparent 60%),
+      radial-gradient(circle at 50% 100%, rgba(26,58,110,0.04), transparent 60%);
+    border: 2px solid var(--ink);
+    padding: 14px;
     text-align: center;
     position: relative;
-    box-shadow: 0 12px 40px rgba(14,26,43,0.12);
+    box-shadow: 0 14px 50px rgba(14,26,43,0.18);
     color: var(--ink);
     aspect-ratio: 11 / 8.5;
-    display: flex; flex-direction: column; justify-content: space-between;
   }
-  .cert-frame::before {
-    content: "";
-    position: absolute; inset: 8px;
-    border: 1px solid var(--gold);
-    pointer-events: none;
+  .cert-band {
+    border: 4px solid var(--gold);
+    padding: 6px;
+    height: 100%;
+  }
+  .cert-inner {
+    border: 1px solid var(--ink);
+    padding: 44px 56px 48px;
+    height: 100%;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+  .cert-corner {
+    position: absolute;
+    width: 22px; height: 22px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
+  }
+  .cert-corner.tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+  .cert-corner.tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+  .cert-corner.bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+  .cert-corner.br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+  .cert-flourish {
+    text-align: center;
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 1.5em;
+    margin: 14px 0 10px;
+    padding-left: 1.5em;
   }
   .cert-top {
     display: flex; flex-direction: column; align-items: center;
   }
   .cert-monogram {
-    width: 56px; height: 56px;
+    width: 64px; height: 64px;
     border: 1.5px solid var(--ink);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--serif); font-size: 22px;
-    font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 30px;
+    font-weight: 500;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin: 0 auto 14px;
     letter-spacing: -0.02em;
+    position: relative;
+  }
+  .cert-monogram::after {
+    content: "";
+    position: absolute; inset: 4px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
   }
   .cert-academy {
-    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    font-size: 13px; letter-spacing: 0.36em; text-transform: uppercase;
     color: var(--ink); font-weight: 600;
   }
+  .cert-tagline {
+    font-family: var(--serif); font-style: italic;
+    font-size: 13px; color: var(--ink-2);
+    margin-top: 4px;
+  }
   .cert-academy-rule {
-    width: 60px; height: 1px; background: var(--gold);
-    margin: 16px auto 0;
+    width: 72px; height: 1px; background: var(--gold);
+    margin: 14px auto 0;
   }
-  .cert-mid {
-    margin-top: 10px;
-  }
+  .cert-mid { margin-top: 6px; }
   .cert-this-certifies {
     font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
     color: var(--ink-2); font-weight: 600;
-    margin-bottom: 22px;
+    margin-bottom: 14px;
+    line-height: 1.7;
   }
   .cert-name {
     font-family: var(--serif);
@@ -499,40 +534,40 @@
     color: var(--accent);
     line-height: 1.1;
     letter-spacing: -0.01em;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
   }
   .cert-title-line {
     font-family: var(--serif);
     font-size: 14px;
     color: var(--ink-2);
     font-style: italic;
-    margin: 0 0 18px;
+    margin: 0 0 14px;
     min-height: 18px;
   }
   .cert-name-rule {
     width: 60%; height: 1px; background: var(--ink);
-    margin: 6px auto 22px;
+    margin: 6px auto 18px;
     opacity: 0.4;
   }
   .cert-completed {
-    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--ink-2); font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .cert-program {
     font-family: var(--serif);
-    font-size: 38px;
+    font-size: 36px;
     color: var(--ink);
-    line-height: 1.1;
+    line-height: 1.08;
     letter-spacing: -0.015em;
-    margin: 0 0 16px;
+    margin: 0 0 12px;
   }
   .cert-desc {
     font-family: var(--serif);
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--ink-2);
     line-height: 1.55;
-    max-width: 540px;
+    max-width: 580px;
     margin: 0 auto;
     font-style: italic;
   }
@@ -570,23 +605,47 @@
     letter-spacing: 0.01em;
   }
   .cert-seal {
-    width: 92px; height: 92px;
-    border: 1.5px solid var(--gold);
+    width: 96px; height: 96px;
+    border: 2px solid var(--gold);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     text-align: center;
-    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--gold); font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.4;
     background: #FCFAF3;
     margin: 0 auto;
+    position: relative;
+  }
+  .cert-seal::before {
+    content: "";
+    position: absolute; inset: 4px;
+    border: 1px dashed var(--gold);
+    border-radius: 50%;
+    opacity: 0.55;
   }
   .cert-seal-inner {
     width: 76px; height: 76px;
     border: 1px solid var(--gold);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 6px;
+    background: #FCFAF3;
+    z-index: 1;
+  }
+  .cert-seal-brand {
+    font-size: 9px; letter-spacing: 0.22em; color: var(--gold);
+    font-weight: 700; margin-bottom: 2px;
+  }
+  .cert-seal-year {
+    font-family: var(--serif); font-size: 13px; color: var(--gold);
+    letter-spacing: 0.12em; font-weight: 500;
+  }
+  .cert-id {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 9.5px; color: var(--ink-3);
+    letter-spacing: 0.12em;
+    margin-top: 4px;
   }
 
   @media (max-width: 760px) {
@@ -618,13 +677,13 @@
 <body>
 
 <div class="topbar">
-  <span class="gold">●</span>&nbsp; The Substrate Academy &nbsp;·&nbsp; Executive Program &nbsp;·&nbsp; May 2026
+  <span class="gold">●</span>&nbsp; Uncert &nbsp;·&nbsp; Free AI Training &nbsp;·&nbsp; May 2026
 </div>
 
 <div id="app"></div>
 
 <div class="colophon">
-  A Substrate Academy program · Ram Srinivasan, Founder &nbsp;·&nbsp;
+  Uncert · Free AI Training · Founded by Ram Srinivasan &nbsp;·&nbsp;
   <a href="https://ram1729.github.io/AILearningGamev0.1/">Live</a> &nbsp;·&nbsp;
   <a href="https://github.com/ram1729/AILearningGamev0.1">Source</a>
 </div>
@@ -634,14 +693,17 @@
 
 /* ==========================================================
    THE FRONTIER AI FUNDAMENTAL TRAINING
-   The Substrate Academy · Ram Srinivasan, Founder
+   Uncert · Free AI Training · Founded by Ram Srinivasan
    ========================================================== */
 
 const PROGRAM_TITLE = "The Frontier AI Fundamental Training";
-const ACADEMY = "The Substrate Academy";
+const BRAND = "Uncert";
+const TAGLINE = "Free AI Training";
 const FOUNDER = "Ram Srinivasan";
+const ATTRIBUTION = BRAND + " · " + TAGLINE + " · Founded by " + FOUNDER;
+const ATTRIBUTION_PIPED = BRAND + " | " + TAGLINE + " | Founded by " + FOUNDER;
 
-const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 const TWO = function (n) { return n < 10 ? "0" + n : "" + n; };
 
 const MODULES = [
@@ -803,6 +865,22 @@ const MODULES = [
           "No exemplars of acceptable output to anchor style"
         ],
         fixedExample: "Act as a senior executive communications advisor to the CEO of a publicly-traded technology company. Help me draft concise (under 150 words) follow-up emails to enterprise prospects after first-meeting introductions. Tone: warm, intellectually engaged, commercially direct. Always close with a single, specific next-step proposal. Here is one example I consider best-in-class: [example]."
+      },
+      {
+        id: "4c", title: "Pressure-testing a business case",
+        story: "Your client's CFO brings you their AI investment business case for review before the executive committee meeting. You have twenty-four hours and frontier AI assistance. The case is plausible on the surface — but the procurement, risk, and operations leaders have not yet weighed in. How do you stress-test it?",
+        type: "choice",
+        question: "Which prompting technique is most appropriate to pressure-test an AI business case before executive review?",
+        options: [
+          { text: "Role-prompt the model as an optimistic sponsor and ask it to validate the case.", correct: false,
+            feedback: "Validation prompting confirms what the case already says. The objective is the inverse — to surface what the case has missed." },
+          { text: "Run adversarial critique prompts from the perspective of a CFO, a CRO, and a COO. Each lens surfaces a different class of risk: financial assumptions, downside and operational risk, and execution feasibility.", correct: true,
+            feedback: "Correct. Stress-testing a business case requires adversarial framing from the people who will challenge it in the room. CFO surfaces financial assumption risk; CRO surfaces governance and downside risk; COO surfaces execution and operating-model feasibility. Running all three turns AI from a drafting tool into a pre-review audit." },
+          { text: "Ask the model to summarize the case more concisely.", correct: false,
+            feedback: "Compression is not interrogation. A shorter version of a flawed case is a flawed case in fewer words." },
+          { text: "Ask the model to approve the case before the meeting.", correct: false,
+            feedback: "AI approval has no governance status, and the prompt biases the model toward agreement. Use AI for critique, not endorsement." }
+        ]
       }
     ]
   },
@@ -951,6 +1029,38 @@ const MODULES = [
           { text: "MCP requires retraining your foundation model on each tool.", correct: false,
             feedback: "MCP is a protocol for runtime tool access. It involves no model retraining." }
         ]
+      },
+      {
+        id: "7c", title: "Curating the prompt library",
+        story: "Your firm is standing up an internal prompt library — a curated collection of approved prompts and skills shared across teams. The Chief Knowledge Officer asks: what governance metadata should every entry carry, beyond the prompt text itself?",
+        type: "choice",
+        question: "Which metadata schema is required for a managed prompt library?",
+        options: [
+          { text: "Prompt name and prompt text alone — anything else is overhead.", correct: false,
+            feedback: "Without ownership, classification, and review records, the library decays into an ungovernable mass of unattributed text." },
+          { text: "Owner, use case, approved tool, data classification, risk level, version, last reviewed date, and expected output.", correct: true,
+            feedback: "Correct. A prompt library is enterprise content. It requires the same governance discipline as code: ownership, lifecycle management, risk classification, versioning, and review cadence. Without these, the library cannot be audited, deprecated, or trusted for client work." },
+          { text: "The author's preferred prompt style and the model temperature.", correct: false,
+            feedback: "Personal preference and tuning parameters are not governance metadata. They do not enable audit, ownership, or risk control." },
+          { text: "Word count and creation date only.", correct: false,
+            feedback: "Length and creation date carry no governance signal. The library would be unmanageable within a quarter." }
+        ]
+      },
+      {
+        id: "7d", title: "Why a skill produces generic output",
+        story: "A skill in your firm's library — designed to produce client briefings — is generating polished but generic output. Adoption is dropping. Your team asks for the diagnosis before the next sprint.",
+        type: "choice",
+        question: "What is the most likely root cause?",
+        options: [
+          { text: "The markdown file is too structured; the model is constrained by the headings.", correct: false,
+            feedback: "Structure constrains nothing the model would otherwise add. The diagnosis lies elsewhere." },
+          { text: "The skill lacks client-specific input requirements, exemplars of strong output, decision criteria, and quality checks. The model cannot produce specificity it has not been given.", correct: true,
+            feedback: "Correct. Generic output is almost always a context problem, not a model problem. A useful skill specifies exactly what client inputs are required, shows what 'good' looks like through exemplars, names the decision criteria the output should reflect, and enforces quality checks. Without these, even a frontier model produces serviceable but indistinct work." },
+          { text: "The model cannot write in markdown reliably.", correct: false,
+            feedback: "All frontier models in 2026 produce reliable markdown. The diagnosis is not the format." },
+          { text: "The skill includes too many headings.", correct: false,
+            feedback: "Heading count is irrelevant to output quality." }
+        ]
       }
     ]
   },
@@ -1013,6 +1123,22 @@ const MODULES = [
           { text: "Microsoft Copilot generates a custom image to insert into a board deck.", correct: false,
             feedback: "A high-quality creative output, but again a single act. Agency requires multi-step work, often spanning minutes or hours." }
         ]
+      },
+      {
+        id: "8e", title: "Prompt injection in customer-facing agents",
+        story: "Your firm has deployed a customer-service agent that reads incoming customer emails and drafts replies. The Chief Information Security Officer raises a foundational concern in the next risk review: what new attack surface has the agent opened, and how is the firm protecting against it?",
+        type: "choice",
+        question: "Which risk becomes especially acute when an agent ingests user-submitted content?",
+        options: [
+          { text: "Formatting risk — the agent's replies may render inconsistently across email clients.", correct: false,
+            feedback: "Formatting is a quality concern, not a security risk. The CISO is raising an entirely different category of issue." },
+          { text: "Prompt injection — adversarial instructions embedded in customer emails attempt to manipulate the agent into actions outside its intended scope, including disclosing data, issuing unauthorized refunds, or escalating privileges.", correct: true,
+            feedback: "Correct. Any agent that processes user-submitted content inherits a new attack surface: the content itself can carry adversarial instructions. The standard mitigations are input filtering, sandboxed tool execution, scope-limiting the agent's permissions, and adversarial testing in pre-production. This is the AI equivalent of SQL injection — a foundational threat the security team must own from day one." },
+          { text: "Bandwidth risk — the agent may exceed the firm's email throughput quota.", correct: false,
+            feedback: "Operational throughput is not a security risk in the sense the CISO is raising." },
+          { text: "Branding risk — replies may use the wrong corporate colors.", correct: false,
+            feedback: "Brand inconsistency is a quality concern, not the security failure mode the CISO is identifying." }
+        ]
       }
     ]
   },
@@ -1060,6 +1186,38 @@ const MODULES = [
           { ally: "Sensitive data leakage",          strength: "Strict data residency policies, no PII in shared model contexts, and contractual data-use prohibitions", mono: "2" },
           { ally: "Rogue agent action",              strength: "Dynamic least-privilege permissions, real-time observability, and pre-defined escalation thresholds", mono: "3" }
         ]
+      },
+      {
+        id: "9d", title: "The federated operating model",
+        story: "Your CEO asks for a recommendation on how to organize the firm's AI operating model. Three architectures are being debated at the next executive committee: fully decentralized (every team buys its own tools), fully centralized (a CoE controls everything), or federated. Which do you recommend, and why?",
+        type: "choice",
+        question: "Which operating model best supports both scale and adoption?",
+        options: [
+          { text: "Fully decentralized — every team selects, configures, and deploys its own AI tools without central coordination.", correct: false,
+            feedback: "Decentralized adoption produces tool sprawl, duplicated cost, inconsistent risk posture, and no shared learning. It is the dominant pattern of failed scaling." },
+          { text: "Fully centralized — a single AI Center of Excellence controls all decisions with minimal business input.", correct: false,
+            feedback: "Centralized control without business ownership produces high-quality plumbing that no one adopts. Decisions made in the CoE rarely match the workflow realities of the front line." },
+          { text: "Federated — central standards, shared platforms, and risk governance, with use cases owned and prioritized by the business.", correct: true,
+            feedback: "Correct. The federated model is the empirically dominant architecture for scaled AI in 2026. The center sets standards, runs the platform, and owns risk and security. The business owns use cases, prioritization, and adoption. This balances enterprise discipline with local accountability — and is the only model that produces both consistent governance and meaningful EBIT impact." },
+          { text: "No formal ownership — let the model emerge organically.", correct: false,
+            feedback: "Emergence in this category produces shadow AI, unreviewed risk, and uncoordinated investment. It is not a strategy." }
+        ]
+      },
+      {
+        id: "9e", title: "Who owns AI risk?",
+        story: "The audit committee asks a foundational ownership question: when something goes wrong with an AI deployment — a bias incident, a data leak, an unauthorized action — who, in the firm, is accountable? The committee wants a clear answer for the risk register.",
+        type: "choice",
+        question: "Which ownership model is the standard for enterprise AI risk in 2026?",
+        options: [
+          { text: "IT owns AI risk. AI is a technology, and technology is IT's domain.", correct: false,
+            feedback: "AI risk extends well beyond technology — it spans bias and fairness, data privacy, legal exposure, reputational harm, and operational impact. IT alone cannot own these dimensions." },
+          { text: "Legal owns AI risk. The legal function is closest to liability.", correct: false,
+            feedback: "Legal owns specific dimensions, but the operational, security, data, and business-impact dimensions are not legal's domain. Single-function ownership of AI risk is structurally inadequate." },
+          { text: "Shared ownership across business, technology, risk, legal, security, data, and compliance — with clear, named accountability per use case and per risk dimension.", correct: true,
+            feedback: "Correct. AI risk is irreducibly cross-functional. The mature pattern is shared ownership through a governance body (often an AI risk committee) with clear named accountability per use case and per risk dimension. The audit committee should expect to see, for each material AI deployment, a named business owner, a named risk owner, a named security owner, and a named data owner." },
+          { text: "The vendor owns AI risk under standard product liability.", correct: false,
+            feedback: "Vendor terms typically disclaim downstream decision liability. Risk that materializes inside the firm cannot be outsourced to a vendor." }
+        ]
       }
     ]
   },
@@ -1083,7 +1241,7 @@ const MODULES = [
       },
       {
         id: "10b", title: "Lead versus follow",
-        story: "The closing question of your program. You are setting the firm's AI investment posture for the next two-year cycle. Resources are constrained; you cannot lead in every domain. Where should the firm lead with custom development, and where should it follow with off-the-shelf tools?",
+        story: "You are setting the firm's AI investment posture for the next two-year cycle. Resources are constrained; you cannot lead in every domain. Where should the firm lead with custom development, and where should it follow with off-the-shelf tools?",
         type: "choice",
         question: "Which framing most accurately captures the lead-versus-follow discipline?",
         options: [
@@ -1096,6 +1254,123 @@ const MODULES = [
           { text: "Lead and follow are symmetrical; allocate equally across both.", correct: false,
             feedback: "Symmetric allocation misallocates the scarce input — custom-development capacity — and produces 'good enough' coverage everywhere instead of decisive advantage somewhere." }
         ]
+      },
+      {
+        id: "10c", title: "From time saved to value realized",
+        story: "Your client's COO reports that an AI chatbot pilot is saving the customer-service team approximately twenty percent of their time. He wants to call the pilot a success at the next board meeting. Before he does, you want to ask the right next question.",
+        type: "choice",
+        question: "What is the disciplined next question?",
+        options: [
+          { text: "Can we announce the success at the next board meeting?", correct: false,
+            feedback: "Announcing 'time saved' as a success measure is the canonical mistake of AI value reporting. Time saved is not value realized." },
+          { text: "How is the saved time being converted into measurable economic value — added capacity, quality improvement, cycle-time reduction, or revenue impact?", correct: true,
+            feedback: "Correct. Time saved is an input to value, not value itself. Without conversion into capacity, quality, cycle-time, or revenue, the saved time evaporates into dispersed slack across the team. The discipline is to require, at the design stage, an explicit hypothesis for how saved time becomes economic value — and then to measure that conversion, not the time savings alone." },
+          { text: "Can we remove the equivalent number of headcount?", correct: false,
+            feedback: "Conflating time-savings with workforce reductions is both crude and frequently wrong — saved minutes rarely aggregate into eliminable roles. The disciplined framing is value conversion, not headcount." },
+          { text: "Should we buy more chatbot licenses?", correct: false,
+            feedback: "Increasing AI spend before value conversion is established is the canonical 'pilot treadmill' move." }
+        ]
+      },
+      {
+        id: "10d", title: "Where the AI moat actually sits",
+        story: "Your board asks the foundational question: in a world where every competitor has access to the same frontier models — Opus 4.7, GPT-5.5, Gemini 3.1 Pro — what will be the firm's enduring AI advantage? Where, exactly, will the moat sit?",
+        type: "choice",
+        question: "Which framing best captures where durable AI advantage actually accrues?",
+        options: [
+          { text: "Access to the best frontier model. The firm with the strongest model wins.", correct: false,
+            feedback: "Model access is a commodity. Every serious competitor will be on a frontier model within twelve months. Advantage cannot be built on what everyone has." },
+          { text: "Proprietary data, embedded workflows, distribution, customer trust, adoption depth, governance maturity, and domain-specific execution.", correct: true,
+            feedback: "Correct. As model access commoditizes, durable advantage shifts to the assets and capabilities that surround the model — proprietary data competitors cannot access, workflows in which AI is a first-class participant, distribution that puts AI capability in front of the customer, trust that makes the customer choose your AI over a peer's, organizational adoption depth, governance that allows scale without incident, and execution discipline in the firm's specific domain. This is where strategy concentrates in 2026." },
+          { text: "Buying the most expensive vendor contract.", correct: false,
+            feedback: "Contract size is uncorrelated with strategic advantage — and often inversely correlated." },
+          { text: "Having the largest portfolio of pilots.", correct: false,
+            feedback: "Pilot count is an input metric. The firm with 40 pilots and no scaled value is not winning." }
+        ]
+      }
+    ]
+  },
+  {
+    id: 11, title: "Advanced Practitioner",
+    subtitle: "Capstone exercises in prompt design, bot architecture, agent governance, and executive memo-writing",
+    eyebrow: "Module XI · Advanced Practitioner",
+    distinction: "Practitioner Distinction",
+    sessions: [
+      {
+        id: "11a", title: "Rewrite a weak strategy prompt",
+        story: "A junior associate at your firm has prompted the AI: 'Make an AI strategy for our client.' The output is generic and unactionable — the partner is unimpressed. You have ninety seconds to demonstrate to the team how a senior advisor reframes the same task.",
+        type: "exercise",
+        exerciseLabel: "Practical exercise · Prompt rewrite",
+        brief: "Rewrite the prompt 'Make an AI strategy for our client.' into a decision-grade consulting brief.",
+        rubricItems: [
+          "Establish a senior advisory role and perspective",
+          "Demand client context — industry, scale, priorities, AI maturity, constraints",
+          "Define the deliverable as a time-bound strategy with named components",
+          "Specify an executive-ready output format",
+          "Require explicit separation of facts, assumptions, and gaps"
+        ],
+        sampleAnswer: "Act as a senior AI transformation advisor. Using the client context provided, create a 12-month AI strategy for a client in [industry] with [business priorities], [current AI maturity], and [constraints]. Include strategic ambition, prioritized use-case portfolio, governance model, data and technology requirements, talent and change management plan, investment estimate, risks and controls, and a 90-day launch plan. Return an executive-ready memo plus a roadmap table. Separate facts from assumptions and flag missing information."
+      },
+      {
+        id: "11b", title: "Diagnosing a flawed bot",
+        story: "A team at the firm has built a custom bot called 'Client Strategy Bot.' Its only system instruction is: 'Help consultants answer client questions. Be smart and professional.' Adoption is low and the partners are unhappy. You have been asked to identify the top design flaws before the next sprint.",
+        type: "exercise",
+        exerciseLabel: "Practical exercise · Bot diagnosis",
+        brief: "Identify the five most material design flaws in a bot whose only instruction is 'Help consultants answer client questions. Be smart and professional.'",
+        rubricItems: [
+          "Scope is undefined — 'client questions' is too broad",
+          "No target user, function, or use case specified",
+          "No methodology, workflow, or reasoning structure",
+          "No output standards, templates, or quality bar",
+          "No confidentiality, escalation, ownership, or testing protocol"
+        ],
+        sampleAnswer: "(1) The scope is undefined — 'help consultants answer client questions' is too broad to set quality expectations. (2) No target user, function, or use case is specified, so the bot's behavior is unpredictable across teams. (3) There is no methodology, workflow, or reasoning structure, so the bot freelances. (4) There are no output standards, templates, or quality bar, so output is generic. (5) There is no confidentiality protocol, escalation behavior, ownership, version control, or test suite — so the bot cannot be governed or improved."
+      },
+      {
+        id: "11c", title: "Authoring a SKILL.md for board memos",
+        story: "Your firm is standardizing a library of skills — reusable AI workflow modules — for client work. You have been assigned to author the SKILL.md for the board-memo skill. Five sections are required: Purpose, Inputs Required, Workflow, Output Format, and Quality Checks.",
+        type: "exercise",
+        exerciseLabel: "Practical exercise · SKILL.md completion",
+        brief: "Compose a complete SKILL.md for a Board Memo Skill, covering Purpose, Inputs Required, Workflow, Output Format, and Quality Checks.",
+        rubricItems: [
+          "Purpose: explicitly states the skill helps create board-ready memos",
+          "Inputs: audience, decision needed, context, options, recommendation, risks, timeline",
+          "Workflow: clarify inputs → synthesize → structure argument → assess risks → draft → refine",
+          "Output Format: executive memo with decision request, options, recommendation, risks, implications, next steps",
+          "Quality Checks: evidence-based claims, explicit assumptions, executive tone, risk visibility"
+        ],
+        sampleAnswer: "Purpose: Help consultants draft board-ready memos that support executive decisions. Inputs Required: audience, decision needed, client context, facts, options, recommendation, risks, timeline, financial implications, constraints. Workflow: clarify missing inputs, synthesize context, identify the decision, compare options, assess risks, draft recommendation, refine for executive readability. Output Format: a concise board memo with executive summary, decision request, context, options, recommendation, risks, implications, next steps. Quality Checks: claims supported, assumptions explicit, risks visible, recommendation clear."
+      },
+      {
+        id: "11d", title: "Designing a procurement agent",
+        story: "Your client wants to deploy an AI agent for supplier onboarding. The agent will answer supplier questions, check internal policy, and draft onboarding documents. Procurement leadership has asked for your design before the steering committee meeting on Friday.",
+        type: "exercise",
+        exerciseLabel: "Practical exercise · Agent design",
+        brief: "Define the procurement agent's design: business goal, users, data sources, allowed actions, prohibited actions, human approval points, audit requirements, and failure modes.",
+        rubricItems: [
+          "Business goal and primary users (procurement, suppliers, vendor management)",
+          "Data sources: procurement policy, supplier records, onboarding templates, contracts",
+          "Allowed: search, completeness checks, drafting, ticket creation, escalation routing",
+          "Prohibited: autonomous supplier approval, payment changes, contract signature, policy override",
+          "Human approval gates for exceptions, high-risk suppliers, banking changes, contract terms",
+          "Audit logging and success metrics (cycle time, completion, exception rate, compliance)"
+        ],
+        sampleAnswer: "Goal: support procurement by accelerating supplier onboarding while preserving compliance. Users: procurement teams, suppliers, vendor management. Data sources: approved procurement policies, supplier records, onboarding templates, compliance requirements, contract templates. Allowed actions: document search, completeness checks, draft generation, form completion, ticket creation, escalation routing. Prohibited actions: supplier approval, payment-detail modification, contract signature, policy override. Human approval required for exceptions, high-risk suppliers, banking changes, non-standard contract terms, final approvals. The system logs every request, source consulted, recommendation, approval, and action. Success metrics: cycle-time reduction, completion rate, exception resolution time, user satisfaction, error rate, compliance adherence. Known failure modes: outdated policy, missing data, prompt injection from supplier inputs, unauthorized access, false approvals."
+      },
+      {
+        id: "11e", title: "The 90-day corrective plan",
+        story: "Your client has 40 active AI pilots and reports no scaled enterprise value. The CIO has asked you to write a short executive recommendation for the next steering committee — likely root causes and a 90-day corrective plan.",
+        type: "exercise",
+        exerciseLabel: "Practical exercise · Executive memo",
+        brief: "Compose a brief executive recommendation: identify the likely root causes and propose a concrete 90-day corrective plan.",
+        rubricItems: [
+          "Names the diagnosis: weak portfolio governance, no value tracking, fragmented tooling, weak adoption, no production pathway",
+          "Recommends rationalizing the pilot portfolio with named owners and value metrics",
+          "Establishes path-to-production criteria with risk, security, and data checkpoints",
+          "Stands up portfolio governance (steering committee or federated model)",
+          "Specifies a 90-day plan in concrete phases",
+          "Executive tone, no AI hype"
+        ],
+        sampleAnswer: "The client's issue is unlikely to be insufficient experimentation; it is the failure to convert experimentation into governed, measurable, production-ready value. Within 90 days, inventory all 40 pilots and score them by business value, feasibility, risk, data readiness, and executive ownership. Select a small set of priority use cases — each with a named business owner, measurable outcome, and clear production pathway. In parallel, stand up portfolio governance, shared technical standards, risk review checkpoints, and adoption plans. By day 90, the firm should have a rationalized AI portfolio, clear funding decisions, production criteria, value-tracking dashboards, and a repeatable model for scaling AI responsibly."
       }
     ]
   }
@@ -1109,7 +1384,7 @@ const PROVIDERS = [
 ];
 
 /* --------------- STATE / PERSISTENCE --------------- */
-const STORAGE_KEY = "execAI.brief.v3";
+const STORAGE_KEY = "execAI.brief.v4";
 const TOTAL_SESSIONS = MODULES.reduce(function(a, m){ return a + m.sessions.length; }, 0);
 
 function loadState() {
@@ -1517,6 +1792,55 @@ function r_prompt_improve(session, onComplete) {
   return el("div", null, children);
 }
 
+function r_exercise(session, onComplete) {
+  const t = getTransient(session.id);
+  const val = t.val || "";
+  const submitted = !!t.submitted;
+  const minLen = session.minLength || 30;
+
+  const children = [
+    el("p", { class: "faculty" }, session.story),
+    el("div", { class: "feedback", style: { borderLeftColor: "var(--accent)", background: "#FBFAF6" } }, [
+      el("span", { class: "label", style: { color: "var(--accent)" } }, session.exerciseLabel || "The exercise"),
+      el("div", { style: { fontFamily: "var(--serif)", fontSize: "15px", lineHeight: 1.55 } }, session.brief)
+    ]),
+    el("div", { class: "match-col-label", style: { marginTop: "16px", marginBottom: "8px" } }, "Address each of the following"),
+    el("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "16px" } },
+      session.rubricItems.map(function(r){ return el("span", { class: "pill pill-muted" }, r); }))
+  ];
+
+  if (!submitted) {
+    const ta = el("textarea", { class: "prompt-input", placeholder: "Compose your response…", rows: 8 });
+    ta.value = val;
+    ta.addEventListener("input", function(e){
+      state.transient[session.id] = Object.assign({}, state.transient[session.id] || {}, { val: e.target.value });
+    });
+    ta.style.minHeight = "180px";
+    children.push(ta);
+    children.push(el("div", { style: { marginTop: "12px" } },
+      el("button", { class: "btn", onclick: function(){
+        const v = (state.transient[session.id] && state.transient[session.id].val) || "";
+        if (v.length > minLen) setTransient(session.id, { submitted: true });
+      }}, "Submit response →")
+    ));
+    children.push(el("p", { class: "eyebrow", style: { marginTop: "8px", color: "var(--ink-3)" } },
+      "Minimum " + minLen + " characters · the value is in the practice, not the grading"));
+  } else {
+    children.push(el("div", { class: "feedback is-correct" }, [
+      el("span", { class: "label" }, "Your response"),
+      el("div", { style: { fontFamily: "var(--serif)", fontSize: "15px", whiteSpace: "pre-wrap" } }, val)
+    ]));
+    children.push(el("div", { class: "feedback", style: { marginTop: "10px" } }, [
+      el("span", { class: "label" }, "Faculty exemplar"),
+      el("div", { style: { fontFamily: "var(--serif)", fontSize: "15px", lineHeight: 1.6 } }, session.sampleAnswer)
+    ]));
+    children.push(el("div", { style: { marginTop: "20px" } },
+      el("button", { class: "btn", onclick: onComplete }, "Continue →")
+    ));
+  }
+  return el("div", null, children);
+}
+
 function renderSessionView(session, onComplete) {
   switch (session.type) {
     case "choice":         return r_choice(session, onComplete);
@@ -1527,6 +1851,7 @@ function renderSessionView(session, onComplete) {
     case "build":          return r_build(session, onComplete);
     case "match":          return r_match(session, onComplete);
     case "prompt_improve": return r_prompt_improve(session, onComplete);
+    case "exercise":       return r_exercise(session, onComplete);
     default:               return el("div", null, "Unknown session type");
   }
 }
@@ -1565,6 +1890,35 @@ function formatIssueDate(iso) {
   return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
 }
 
+function ordinal(n) {
+  if (n >= 11 && n <= 13) return n + "th";
+  const last = n % 10;
+  if (last === 1) return n + "st";
+  if (last === 2) return n + "nd";
+  if (last === 3) return n + "rd";
+  return n + "th";
+}
+
+function toRoman(num) {
+  const map = [["M",1000],["CM",900],["D",500],["CD",400],["C",100],["XC",90],["L",50],["XL",40],["X",10],["IX",9],["V",5],["IV",4],["I",1]];
+  let r = "";
+  for (const [s, v] of map) { while (num >= v) { r += s; num -= v; } }
+  return r;
+}
+
+function formatFormalDate(iso) {
+  const d = iso ? new Date(iso) : new Date();
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  return "the " + ordinal(d.getDate()) + " day of " + months[d.getMonth()] + ", " + toRoman(d.getFullYear());
+}
+
+function certificateId(name, isoDate) {
+  const a = strHash((name || "") + "|a|" + (isoDate || ""));
+  const b = strHash((isoDate || "") + "|b|" + (name || ""));
+  const hex = (a.toString(16).padStart(8, "0") + b.toString(16).padStart(8, "0")).toUpperCase();
+  return hex.slice(0, 4) + "-" + hex.slice(4, 8) + "-" + hex.slice(8, 12) + "-" + hex.slice(12, 16);
+}
+
 function issueCertificate() {
   const name = (state.claimDraft.name || "").trim();
   if (name.length < 2) return;
@@ -1595,11 +1949,11 @@ function renderTitle() {
   );
 
   return el("div", { class: "pad", style: { textAlign: "center", paddingTop: "64px", paddingBottom: "64px" } }, [
-    el("div", { class: "eyebrow" }, ACADEMY + " · Executive Program · May 2026"),
+    el("div", { class: "eyebrow" }, BRAND + " · " + TAGLINE + " · May 2026"),
     el("hr", { class: "rule-accent", style: { margin: "16px auto 24px" } }),
-    el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15 } }, PROGRAM_TITLE),
+    el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15, letterSpacing: "-0.01em" } }, PROGRAM_TITLE),
     el("p", { style: { fontSize: "16px", color: "var(--ink-2)", maxWidth: "580px", margin: "0 auto 8px", lineHeight: 1.6 } },
-      "A ten-module program for senior leaders on the strategy, architecture, economics, governance, and operationalization of agentic AI. Certification awarded on completion."),
+      "An eleven-module program for senior leaders and consulting professionals on the strategy, architecture, economics, governance, and operationalization of agentic AI. Free, open-source, and certified on completion."),
     el("p", { class: "eyebrow", style: { marginTop: "20px" } }, "Featuring · Opus 4.7 · GPT-5.5 · Gemini 3.1 Pro · Copilot"),
     providers,
     el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" } }, [
@@ -1608,8 +1962,8 @@ function renderTitle() {
       state.certificateClaimed ? el("button", { class: "btn btn-gold", onclick: function(){ setState({ screen: "certificate" }); } }, "View certificate →") : null
     ]),
     el("p", { class: "eyebrow", style: { marginTop: "32px", color: "var(--ink-3)" } },
-      continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately 75 minutes · self-paced · ten modules · 28 sessions"),
-    el("p", { class: "eyebrow", style: { marginTop: "8px", color: "var(--ink-3)" } }, "Founded by " + FOUNDER)
+      continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately two hours · self-paced · eleven modules · 41 sessions"),
+    el("p", { class: "eyebrow", style: { marginTop: "8px", color: "var(--ink-3)" } }, ATTRIBUTION_PIPED)
   ]);
 }
 
@@ -1635,7 +1989,7 @@ function renderIndex() {
   container.appendChild(progress);
 
   container.appendChild(el("div", { class: "pad-tight", style: { paddingBottom: "8px" } }, [
-    el("div", { class: "eyebrow" }, "Program Index · Ten Modules"),
+    el("div", { class: "eyebrow" }, "Program Index · Eleven Modules"),
     el("hr", { class: "rule-accent", style: { marginTop: "10px" } }),
     el("h2", { class: "display", style: { fontSize: "26px", margin: "0 0 6px 0" } }, PROGRAM_TITLE),
     el("p", { style: { color: "var(--ink-2)", margin: 0, fontSize: "14px" } },
@@ -1654,7 +2008,7 @@ function renderIndex() {
         el("div", { class: "ct-title" }, state.certificateClaimed ? "Your certificate has been issued" : "You have completed every module"),
         el("div", { class: "ct-desc" }, state.certificateClaimed
           ? ("Issued to " + state.recipientName + " on " + formatIssueDate(state.issuedDate) + ".")
-          : "Claim your Certificate of Completion from The Substrate Academy, signed by Ram Srinivasan.")
+          : "Claim your official Certificate of Completion from " + BRAND + ", signed by " + FOUNDER + ".")
       ]),
       ctaButton
     ]));
@@ -1734,7 +2088,7 @@ function renderClaim() {
   });
 
   return el("div", { class: "pad" }, [
-    el("div", { class: "eyebrow" }, ACADEMY + " · Certificate of Completion"),
+    el("div", { class: "eyebrow" }, BRAND + " · " + TAGLINE + " · Certificate of Completion"),
     el("hr", { class: "rule-accent", style: { marginTop: "10px" } }),
     el("h2", { class: "display", style: { fontSize: "30px", margin: "0 0 8px 0" } }, "Claim your certificate"),
     el("p", { style: { color: "var(--ink-2)", margin: "0 0 28px 0", maxWidth: "560px" } },
@@ -1758,44 +2112,59 @@ function renderClaim() {
 }
 
 function renderCertificate() {
-  const desc = "a ten-module executive program on the strategy, architecture, economics, governance, and operationalization of agentic AI in 2026.";
+  const desc = "an eleven-module program on the strategy, architecture, economics, governance, and operationalization of agentic AI in 2026.";
+  const certId = certificateId(state.recipientName, state.issuedDate);
 
-  const frame = el("div", { class: "cert-frame" }, [
-    el("div", { class: "cert-top" }, [
-      el("div", { class: "cert-monogram" }, "SA"),
-      el("div", { class: "cert-academy" }, ACADEMY),
-      el("div", { class: "cert-academy-rule" })
-    ]),
-    el("div", { class: "cert-mid" }, [
-      el("div", { class: "cert-this-certifies" }, "This certifies that"),
-      el("div", { class: "cert-name" }, state.recipientName || "—"),
-      state.recipientTitle ? el("div", { class: "cert-title-line" }, state.recipientTitle) : el("div", { class: "cert-title-line" }, ""),
-      el("div", { class: "cert-name-rule" }),
-      el("div", { class: "cert-completed" }, "has successfully completed"),
-      el("div", { class: "cert-program" }, PROGRAM_TITLE),
-      el("div", { class: "cert-desc" }, desc)
-    ]),
-    el("div", { class: "cert-foot" }, [
-      el("div", { class: "cert-foot-col left" }, [
-        el("div", { class: "cert-foot-rule" }),
-        el("div", { class: "cert-foot-label" }, "Issued"),
-        el("div", { class: "cert-foot-value" }, formatIssueDate(state.issuedDate))
-      ]),
-      el("div", { class: "cert-foot-col" }, [
-        el("div", { class: "cert-seal" },
-          el("div", { class: "cert-seal-inner" }, [
-            el("div", null, "Certified"),
-            el("div", { style: { marginTop: "4px", fontSize: "11px" } }, "MMXXVI")
+  const frame = el("div", { class: "cert-frame" },
+    el("div", { class: "cert-band" },
+      el("div", { class: "cert-inner" }, [
+        el("div", { class: "cert-corner tl" }),
+        el("div", { class: "cert-corner tr" }),
+        el("div", { class: "cert-corner bl" }),
+        el("div", { class: "cert-corner br" }),
+
+        el("div", { class: "cert-top" }, [
+          el("div", { class: "cert-monogram" }, "U"),
+          el("div", { class: "cert-academy" }, BRAND),
+          el("div", { class: "cert-tagline" }, TAGLINE),
+          el("div", { class: "cert-academy-rule" })
+        ]),
+
+        el("div", { class: "cert-mid" }, [
+          el("div", { class: "cert-this-certifies" }, "By the authority of " + BRAND + ",  this is to certify that"),
+          el("div", { class: "cert-name" }, state.recipientName || "—"),
+          state.recipientTitle ? el("div", { class: "cert-title-line" }, state.recipientTitle) : el("div", { class: "cert-title-line" }, ""),
+          el("div", { class: "cert-name-rule" }),
+          el("div", { class: "cert-completed" }, "has successfully completed the program of study"),
+          el("div", { class: "cert-program" }, PROGRAM_TITLE),
+          el("div", { class: "cert-desc" }, desc),
+          el("div", { class: "cert-flourish" }, "✦ ✦ ✦")
+        ]),
+
+        el("div", { class: "cert-foot" }, [
+          el("div", { class: "cert-foot-col left" }, [
+            el("div", { class: "cert-foot-rule" }),
+            el("div", { class: "cert-foot-label" }, "Issued"),
+            el("div", { class: "cert-foot-value" }, formatFormalDate(state.issuedDate)),
+            el("div", { class: "cert-id" }, "Certificate № " + certId)
+          ]),
+          el("div", { class: "cert-foot-col" }, [
+            el("div", { class: "cert-seal" },
+              el("div", { class: "cert-seal-inner" }, [
+                el("div", { class: "cert-seal-brand" }, BRAND),
+                el("div", { class: "cert-seal-year" }, toRoman(new Date(state.issuedDate || Date.now()).getFullYear()))
+              ])
+            )
+          ]),
+          el("div", { class: "cert-foot-col right" }, [
+            el("div", { class: "cert-signature" }, FOUNDER),
+            el("div", { class: "cert-foot-rule" }),
+            el("div", { class: "cert-foot-label" }, "Founder · " + BRAND)
           ])
-        )
-      ]),
-      el("div", { class: "cert-foot-col right" }, [
-        el("div", { class: "cert-signature" }, "Ram Srinivasan"),
-        el("div", { class: "cert-foot-rule" }),
-        el("div", { class: "cert-foot-label" }, "Founder · " + ACADEMY)
+        ])
       ])
-    ])
-  ]);
+    )
+  );
 
   return el("div", { class: "cert-screen" }, [
     frame,
