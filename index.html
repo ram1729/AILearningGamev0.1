@@ -1405,7 +1405,9 @@ function loadState() {
     return JSON.parse(raw);
   } catch (_) { return null; }
 }
+let isPreviewMode = false;
 function saveState() {
+  if (isPreviewMode) return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       completedModules: state.completedModules,
@@ -1440,6 +1442,19 @@ const state = (function(){
   const saved = loadState();
   if (saved) Object.assign(fresh, saved);
   return fresh;
+})();
+
+/* Preview mode: ?preview=cert renders a sample certificate without
+   touching saved progress. Optional ?name=, ?title=, ?date= overrides. */
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("preview") !== "cert") return;
+  isPreviewMode = true;
+  state.recipientName = params.get("name") || "Jane M. Doe";
+  state.recipientTitle = params.get("title") || "Chief Technology Officer, Acme Industries";
+  state.issuedDate = params.get("date") || new Date().toISOString().slice(0, 10);
+  state.certificateClaimed = true;
+  state.screen = "certificate";
 })();
 
 function setState(patch) { Object.assign(state, patch); saveState(); render(); }
