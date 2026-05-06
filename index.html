@@ -3,970 +3,1238 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Prompt Quest — AI Learning Game (May 2026)</title>
+<title>The Frontier AI Briefing — Executive Program (May 2026)</title>
 <style>
   :root {
-    --color-background-primary: #ffffff;
-    --color-background-secondary: #f4f4f6;
-    --color-text-primary: #1a1a1c;
-    --color-text-secondary: #555560;
-    --color-text-tertiary: #8a8a96;
-    --color-border-secondary: #d6d6dc;
-    --color-border-tertiary: #e6e6ec;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-background-primary: #1c1c1e;
-      --color-background-secondary: #2a2a2d;
-      --color-text-primary: #f4f4f6;
-      --color-text-secondary: #c8c8d0;
-      --color-text-tertiary: #8a8a96;
-      --color-border-secondary: #3a3a3f;
-      --color-border-tertiary: #2f2f33;
-    }
+    --bg:        #F6F3EC;
+    --surface:   #FFFFFF;
+    --ink:       #0E1A2B;
+    --ink-2:     #4B4B4B;
+    --ink-3:     #8A8378;
+    --line:      #E1DDD3;
+    --line-2:    #EFEBE2;
+    --accent:    #1A3A6E;
+    --accent-2:  #E8EDF5;
+    --gold:      #A6803E;
+    --success:   #2C5F3F;
+    --success-bg:#EBF1EC;
+    --error:     #7C2D29;
+    --error-bg:  #F5E9E8;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
-    background: var(--color-background-secondary);
-    color: var(--color-text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  ::selection { background: var(--accent); color: #fff; }
+
+  .topbar {
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .topbar .gold { color: #D7B88A; }
+
   #app {
-    max-width: 760px;
-    margin: 24px auto;
-    background: var(--color-background-primary);
-    border-radius: 14px;
-    border: 0.5px solid var(--color-border-tertiary);
-    overflow: hidden;
-    min-height: 540px;
+    max-width: 920px;
+    margin: 0 auto;
+    background: var(--surface);
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    min-height: calc(100vh - 36px - 60px);
   }
-  button { font-family: inherit; }
-  button:focus-visible { outline: 2px solid #7f77dd; outline-offset: 2px; }
-  textarea { font-family: inherit; }
-  .badge {
-    font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 99px;
+
+  /* Editorial primitives */
+  .eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+  .serif { font-family: var(--serif); font-weight: 400; }
+  .display { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
+  .rule {
+    height: 1px; background: var(--line); border: 0; margin: 20px 0;
+  }
+  .rule-thin { height: 1px; background: var(--line-2); border: 0; margin: 14px 0; }
+  .rule-accent {
+    height: 2px; width: 36px; background: var(--ink); border: 0; margin: 0 0 18px 0;
+  }
+
+  /* Buttons */
+  button { font: inherit; color: inherit; cursor: pointer; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    border-radius: 2px;
+    border: 1px solid var(--ink);
+    background: var(--ink); color: #fff;
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+    cursor: pointer; transition: background .15s, color .15s, border-color .15s;
+  }
+  .btn:hover { background: var(--accent); border-color: var(--accent); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-ghost {
+    background: transparent; color: var(--ink); border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { border-color: var(--ink); background: transparent; color: var(--ink); }
+  .btn-text {
+    background: transparent; border: 0; padding: 6px 0;
+    color: var(--ink-2); font-size: 12px;
+    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+  }
+  .btn-text:hover { color: var(--accent); }
+
+  /* Pills */
+  .pill {
     display: inline-block;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 99px;
+    background: var(--accent-2); color: var(--accent);
+    font-weight: 600;
   }
-  .levelup {
-    position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
-    background: #7f77dd; color: #fff; padding: 10px 24px;
-    border-radius: 99px; font-weight: 500; z-index: 100;
-    box-shadow: 0 6px 24px rgba(127,119,221,.35);
-    animation: pop .4s ease;
+  .pill-muted { background: var(--line-2); color: var(--ink-2); }
+  .pill-success { background: var(--success-bg); color: var(--success); }
+  .pill-gold { background: rgba(166,128,62,0.10); color: var(--gold); }
+
+  /* Cards / option rows */
+  .opt {
+    width: 100%; text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--line);
+    padding: 16px 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14.5px;
   }
-  @keyframes pop { from { transform: translate(-50%, -10px); opacity: 0;} to {transform: translate(-50%, 0); opacity: 1;} }
-  .footer-note {
-    text-align: center; color: var(--color-text-tertiary);
-    font-size: 11px; padding: 14px;
+  .opt:hover { border-color: var(--ink-2); border-left-color: var(--ink); }
+  .opt.is-selected { border-left-color: var(--accent); background: #FBFAF6; }
+  .opt.is-correct { border-left-color: var(--success); background: var(--success-bg); }
+  .opt.is-wrong   { border-left-color: var(--error);   background: var(--error-bg); }
+  .opt .opt-num {
+    font-family: var(--serif);
+    color: var(--ink-3);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    margin-right: 12px;
   }
-  .link { color: #7f77dd; text-decoration: none; }
-  .link:hover { text-decoration: underline; }
+
+  .feedback {
+    border-left: 3px solid var(--ink);
+    padding: 14px 18px;
+    background: #FBFAF6;
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .feedback.is-correct { border-left-color: var(--success); background: var(--success-bg); color: #1F3F2A; }
+  .feedback.is-wrong   { border-left-color: var(--error);   background: var(--error-bg);   color: #4A1A17; }
+  .feedback .label {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 6px; display: block;
+  }
+
+  /* Module index rows */
+  .mod-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 18px; align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .mod-row:hover { background: #FBFAF6; }
+  .mod-row.is-locked { cursor: not-allowed; opacity: 0.45; }
+  .mod-row.is-locked:hover { background: transparent; }
+  .mod-row .mod-num {
+    font-family: var(--serif);
+    font-size: 30px;
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1;
+  }
+  .mod-row .mod-title {
+    font-family: var(--serif);
+    font-size: 21px;
+    color: var(--ink);
+    line-height: 1.25;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.005em;
+  }
+  .mod-row .mod-sub {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .mod-row .mod-meta {
+    text-align: right;
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Match grid */
+  .match-grid {
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px;
+  }
+  .match-col-label {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 700; margin-bottom: 10px;
+  }
+  .match-item {
+    display: block; width: 100%; text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--line);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 13.5px;
+    transition: all .15s;
+    color: var(--ink);
+  }
+  .match-item:hover { border-color: var(--ink-2); }
+  .match-item.is-active { border-left-color: var(--accent); background: var(--accent-2); }
+  .match-item.is-done { border-left-color: var(--success); background: var(--success-bg); color: var(--success); cursor: default; }
+  .match-mono {
+    display: inline-block; width: 22px; height: 22px;
+    border: 1px solid var(--ink); border-radius: 50%;
+    text-align: center; line-height: 20px;
+    font-family: var(--serif); font-size: 12px;
+    margin-right: 10px; vertical-align: middle;
+    color: var(--ink); background: transparent;
+  }
+  .match-item.is-done .match-mono { border-color: var(--success); color: var(--success); }
+
+  /* Compare cards */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .compare-card {
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--line);
+    padding: 18px 18px 20px;
+    border-radius: 2px;
+    background: var(--surface);
+    cursor: pointer;
+    transition: all .15s;
+    text-align: left;
+    color: var(--ink);
+  }
+  .compare-card:hover { border-color: var(--ink-2); }
+  .compare-card.is-correct { border-top-color: var(--success); background: var(--success-bg); }
+  .compare-card.is-wrong   { border-top-color: var(--error);   background: var(--error-bg); }
+  .compare-card .opt-tag {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 700; margin-bottom: 10px;
+  }
+  .compare-card .body { font-family: var(--serif); font-size: 15px; line-height: 1.55; color: var(--ink); }
+
+  /* Scenario quote */
+  .scenario {
+    border-left: 3px solid var(--gold);
+    padding: 12px 18px;
+    background: #FBF7EE;
+    font-family: var(--serif);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.6;
+    margin: 18px 0;
+  }
+
+  /* Technique list */
+  .tech-row {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .tech-row:hover { background: #FBFAF6; }
+  .tech-row.is-open { cursor: default; }
+  .tech-row .tech-head {
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .tech-row .tech-num {
+    font-family: var(--serif); color: var(--ink-3); font-size: 13px;
+    letter-spacing: 0.1em; min-width: 28px;
+  }
+  .tech-row .tech-title {
+    font-family: var(--serif); font-size: 18px; color: var(--ink); flex: 1;
+  }
+  .tech-row .tech-tap {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .tech-row .tech-body { padding-top: 12px; padding-left: 42px; }
+  .tech-row .tech-example {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px; color: var(--accent);
+    background: #FBFAF6; border: 1px solid var(--line);
+    padding: 8px 12px; border-radius: 2px; margin-bottom: 10px;
+    line-height: 1.55;
+  }
+  .tech-row .tech-why { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+
+  /* Boss issues */
+  .issue {
+    padding: 10px 14px; border: 1px solid var(--error); border-left-width: 3px;
+    background: var(--error-bg); color: var(--error);
+    border-radius: 2px; margin-bottom: 8px; font-size: 13.5px;
+  }
+  .fixed {
+    padding: 14px 18px; border: 1px solid var(--success); border-left-width: 3px;
+    background: var(--success-bg); color: #1F3F2A;
+    border-radius: 2px;
+    font-family: var(--serif); font-size: 15px; line-height: 1.6;
+  }
+
+  /* Build grid */
+  .build-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .build-card {
+    border: 1px solid var(--line);
+    padding: 18px 18px;
+    border-radius: 2px;
+    background: var(--surface);
+    cursor: pointer;
+    text-align: left;
+    transition: all .15s;
+    color: var(--ink);
+  }
+  .build-card:hover { border-color: var(--ink-2); }
+  .build-card.is-selected { border-color: var(--accent); border-left: 3px solid var(--accent); background: #FBFAF6; }
+  .build-card .build-tier {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 8px;
+  }
+  .build-card .build-name { font-family: var(--serif); font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+  .build-card .build-tool { font-size: 12px; color: var(--ink-2); }
+
+  /* Prompt improve textarea */
+  textarea.prompt-input {
+    width: 100%; min-height: 110px;
+    border: 1px solid var(--line); border-radius: 2px;
+    padding: 12px 14px;
+    font-family: var(--serif); font-size: 14.5px; line-height: 1.55;
+    color: var(--ink); background: var(--surface);
+    resize: vertical;
+  }
+  textarea.prompt-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  /* Header / footer / progress */
+  .pad { padding: 36px 48px; }
+  .pad-tight { padding: 24px 48px; }
+  .progress-row {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 48px;
+    background: #FBFAF6;
+  }
+  .progress-row .stat .num { font-family: var(--serif); font-size: 22px; color: var(--ink); line-height: 1; }
+  .progress-row .stat .lbl { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; font-weight: 700; }
+  .progress-bar {
+    flex: 1; max-width: 280px; margin: 0 24px;
+    height: 4px; background: var(--line); border-radius: 0; overflow: hidden;
+  }
+  .progress-bar .fill { height: 100%; background: var(--ink); transition: width .6s ease; }
+
+  /* Toast */
+  .toast {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: #fff;
+    padding: 12px 24px; border-radius: 2px;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+    z-index: 100;
+    animation: pop .35s ease;
+    box-shadow: 0 8px 24px rgba(14,26,43,.25);
+  }
+  @keyframes pop { from { transform: translate(-50%, -8px); opacity: 0;} to {transform: translate(-50%, 0); opacity: 1;} }
+
+  /* Footer */
+  .colophon {
+    text-align: center; color: var(--ink-3);
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 20px 14px;
+  }
+  .colophon a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+  .colophon a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* Provider list on title */
+  .providers {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 28px;
+    max-width: 540px; margin: 28px auto 0;
+  }
+  .providers .p {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+  }
+  .providers .p:nth-child(2n) { border-top: 1px solid var(--line); }
+  .providers .mono {
+    width: 28px; height: 28px; border: 1px solid var(--ink); border-radius: 50%;
+    text-align: center; line-height: 26px;
+    font-family: var(--serif); font-size: 14px; color: var(--ink);
+  }
+  .providers .label { text-align: left; }
+  .providers .name { font-family: var(--serif); font-size: 14px; color: var(--ink); line-height: 1.2; }
+  .providers .desc { font-size: 11px; color: var(--ink-3); letter-spacing: 0.04em; }
+
+  /* Quest header */
+  .quest-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 48px;
+    border-bottom: 1px solid var(--line);
+    background: #FBFAF6;
+  }
+  .quest-head .crumb { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+  .quest-head .crumb b { color: var(--ink); font-weight: 600; }
+
+  /* Faculty note (story) */
+  .faculty {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    border-left: 2px solid var(--line);
+    padding-left: 18px;
+    margin: 0 0 22px 0;
+  }
+  .faculty:before {
+    content: "Scenario";
+    display: block;
+    font-family: var(--sans);
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 700; margin-bottom: 6px;
+  }
+
+  .question-line {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0 0 18px 0;
+    letter-spacing: -0.005em;
+  }
+
+  /* Distinctions */
+  .distinctions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  @media (max-width: 700px) {
+    .pad, .pad-tight { padding: 24px 22px; }
+    .progress-row, .quest-head { padding: 14px 22px; }
+    .compare-grid, .build-grid, .match-grid { grid-template-columns: 1fr; }
+    .progress-bar { display: none; }
+  }
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <span class="gold">●</span>&nbsp; Executive Program &nbsp;·&nbsp; Issue I &nbsp;·&nbsp; May 2026
+</div>
+
 <div id="app"></div>
-<div class="footer-note">
-  Prompt Quest · runs entirely in your browser · no API, no tracking ·
-  <a class="link" href="https://ram1729.github.io/AILearningGamev0.1/">play online</a> ·
-  <a class="link" href="https://github.com/ram1729/AILearningGamev0.1">source on GitHub</a>
+
+<div class="colophon">
+  Independent open-source program · runs entirely in your browser · no telemetry &nbsp;·&nbsp;
+  <a href="https://ram1729.github.io/AILearningGamev0.1/">Live</a> &nbsp;·&nbsp;
+  <a href="https://github.com/ram1729/AILearningGamev0.1">Source</a>
 </div>
 
 <script>
 "use strict";
 
-/* ---------------- DATA ---------------- */
-const WORLDS = [
+/* ==========================================================
+   THE FRONTIER AI BRIEFING — Executive Program (May 2026)
+   ========================================================== */
+
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const TWO = function (n) { return n < 10 ? "0" + n : "" + n; };
+
+const MODULES = [
   {
-    id: 1, name: "The Beginner's Village", icon: "🏡", color: "#e1f5ee",
-    border: "#1d9e75", textColor: "#085041",
-    tagline: "What is AI in 2026?",
-    xpReward: 100,
-    quests: [
+    id: 1,
+    title: "Foundations",
+    subtitle: "The frontier AI landscape, characterized for the boardroom",
+    eyebrow: "Module I · Foundations",
+    distinction: "Foundations Distinction",
+    sessions: [
       {
-        id: "1a", title: "The Guild Summons",
-        story: "You've arrived at the Guild of Minds in the spring of 2026. The gatekeeper, a wise old owl named Orrin, peers over his spectacles. 'Tell me, apprentice — what IS this AI everyone's talking about?'",
+        id: "1a", title: "Defining frontier AI",
+        story: "You are presenting your firm's AI strategy to the board next Tuesday. The chair opens with a foundational question: how should the company define what 'frontier AI' actually is in 2026? Your answer will frame the next two hours of discussion.",
         type: "choice",
-        question: "What best describes today's frontier AI assistants?",
+        question: "Which framing most accurately characterizes today's frontier AI systems?",
         options: [
-          { text: "A robot that thinks exactly like a human", correct: false, feedback: "Not quite! Today's AI mimics some human reasoning, but it works very differently from a human brain." },
-          { text: "Software trained on huge data that reasons, uses tools, and takes multi-step actions", correct: true, feedback: "Exactly right! In 2026, frontier models don't just chat — they reason, use tools, and complete multi-step tasks. This is the 'agentic' era." },
-          { text: "A computer program that follows strict rules only", correct: false, feedback: "That's traditional software. AI learns and adapts from patterns in data." },
-          { text: "A search engine with a friendlier interface", correct: false, feedback: "Closer than rule-based software, but modern AI does much more — it reasons, generates, codes, and acts." }
+          { text: "Highly advanced statistical models that predict the next token in a sequence — sophisticated autocomplete.",
+            correct: false,
+            feedback: "A reasonable description circa 2022. By 2026 the frontier is materially broader: long-context reasoning, planning, tool use, and self-verification. Limiting your board to the autocomplete framing understates both the upside and the governance burden." },
+          { text: "Software systems that reason across long contexts, plan and execute multi-step work, and interface with external tools — what the industry now calls agentic AI.",
+            correct: true,
+            feedback: "Correct. The defining 2026 capability is agentic execution — the ability to plan, use tools, verify outputs, and complete multi-step work with limited supervision. Anchoring the board to this framing sets up every subsequent strategy conversation: vendor selection, governance, and capital allocation all follow from it." },
+          { text: "Synthetic intelligence that has achieved general human-level cognition across most knowledge work.",
+            correct: false,
+            feedback: "An overreach. Frontier systems remain meaningfully imperfect — calibration, novel reasoning under uncertainty, and reliable autonomy over very long horizons are open problems. Avoid framings that overpromise; they erode credibility in the boardroom." },
+          { text: "A class of recommendation engines optimized for productivity gains in white-collar workflows.",
+            correct: false,
+            feedback: "An understatement. Productivity is one ROI vector, but the strategic significance of frontier AI in 2026 lies in net-new operating modes — autonomous workflows, synthetic R&D, and revenue lines that did not previously exist." }
         ]
       },
       {
-        id: "1b", title: "Meet Your Allies (May 2026)",
-        story: "Orrin leads you to the Hall of Allies. Four powerful beings stand before you, each carrying their newest weapons. 'These are your companions for 2026,' he whispers.",
+        id: "1b", title: "The provider landscape",
+        story: "Your CIO asks you to brief the executive committee on the four primary frontier providers. The committee wants a clean mapping: who owns which flagship and where each provider's structural advantage lies.",
         type: "match",
-        question: "Match each AI ally to their current flagship model:",
+        question: "Match each provider to their May 2026 flagship and distinct positioning.",
         pairs: [
-          { ally: "Claude (Anthropic)", strength: "Opus 4.7 — agentic coding & long tasks", icon: "🟣" },
-          { ally: "ChatGPT (OpenAI)", strength: "GPT-5.5 — agents & computer use", icon: "🟢" },
-          { ally: "Gemini (Google)", strength: "Gemini 3.1 Pro — multimodal & Deep Think", icon: "🔵" },
-          { ally: "Copilot (Microsoft)", strength: "Multi-model — picks GPT-5, Claude, etc.", icon: "🟡" }
+          { ally: "Anthropic", strength: "Claude Opus 4.7 — leader in agentic coding and long-horizon work", mono: "A" },
+          { ally: "OpenAI",    strength: "GPT-5.5 — broad-spectrum agents and computer use", mono: "O" },
+          { ally: "Google",    strength: "Gemini 3.1 Pro — multimodal reasoning, native to Workspace", mono: "G" },
+          { ally: "Microsoft", strength: "Copilot — multi-model orchestration across Microsoft 365", mono: "M" }
         ]
       }
     ]
   },
   {
-    id: 2, name: "The Whispering Forest", icon: "🌲", color: "#e6f1fb",
-    border: "#185fa5", textColor: "#042c53",
-    tagline: "Learn to talk to AI",
-    xpReward: 150,
-    quests: [
+    id: 2,
+    title: "Strategic Inquiry",
+    subtitle: "How senior leaders pose questions to AI systems",
+    eyebrow: "Module II · Strategic Inquiry",
+    distinction: "Inquiry Distinction",
+    sessions: [
       {
-        id: "2a", title: "The Art of the Ask",
-        story: "Deep in the forest, a prompt echoes through the trees. A mischievous sprite challenges you: 'Can you spot the better prompt?'",
+        id: "2a", title: "The cost of vague inquiry",
+        story: "Two of your direct reports submit analytical requests to your team's AI system on the same morning. Both receive responses within seconds. One produces a board-ready memo; the other produces generic copy. The variable was not the model. It was the prompt.",
         type: "compare",
-        question: "Which prompt will get a better answer from any AI ally?",
-        optionA: "Tell me about marketing.",
-        optionB: "I run a small bakery. Give me 3 specific social media marketing tips for attracting local customers on a $50/month budget.",
+        question: "Which inquiry is more likely to produce decision-grade analysis?",
+        optionA: "Tell me about market entry strategies.",
+        optionB: "I am the COO of a $1.2B mid-cap industrial supplier evaluating Vietnam as a manufacturing base. Outline three market entry options — greenfield, joint venture with a local partner, contract manufacturing — with capital requirements, time-to-revenue estimates, and the top two risks for each. Format as a board-ready table.",
         correctChoice: "B",
-        feedback: "Option B wins! It gives context (small bakery), a specific goal (local customers), a format (3 tips), and a constraint (budget). This works the same across Claude, ChatGPT, Gemini, and Copilot."
+        feedback: "Option B is decisively better. It supplies role context, constrains scope, names the strategic frame, fixes the format, and sets the depth of analysis. The same model — at the same cost — produces transformatively better output when prompted with executive-grade specificity. This is the single highest-leverage skill in this program."
       },
       {
-        id: "2b", title: "The Clarity Crystal",
-        story: "You find a foggy crystal. To clear it, you must improve a vague prompt by adding context, goal, and format.",
+        id: "2b", title: "Refining a strategic question",
+        story: "Your CFO forwards you a one-line note: 'Help me think about pricing.' You recognize the prompt is too thin to produce useful analysis. Rewrite it as you would for a senior pricing strategist.",
         type: "prompt_improve",
-        badPrompt: "Write something about dogs.",
-        hints: ["Who is it for?", "What format? (list, essay, story)", "What's the goal?"],
-        exampleGoodPrompt: "Write a fun 3-paragraph blog post for first-time dog owners about the top 3 mistakes to avoid in the first week."
+        badPrompt: "Help me think about pricing.",
+        hints: ["Establish your role and the firm's profile", "Specify the strategic decision in question", "Name the format and depth required"],
+        exampleGoodPrompt: "Act as a senior pricing strategy partner advising the CFO of a $90M ARR vertical SaaS company. We currently price per-seat ($120/month) and are considering a shift to usage-based pricing. Draft three pricing structure options. For each, provide: (1) a revenue impact projection over 12 and 24 months, (2) a churn risk profile, (3) the competitive positioning implication. Format as a one-page memo with a single-sentence recommendation at the top."
       }
     ]
   },
   {
-    id: 3, name: "The Engineer's Forge", icon: "⚒️", color: "#faeeda",
-    border: "#ba7517", textColor: "#412402",
-    tagline: "Master prompt engineering",
-    xpReward: 200,
-    quests: [
+    id: 3,
+    title: "Prompt Architecture",
+    subtitle: "Engineering inquiries for decision-grade output",
+    eyebrow: "Module III · Prompt Architecture",
+    distinction: "Architecture Distinction",
+    sessions: [
       {
-        id: "3a", title: "The Technique Vault",
-        story: "The Master Forger reveals the secret techniques used by the greatest prompt engineers — still essential in the era of GPT-5.5 and Opus 4.7.",
+        id: "3a", title: "Five techniques that compound output quality",
+        story: "Across every frontier provider in 2026, the same five prompt techniques deliver the largest quality gains. Treat these as the executive's standard kit — they apply equally to GPT-5.5, Opus 4.7, Gemini 3.1 Pro, and Copilot.",
         type: "learn",
         techniques: [
-          { name: "Role assignment", example: "You are an expert nutritionist...", why: "Gives the AI a persona to respond from" },
-          { name: "Few-shot examples", example: "Here are 2 examples of the style I want: [example 1] [example 2]...", why: "Shows the AI exactly what output you expect" },
-          { name: "Extended thinking", example: "Think step by step before answering...", why: "Modern models like Opus 4.7 and Gemini 3 Deep Think reason longer when asked" },
-          { name: "Output format", example: "Respond only in a numbered list with max 10 words per item...", why: "Controls the shape and length of the response" },
-          { name: "Tool/agent guidance", example: "Use web search if you need current info; verify before answering...", why: "Crucial in 2026 — models can use tools, but you must guide them" }
+          { name: "Role assignment",
+            example: "Act as an experienced M&A integration partner advising the COO...",
+            why: "Frames the response from a credible expert perspective. Empirically, this single technique meaningfully lifts the analytical depth and domain register of the output." },
+          { name: "Few-shot exemplars",
+            example: "Here are two examples of the analytical style I require: [Example 1] [Example 2]",
+            why: "Anchors the model to your house style and reasoning pattern. Essential for producing brand-aligned, repeatable output across teams." },
+          { name: "Extended reasoning",
+            example: "Think through this carefully step by step before answering. Consider counterarguments and second-order effects.",
+            why: "Frontier models — Opus 4.7, Gemini 3 Deep Think, GPT-5.5 thinking — produce substantially better analysis when explicitly invited to reason longer. The latency cost is usually trivial." },
+          { name: "Output specification",
+            example: "Respond as a 250-word memo with three numbered recommendations and a single executive summary line at the top.",
+            why: "Eliminates revision cycles. Specify length, structure, and tone — the model conforms." },
+          { name: "Tool and verification guidance",
+            example: "Use web search to confirm any market data points. Cite sources. Flag uncertainty explicitly.",
+            why: "Critical in the agentic era. Models can use tools, but you must direct them — and require verification. This is the boundary between 'useful draft' and 'defensible analysis.'" }
         ]
       },
       {
-        id: "3b", title: "Boss Battle: Fix the Prompt",
-        story: "A broken prompt has corrupted the Forge! It keeps giving terrible answers. Can you identify what's wrong?",
+        id: "3b", title: "Capstone — rebuilding a failing prompt",
+        story: "Your communications lead complains that the team's AI tooling produces 'unusable' email drafts. You inspect the prompt being used. The diagnosis is straightforward.",
         type: "boss",
         brokenPrompt: "Help me write emails.",
-        issues: ["No context about who the emails are for", "No tone or style specified", "No format or length guidance", "No example of what 'good' looks like"],
-        fixedExample: "Act as a professional business writer. Help me write concise follow-up emails (max 150 words) to potential clients after a sales call. Use a warm but professional tone. Here's an example of the style I like: [example]"
+        issues: [
+          "No business context — industry, role, audience are absent",
+          "No tone or stylistic guidance — the model defaults to generic register",
+          "No structural format or length constraint",
+          "No exemplars of acceptable output to anchor style"
+        ],
+        fixedExample: "Act as a senior executive communications advisor to the CEO of a publicly-traded technology company. Help me draft concise (under 150 words) follow-up emails to enterprise prospects after first-meeting introductions. Tone: warm, intellectually engaged, commercially direct. Always close with a single, specific next-step proposal. Here is one example I consider best-in-class: [example]."
       }
     ]
   },
   {
-    id: 4, name: "The Comparison Colosseum", icon: "⚔️", color: "#fbeaf0",
-    border: "#993556", textColor: "#4b1528",
-    tagline: "Know your allies (2026 edition)",
-    xpReward: 250,
-    quests: [
+    id: 4,
+    title: "Capability Selection",
+    subtitle: "Choosing the right system for the right engagement",
+    eyebrow: "Module IV · Capability Selection",
+    distinction: "Selection Distinction",
+    sessions: [
       {
-        id: "4a", title: "The Coding Arena",
-        story: "The Colosseum Master sets a complex, multi-file coding task. 'Pick the right ally for the job — and explain why.'",
+        id: "4a", title: "When the work is engineering-grade",
+        story: "Your CTO surfaces a contained but consequential workstream: refactor a legacy 5,000-line internal system spread across twelve files, run the existing test suite, and resolve any breakages autonomously. Your team is debating which AI system to deploy.",
         type: "colosseum",
-        scenario: "Task: 'Refactor this 5,000-line codebase across 12 files, run tests, and verify your work autonomously.'",
-        responseA: { ally: "Claude Opus 4.7", text: "Built specifically for long-running agentic coding. In 2026, it powers Cursor, Windsurf, and Claude Code. Strong at catching its own logical faults, verifying outputs, and handling multi-step refactors with minimal supervision." },
-        responseB: { ally: "Gemini 3.1 Pro", text: "Excellent for reasoning and multimodal work, especially when you need to look at screenshots, diagrams, or videos alongside code. Strong on PhD-level reasoning benchmarks. Works well in Google's developer tools." },
+        scenario: "Engagement: autonomous refactor of a 5,000-line, 12-file enterprise codebase, including test execution and self-correction.",
+        responseA: { ally: "Claude Opus 4.7", text: "Anthropic's Opus 4.7 is purpose-built for long-horizon, autonomous coding. It powers Claude Code, Cursor, and Windsurf — the three tools your engineering organization is most likely already evaluating. Strong self-verification loop, low intervention rate." },
+        responseB: { ally: "Gemini 3.1 Pro", text: "Google's flagship offers state-of-the-art multimodal reasoning and is exceptional when work involves screenshots, architecture diagrams, and design documents alongside code. Slightly less mature for fully autonomous, long-running coding workflows in May 2026." },
         correctAlly: "Claude Opus 4.7",
-        feedback: "Claude Opus 4.7 wins for this specific task. It's the current go-to for long agentic coding sessions and powers most major AI coding tools. Gemini is excellent — but for autonomous, long-horizon coding work in May 2026, Claude leads. Knowing which ally for which job is your superpower."
+        feedback: "Opus 4.7 is the appropriate choice for autonomous, long-horizon engineering work in 2026. It currently leads on agentic coding benchmarks and is the substrate beneath the dominant production tools. Gemini 3.1 Pro is a remarkable system — its comparative advantage simply lies elsewhere. Strategic principle: select for engagement fit, not headline capability."
       },
       {
-        id: "4b", title: "The Real-Time Quest",
-        story: "A new task arrives: 'Tell me what's happening at Google I/O THIS WEEK and pull data from a live spreadsheet.' Which ally?",
+        id: "4b", title: "When the work lives in Workspace",
+        story: "Your head of strategy needs a real-time synthesis: live coverage of the ongoing Google I/O keynote, cross-referenced against a Google Sheet of competitive announcements your team has been maintaining for three weeks.",
         type: "colosseum",
-        scenario: "Task: 'Get me real-time news + analyze a Google Sheet I just shared.'",
-        responseA: { ally: "Gemini 3.1 Pro", text: "Native Google integration. Lives inside Workspace — Gmail, Docs, Sheets, Calendar — and can pull from Google Search in real time. Designed exactly for this." },
-        responseB: { ally: "ChatGPT (GPT-5.5)", text: "Has web search and connectors, but Google's own services integrate more naturally with Gemini. Great for general agentic tasks but extra friction here." },
+        scenario: "Engagement: real-time public information synthesis combined with internal analysis on a live Google Sheet.",
+        responseA: { ally: "Gemini 3.1 Pro", text: "Native integration into Google Workspace — Gmail, Sheets, Docs, Calendar — and direct access to Google Search. Lowest friction between question and complete answer for this specific shape of work." },
+        responseB: { ally: "ChatGPT (GPT-5.5)", text: "Excellent agentic capability with web search and connectors, but the Google Sheets integration adds friction. Strongest where the data is non-Google or where you require GPT-5.5's specific synthesis strengths." },
         correctAlly: "Gemini 3.1 Pro",
-        feedback: "Gemini wins! For real-time Google services + Workspace data, it has the native edge. ChatGPT can do it too, but Gemini's home-court advantage matters when the task is Google-shaped."
+        feedback: "Gemini 3.1 Pro wins on integration economics. When the engagement is Workspace-native, the lowest-friction system frequently outperforms the most powerful one. This generalizes: capability selection in the enterprise is rarely about benchmark leadership — it is about deployment fit."
       }
     ]
   },
   {
-    id: 5, name: "The Skill Sanctum", icon: "✨", color: "#eeedfe",
-    border: "#534ab7", textColor: "#26215c",
-    tagline: "Teach AI your way",
-    xpReward: 250,
-    quests: [
+    id: 5,
+    title: "Persistent Programs",
+    subtitle: "Codifying institutional knowledge into custom AI assistants",
+    eyebrow: "Module V · Persistent Programs",
+    distinction: "Programs Distinction",
+    sessions: [
       {
-        id: "5a", title: "The Persona Forge",
-        story: "Every modern AI lets you save custom instructions — Claude Projects, ChatGPT Custom GPTs, Gemini Gems, Copilot Agents. Build one that lasts.",
+        id: "5a", title: "The four enterprise primitives",
+        story: "Every frontier provider in 2026 supports a form of persistent, customized AI program — pre-loaded with your context, your style, and your knowledge. The terminology varies; the strategic capability is the same. Codifying institutional knowledge into reusable assistants is one of the highest-ROI moves available to a CIO this year.",
         type: "learn",
         techniques: [
-          { name: "Claude Projects & Skills", example: "Upload reference docs, set custom instructions per project", why: "Persistent context for ongoing work — your style guide stays loaded" },
-          { name: "ChatGPT Custom GPTs", example: "Build a 'GPT' with instructions, knowledge files, and actions", why: "Shareable AI personas that other users can run" },
-          { name: "Gemini Gems", example: "Create a Gem with detailed instructions; share like a Drive file", why: "Workspace-integrated personas you can share with your team" },
-          { name: "Copilot Agents (Agent 365)", example: "Author agents in natural language inside Copilot Studio", why: "Microsoft's 2026 push: agents as the new operating layer for work" }
+          { name: "Claude Projects & Skills (Anthropic)",
+            example: "Per-project instructions, uploaded reference documents, and reusable Skills for repeat workflows.",
+            why: "Anthropic's enterprise lever: persistent context, knowledge bases, and reusable capabilities tied to a domain or function. Strong fit for engineering, legal, and analyst workflows." },
+          { name: "Custom GPTs (OpenAI)",
+            example: "Configurable assistants with system instructions, knowledge files, and external actions, shareable across the organization.",
+            why: "OpenAI's most-deployed enterprise primitive. Purpose-built personas at organizational scale, with the broadest integration surface area." },
+          { name: "Gemini Gems (Google)",
+            example: "Customized Gemini personas authored in plain language and shared across the team like a Drive file.",
+            why: "Workspace-native, exceptionally low authoring overhead. Strong fit where the user base already lives in Google's surface." },
+          { name: "Copilot Agents (Microsoft, Agent 365)",
+            example: "Agents authored in Copilot Studio and embedded across the Microsoft 365 surface — Outlook, Teams, Office, SharePoint.",
+            why: "Microsoft's central wager for 2026: agents as the new operating layer for enterprise work. The default choice for organizations standardized on Microsoft 365." }
         ]
       }
     ]
   },
   {
-    id: 6, name: "The Artifact Tower", icon: "🏰", color: "#fcebeb",
-    border: "#a32d2d", textColor: "#501313",
-    tagline: "Build real things with AI",
-    xpReward: 300,
-    quests: [
+    id: 6,
+    title: "Operationalization",
+    subtitle: "From pilots to agentic workflows in production",
+    eyebrow: "Module VI · Operationalization",
+    distinction: "Operationalization Distinction",
+    sessions: [
       {
-        id: "6a", title: "The Master Artificer",
-        story: "You've reached the top of the Tower. The Grand Artificer nods. 'You know the theory. Now let's see what you can BUILD. Choose your first artifact.'",
+        id: "6a", title: "Sequencing the build portfolio",
+        story: "You are setting your firm's AI build agenda for the next four quarters. The investment committee has asked for a pragmatic sequencing — beginning with low-risk wins and progressing toward strategic, agentic capability. Where do you start?",
         type: "build",
         projects: [
-          { name: "Email template generator", difficulty: "Beginner", ally: "Any chatbot", icon: "📧" },
-          { name: "Custom Gem / GPT / Project", difficulty: "Intermediate", ally: "Claude / GPT / Gemini", icon: "🤖" },
-          { name: "Multi-step agent (autonomous task)", difficulty: "Advanced", ally: "Claude Code or Agent 365", icon: "⚡" },
-          { name: "Full app via vibe coding", difficulty: "Expert", ally: "Claude Code, Cursor, GPT Codex", icon: "🛠️" }
+          { name: "Departmental productivity templates", difficulty: "Tier I — Foundational",  ally: "Any general assistant" },
+          { name: "Custom assistants on shared knowledge", difficulty: "Tier II — Operating",     ally: "Projects / Custom GPTs / Gems" },
+          { name: "Single-task autonomous agents",       difficulty: "Tier III — Strategic",    ally: "Claude Code · Agent 365 · Codex" },
+          { name: "Full-workflow agentic systems",       difficulty: "Tier IV — Transformative", ally: "Multi-agent orchestration" }
         ]
       },
       {
-        id: "6b", title: "The Agent Awakening",
-        story: "The Grand Artificer's final lesson: 'In 2026, the real shift isn't smarter chatbots — it's AGENTS. AI that takes multi-step actions on your behalf.'",
+        id: "6b", title: "What 'agent' actually means",
+        story: "The closing question of your program. The term 'agent' is now ubiquitous in vendor pitches and analyst coverage. Discriminating between marketing usage and the strategic threshold is a competence senior leaders are expected to demonstrate.",
         type: "choice",
-        question: "Which is the BEST example of an 'AI agent' in May 2026?",
+        question: "Which of the following best meets the strategic threshold of an 'AI agent' as defined by frontier labs in May 2026?",
         options: [
-          { text: "Asking ChatGPT to write you a poem", correct: false, feedback: "That's a single-turn task. Useful, but not agentic — no multi-step actions or tool use." },
-          { text: "Claude Code refactoring a codebase autonomously across many files, running tests, then fixing what broke", correct: true, feedback: "Yes! Multi-step, autonomous, uses tools, verifies its own work. This is the agentic era — Claude Code, Agent 365, GPT-5.5 with Codex, all do versions of this." },
-          { text: "Gemini summarizing a single email", correct: false, feedback: "Useful, but again — single task. An agent would handle the email AND draft the reply AND schedule the follow-up." },
-          { text: "Copilot generating an image in PowerPoint", correct: false, feedback: "Cool feature, but a single creative output isn't agentic. Agents chain actions over time." }
+          { text: "A team uses ChatGPT to draft a customer email.", correct: false,
+            feedback: "Useful, but a single-turn generative task. Agency in the strategic sense requires sustained, multi-step work with autonomous tool use." },
+          { text: "Claude Code receives a high-level objective, autonomously refactors twelve files across a codebase, runs the test suite, identifies breakages, fixes them, and reports back.", correct: true,
+            feedback: "Correct. The defining characteristics are present: autonomous planning, multi-step execution, tool use, self-verification, and a non-trivial duration of independent operation. This is the engagement profile that defines the agentic era — and the one your governance, procurement, and risk frameworks need to be built for." },
+          { text: "Gemini summarizes a 4,000-word report into a one-page brief.", correct: false,
+            feedback: "An excellent capability, but a single transformation. Not agentic in the strategic sense used by 2026 industry definitions." },
+          { text: "Microsoft Copilot generates a custom image to insert into a board deck.", correct: false,
+            feedback: "A high-quality creative output, but again a single act. Agency requires multi-step work, often spanning minutes or hours." }
         ]
       }
     ]
   }
 ];
 
-const ALLIES = [
-  { name: "Claude Opus 4.7", color: "#7f77dd", bg: "#eeedfe", desc: "Agentic coding leader", icon: "🟣" },
-  { name: "GPT-5.5", color: "#1d9e75", bg: "#e1f5ee", desc: "The versatile agent", icon: "🟢" },
-  { name: "Gemini 3.1 Pro", color: "#185fa5", bg: "#e6f1fb", desc: "Multimodal & Google-native", icon: "🔵" },
-  { name: "Copilot", color: "#ba7517", bg: "#faeeda", desc: "Multi-model, Microsoft-deep", icon: "🟡" }
+const PROVIDERS = [
+  { name: "Claude · Opus 4.7", desc: "Anthropic", mono: "A" },
+  { name: "ChatGPT · GPT-5.5",  desc: "OpenAI",    mono: "O" },
+  { name: "Gemini · 3.1 Pro",   desc: "Google",    mono: "G" },
+  { name: "Copilot",            desc: "Microsoft", mono: "M" }
 ];
 
-const BADGE_MAP = { 1: "Village Hero", 2: "Forest Whisperer", 3: "Master Forger", 4: "Colosseum Champion", 5: "Skill Sage", 6: "Artifact Crafter" };
-
-/* ---------------- STATE ---------------- */
-const STORAGE_KEY = "promptQuest.save.v1";
+/* --------------- STATE / PERSISTENCE --------------- */
+const STORAGE_KEY = "execAI.brief.v1";
+const TOTAL_SESSIONS = MODULES.reduce(function(a, m){ return a + m.sessions.length; }, 0);
 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return null;
-    return parsed;
+    return JSON.parse(raw);
   } catch (_) { return null; }
 }
-
 function saveState() {
   try {
-    const slim = {
-      xp: state.xp, level: state.level,
-      completedWorlds: state.completedWorlds,
-      completedQuests: state.completedQuests,
-      badges: state.badges,
-      streak: state.streak,
-      lastVisitISO: state.lastVisitISO
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(slim));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      completedModules: state.completedModules,
+      completedSessions: state.completedSessions,
+      distinctions: state.distinctions
+    }));
   } catch (_) {}
 }
-
 function freshState() {
   return {
     screen: "title",
-    xp: 0,
-    level: 1,
-    completedWorlds: [],
-    completedQuests: [],
-    badges: ["First Steps"],
-    streak: 1,
-    lastVisitISO: new Date().toISOString().slice(0, 10),
-    activeWorldIdx: null,
-    activeQuestIdx: 0,
-    showLevelUp: false,
+    completedModules: [],
+    completedSessions: [],
+    distinctions: [],
+    activeModuleIdx: null,
+    activeSessionIdx: 0,
+    showToast: null,
     transient: {}
   };
 }
-
-const state = (function () {
+const state = (function(){
   const fresh = freshState();
   const saved = loadState();
-  if (saved) {
-    Object.assign(fresh, saved);
-    const today = new Date().toISOString().slice(0, 10);
-    if (fresh.lastVisitISO !== today) {
-      const prev = new Date(fresh.lastVisitISO);
-      const diffDays = Math.round((Date.now() - prev.getTime()) / 86400000);
-      fresh.streak = diffDays === 1 ? (fresh.streak || 1) + 1 : 1;
-      fresh.lastVisitISO = today;
-    }
-    fresh.screen = "title";
-    fresh.transient = {};
-  }
+  if (saved) Object.assign(fresh, saved);
   return fresh;
 })();
 
-function setState(patch) {
-  Object.assign(state, patch);
-  saveState();
+function setState(patch) { Object.assign(state, patch); saveState(); render(); }
+function setTransient(id, patch) {
+  state.transient[id] = Object.assign({}, state.transient[id] || {}, patch);
   render();
 }
-
-function setTransient(questId, patch) {
-  state.transient[questId] = Object.assign({}, state.transient[questId] || {}, patch);
-  render();
-}
-
-function getTransient(questId) {
-  return state.transient[questId] || {};
-}
+function getTransient(id) { return state.transient[id] || {}; }
 
 function resetProgress() {
-  if (!confirm("Reset all your progress? This cannot be undone.")) return;
+  if (!confirm("Reset all program progress? Distinctions and completion records will be cleared.")) return;
   try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
   Object.assign(state, freshState());
   render();
 }
 
-/* ---------------- RENDER HELPERS ---------------- */
+/* --------------- DOM HELPER --------------- */
 const $app = document.getElementById("app");
-
 function el(tag, attrs, children) {
-  const node = document.createElement(tag);
-  if (attrs) {
-    for (const k in attrs) {
-      const v = attrs[k];
-      if (v == null || v === false) continue;
-      if (k === "style" && typeof v === "object") Object.assign(node.style, v);
-      else if (k === "class") node.className = v;
-      else if (k === "html") node.innerHTML = v;
-      else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2).toLowerCase(), v);
-      else if (k === "disabled") { if (v) node.setAttribute("disabled", ""); }
-      else node.setAttribute(k, v);
-    }
+  const n = document.createElement(tag);
+  if (attrs) for (const k in attrs) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === "style" && typeof v === "object") Object.assign(n.style, v);
+    else if (k === "class") n.className = v;
+    else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === "disabled") { if (v) n.setAttribute("disabled", ""); }
+    else n.setAttribute(k, v);
   }
   if (children != null) {
     const arr = Array.isArray(children) ? children : [children];
     for (const c of arr) {
       if (c == null || c === false) continue;
-      node.appendChild(typeof c === "string" || typeof c === "number" ? document.createTextNode(String(c)) : c);
+      n.appendChild(typeof c === "string" || typeof c === "number" ? document.createTextNode(String(c)) : c);
     }
   }
-  return node;
+  return n;
 }
 
-function badge(text, color, bg) {
-  return el("span", {
-    class: "badge",
-    style: { background: bg || "#eeedfe", color: color || "#7f77dd" }
-  }, text);
-}
-
-function xpBar() {
-  const maxXP = state.level * 300;
-  const pct = Math.min(100, Math.round((state.xp / maxXP) * 100));
-  return el("div", { style: { marginTop: "4px" } }, [
-    el("div", {
-      style: { display: "flex", justifyContent: "space-between", fontSize: "12px", color: "var(--color-text-secondary)", marginBottom: "4px" }
-    }, [
-      el("span", null, "Level " + state.level + " Apprentice"),
-      el("span", null, state.xp + " / " + maxXP + " XP")
-    ]),
-    el("div", { style: { background: "var(--color-background-secondary)", borderRadius: "99px", height: "8px", overflow: "hidden" } },
-      el("div", { style: { width: pct + "%", background: "#7f77dd", height: "100%", borderRadius: "99px", transition: "width 0.6s ease" } })
-    )
-  ]);
-}
-
-function primaryBtn(label, onClick, opts) {
-  opts = opts || {};
-  return el("button", {
-    onclick: onClick,
-    disabled: !!opts.disabled,
-    style: {
-      padding: opts.large ? "12px 32px" : "8px 20px",
-      borderRadius: opts.large ? "10px" : "8px",
-      border: "0.5px solid #7f77dd",
-      background: "#eeedfe",
-      cursor: opts.disabled ? "not-allowed" : "pointer",
-      fontSize: opts.large ? "16px" : "14px",
-      color: "#26215c",
-      fontWeight: 500,
-      opacity: opts.disabled ? 0.5 : 1
-    }
-  }, label);
-}
-
-function secondaryBtn(label, onClick, opts) {
-  opts = opts || {};
-  return el("button", {
-    onclick: onClick,
-    disabled: !!opts.disabled,
-    style: {
-      padding: "8px 20px", borderRadius: "8px",
-      border: "0.5px solid var(--color-border-secondary)",
-      background: "var(--color-background-primary)",
-      cursor: opts.disabled ? "not-allowed" : "pointer",
-      fontSize: "14px",
-      color: "var(--color-text-primary)",
-      opacity: opts.disabled ? 0.6 : 1
-    }
-  }, label);
-}
-
-/* ---------------- QUEST RENDERERS ---------------- */
-function renderChoice(quest, onComplete) {
-  const t = getTransient(quest.id);
-  const selected = t.selected;
+/* --------------- SESSION RENDERERS --------------- */
+function r_choice(session, onComplete) {
+  const t = getTransient(session.id);
+  const sel = t.selected;
   const submitted = t.submitted;
-  const correct = selected != null && quest.options[selected].correct;
+  const correct = sel != null && session.options[sel].correct;
 
-  const optButtons = quest.options.map(function (opt, i) {
-    let bg = "var(--color-background-primary)";
-    let border = "0.5px solid var(--color-border-tertiary)";
-    if (submitted && selected === i) {
-      bg = opt.correct ? "#e1f5ee" : "#fcebeb";
-      border = "1px solid " + (opt.correct ? "#1d9e75" : "#e24b4a");
-    } else if (selected === i && !submitted) {
-      bg = "var(--color-background-secondary)";
-    }
+  const opts = session.options.map(function(opt, i){
+    let cls = "opt";
+    if (sel === i && !submitted) cls += " is-selected";
+    if (submitted && sel === i) cls += opt.correct ? " is-correct" : " is-wrong";
     return el("button", {
-      onclick: function () { if (!submitted) setTransient(quest.id, { selected: i }); },
-      style: {
-        textAlign: "left", padding: "10px 14px", borderRadius: "8px",
-        border: border, background: bg,
-        cursor: submitted ? "default" : "pointer",
-        fontSize: "14px", color: "var(--color-text-primary)"
-      }
-    }, opt.text);
+      class: cls,
+      onclick: function(){ if (!submitted) setTransient(session.id, { selected: i }); }
+    }, [
+      el("span", { class: "opt-num" }, TWO(i + 1)),
+      document.createTextNode(opt.text)
+    ]);
   });
 
   const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
-    el("p", { style: { fontWeight: 500, marginBottom: "12px" } }, quest.question),
-    el("div", { style: { display: "flex", flexDirection: "column", gap: "8px" } }, optButtons)
+    el("p", { class: "faculty" }, session.story),
+    el("p", { class: "question-line" }, session.question),
+    el("div", { style: { display: "flex", flexDirection: "column", gap: "8px" } }, opts)
   ];
 
-  if (submitted && selected != null) {
-    children.push(el("div", {
-      style: {
-        marginTop: "12px", padding: "10px 14px", borderRadius: "8px",
-        background: correct ? "#e1f5ee" : "#fcebeb",
-        fontSize: "13px", color: correct ? "#085041" : "#501313"
-      }
-    }, quest.options[selected].feedback));
+  if (submitted && sel != null) {
+    const fb = el("div", { class: "feedback " + (correct ? "is-correct" : "is-wrong") }, [
+      el("span", { class: "label" }, correct ? "Faculty note · correct" : "Faculty note"),
+      document.createTextNode(session.options[sel].feedback)
+    ]);
+    children.push(fb);
   }
 
-  const actions = el("div", { style: { marginTop: "16px", display: "flex", gap: "8px" } });
+  const actions = el("div", { style: { marginTop: "20px", display: "flex", gap: "12px" } });
   if (!submitted) {
-    actions.appendChild(secondaryBtn("Submit answer", function () {
-      if (selected != null) setTransient(quest.id, { submitted: true });
-    }, { disabled: selected == null }));
+    actions.appendChild(el("button", {
+      class: "btn",
+      onclick: function(){ if (sel != null) setTransient(session.id, { submitted: true }); },
+      disabled: sel == null
+    }, "Submit response →"));
   } else {
-    actions.appendChild(primaryBtn("Continue ↗", onComplete));
+    actions.appendChild(el("button", { class: "btn", onclick: onComplete }, "Continue →"));
   }
   children.push(actions);
-
   return el("div", null, children);
 }
 
-function renderCompare(quest, onComplete) {
-  const t = getTransient(quest.id);
+function r_compare(session, onComplete) {
+  const t = getTransient(session.id);
   const chosen = t.chosen;
-  const correct = chosen === quest.correctChoice;
+  const correct = chosen === session.correctChoice;
 
-  const cardFor = function (k) {
-    const text = k === "A" ? quest.optionA : quest.optionB;
-    let border = "0.5px solid var(--color-border-tertiary)";
-    if (chosen === k) border = chosen === quest.correctChoice ? "2px solid #1d9e75" : "2px solid #e24b4a";
-    return el("button", {
-      onclick: function () { setTransient(quest.id, { chosen: k }); },
-      style: {
-        padding: "14px", borderRadius: "8px", border: border,
-        background: "var(--color-background-primary)", cursor: "pointer",
-        textAlign: "left", fontSize: "13px", color: "var(--color-text-primary)"
-      }
-    }, [
-      el("div", { style: { fontWeight: 500, marginBottom: "6px", color: "var(--color-text-secondary)" } }, "Option " + k),
-      document.createTextNode(text)
+  const card = function(k){
+    const text = k === "A" ? session.optionA : session.optionB;
+    let cls = "compare-card";
+    if (chosen === k) cls += correct ? " is-correct" : " is-wrong";
+    return el("button", { class: cls, onclick: function(){ setTransient(session.id, { chosen: k }); } }, [
+      el("div", { class: "opt-tag" }, "Inquiry " + k),
+      el("div", { class: "body" }, text)
     ]);
   };
 
   const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
-    el("p", { style: { fontWeight: 500, marginBottom: "12px" } }, quest.question),
-    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" } }, [cardFor("A"), cardFor("B")])
+    el("p", { class: "faculty" }, session.story),
+    el("p", { class: "question-line" }, session.question),
+    el("div", { class: "compare-grid", style: { marginBottom: "16px" } }, [card("A"), card("B")])
   ];
-
   if (chosen) {
-    children.push(el("div", {
-      style: { padding: "10px 14px", borderRadius: "8px", background: correct ? "#e1f5ee" : "#fcebeb", fontSize: "13px", color: correct ? "#085041" : "#501313", marginBottom: "12px" }
-    }, quest.feedback));
-    children.push(primaryBtn("Continue ↗", onComplete));
-  }
-  return el("div", null, children);
-}
-
-function renderLearn(quest, onComplete) {
-  const t = getTransient(quest.id);
-  const revealed = t.revealed || [];
-  const allRevealed = revealed.length === quest.techniques.length;
-
-  const techNodes = quest.techniques.map(function (tech, i) {
-    const isRev = revealed.indexOf(i) !== -1;
-    const inner = [
-      el("div", { style: { fontWeight: 500, fontSize: "14px", marginBottom: isRev ? "6px" : "0" } }, tech.name)
-    ];
-    if (isRev) {
-      inner.push(el("div", {
-        style: { fontSize: "12px", color: "#534ab7", fontFamily: "monospace", background: "#fff", border: "0.5px solid #afa9ec", borderRadius: "4px", padding: "4px 8px", marginBottom: "6px" }
-      }, tech.example));
-      inner.push(el("div", { style: { fontSize: "13px", color: "var(--color-text-secondary)" } }, tech.why));
-    } else {
-      inner.push(el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)" } }, "Tap to reveal"));
-    }
-    return el("div", {
-      onclick: function () {
-        if (revealed.indexOf(i) === -1) setTransient(quest.id, { revealed: revealed.concat([i]) });
-      },
-      style: {
-        padding: "12px 14px", borderRadius: "8px",
-        border: "0.5px solid var(--color-border-tertiary)",
-        background: isRev ? "#eeedfe" : "var(--color-background-primary)",
-        cursor: isRev ? "default" : "pointer"
-      }
-    }, inner);
-  });
-
-  const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
-    el("div", { style: { display: "flex", flexDirection: "column", gap: "10px", marginBottom: "16px" } }, techNodes)
-  ];
-  if (allRevealed) children.push(primaryBtn("Continue ↗", onComplete));
-  else children.push(el("p", { style: { fontSize: "13px", color: "var(--color-text-tertiary)" } }, "Reveal all to continue"));
-  return el("div", null, children);
-}
-
-function renderColosseum(quest, onComplete) {
-  const t = getTransient(quest.id);
-  const chosen = t.chosen;
-  const correct = chosen === quest.correctAlly;
-
-  const cardFor = function (r) {
-    let border = "0.5px solid var(--color-border-tertiary)";
-    if (chosen === r.ally) border = chosen === quest.correctAlly ? "2px solid #1d9e75" : "2px solid #e24b4a";
-    return el("button", {
-      onclick: function () { setTransient(quest.id, { chosen: r.ally }); },
-      style: {
-        padding: "14px", borderRadius: "8px", border: border,
-        background: "var(--color-background-primary)", cursor: "pointer", textAlign: "left"
-      }
-    }, [
-      el("div", { style: { fontWeight: 500, fontSize: "13px", marginBottom: "8px" } }, r.ally + ":"),
-      el("div", { style: { fontSize: "12px", color: "var(--color-text-secondary)", lineHeight: 1.6 } }, r.text)
-    ]);
-  };
-
-  const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "8px", lineHeight: 1.6 } }, quest.story),
-    el("div", { style: { padding: "10px 14px", borderRadius: "8px", background: "var(--color-background-secondary)", fontSize: "13px", fontStyle: "italic", marginBottom: "16px" } }, quest.scenario),
-    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" } }, [cardFor(quest.responseA), cardFor(quest.responseB)])
-  ];
-
-  if (chosen) {
-    children.push(el("div", {
-      style: { padding: "10px 14px", borderRadius: "8px", background: correct ? "#e1f5ee" : "#fcebeb", fontSize: "13px", color: correct ? "#085041" : "#501313", marginBottom: "12px" }
-    }, quest.feedback));
-    children.push(primaryBtn("Continue ↗", onComplete));
-  }
-  return el("div", null, children);
-}
-
-function renderBoss(quest, onComplete) {
-  const t = getTransient(quest.id);
-  const step = t.step || 0;
-
-  const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story)
-  ];
-
-  if (step === 0) {
-    children.push(el("div", {
-      style: { padding: "10px 14px", borderRadius: "8px", background: "#fcebeb", border: "0.5px solid #f09595", marginBottom: "12px" }
-    }, [
-      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#a32d2d", marginBottom: "4px" } }, "Broken prompt:"),
-      el("div", { style: { fontSize: "13px", fontStyle: "italic", color: "#501313" } }, quest.brokenPrompt)
+    children.push(el("div", { class: "feedback " + (correct ? "is-correct" : "is-wrong") }, [
+      el("span", { class: "label" }, correct ? "Faculty note · correct" : "Faculty note"),
+      document.createTextNode(session.feedback)
     ]));
-    children.push(el("p", { style: { fontWeight: 500, fontSize: "14px", marginBottom: "10px" } }, "What's wrong with this prompt?"));
-    children.push(el("div", { style: { display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" } },
-      quest.issues.map(function (issue) {
-        return el("div", {
-          style: { padding: "8px 14px", borderRadius: "8px", border: "0.5px solid #f09595", background: "#fcebeb", fontSize: "13px", color: "#501313" }
-        }, "✗ " + issue);
-      })
+    children.push(el("div", { style: { marginTop: "20px" } },
+      el("button", { class: "btn", onclick: onComplete }, "Continue →")
     ));
-    children.push(primaryBtn("Show the fix ↗", function () { setTransient(quest.id, { step: 1 }); }));
-  } else {
-    children.push(el("div", {
-      style: { padding: "10px 14px", borderRadius: "8px", background: "#e1f5ee", border: "0.5px solid #5dcaa5", marginBottom: "16px" }
-    }, [
-      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#085041", marginBottom: "4px" } }, "Fixed prompt:"),
-      el("div", { style: { fontSize: "13px", color: "#04342c", lineHeight: 1.6 } }, quest.fixedExample)
-    ]));
-    children.push(primaryBtn("Boss defeated! Continue ↗", onComplete));
   }
   return el("div", null, children);
 }
 
-function renderBuild(quest, onComplete) {
-  const t = getTransient(quest.id);
-  const chosen = t.chosen;
+function r_learn(session, onComplete) {
+  const t = getTransient(session.id);
+  const revealed = t.revealed || [];
+  const all = revealed.length === session.techniques.length;
 
-  const projectButtons = quest.projects.map(function (p, i) {
-    return el("button", {
-      onclick: function () { setTransient(quest.id, { chosen: i }); },
-      style: {
-        padding: "14px", borderRadius: "8px",
-        border: chosen === i ? "2px solid #534ab7" : "0.5px solid var(--color-border-tertiary)",
-        background: chosen === i ? "#eeedfe" : "var(--color-background-primary)",
-        cursor: "pointer", textAlign: "left"
-      }
+  const items = session.techniques.map(function(tech, i){
+    const open = revealed.indexOf(i) !== -1;
+    return el("div", {
+      class: "tech-row" + (open ? " is-open" : ""),
+      onclick: function(){ if (!open) setTransient(session.id, { revealed: revealed.concat([i]) }); }
     }, [
-      el("div", { style: { fontSize: "20px", marginBottom: "6px" } }, p.icon),
-      el("div", { style: { fontWeight: 500, fontSize: "13px" } }, p.name),
-      el("div", { style: { fontSize: "11px", color: "var(--color-text-secondary)", marginTop: "4px" } }, p.difficulty + " · " + p.ally)
+      el("div", { class: "tech-head" }, [
+        el("span", { class: "tech-num" }, TWO(i + 1)),
+        el("span", { class: "tech-title" }, tech.name),
+        el("span", { class: "tech-tap" }, open ? "" : "Reveal +")
+      ]),
+      open ? el("div", { class: "tech-body" }, [
+        el("div", { class: "tech-example" }, tech.example),
+        el("div", { class: "tech-why" }, tech.why)
+      ]) : null
     ]);
   });
 
   const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
-    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "16px" } }, projectButtons)
+    el("p", { class: "faculty" }, session.story),
+    el("div", { style: { marginBottom: "20px" } }, items)
   ];
-  if (chosen != null) children.push(primaryBtn("Start building ↗", onComplete));
+  if (all) children.push(el("button", { class: "btn", onclick: onComplete }, "Continue →"));
+  else children.push(el("p", { class: "eyebrow", style: { marginTop: "12px" } }, "Reveal all to continue"));
   return el("div", null, children);
 }
 
-function renderMatch(quest, onComplete) {
-  const t = getTransient(quest.id);
-  const matched = t.matched || {};
-  const selected = t.selected || null;
-  const allMatched = Object.keys(matched).length === quest.pairs.length;
+function r_colosseum(session, onComplete) {
+  const t = getTransient(session.id);
+  const chosen = t.chosen;
+  const correct = chosen === session.correctAlly;
 
-  const handleAlly = function (ally) {
-    if (matched[ally]) return;
-    setTransient(quest.id, { selected: ally });
+  const card = function(r){
+    let cls = "compare-card";
+    if (chosen === r.ally) cls += correct ? " is-correct" : " is-wrong";
+    return el("button", { class: cls, onclick: function(){ setTransient(session.id, { chosen: r.ally }); } }, [
+      el("div", { class: "opt-tag" }, r.ally),
+      el("div", { class: "body" }, r.text)
+    ]);
   };
-  const handleStrength = function (strength) {
-    if (!selected) return;
-    const isCorrect = (quest.pairs.find(function (p) { return p.ally === selected; }) || {}).strength === strength;
-    if (isCorrect) {
-      const next = Object.assign({}, matched);
-      next[selected] = strength;
-      setTransient(quest.id, { matched: next, selected: null });
-    } else {
-      setTransient(quest.id, { selected: null });
-    }
-  };
-
-  const allyCol = el("div", null, [el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)", marginBottom: "8px" } }, "AI Ally")]
-    .concat(quest.pairs.map(function (p) {
-      const done = !!matched[p.ally];
-      return el("button", {
-        onclick: function () { handleAlly(p.ally); },
-        style: {
-          display: "block", width: "100%", marginBottom: "8px",
-          padding: "8px 12px", borderRadius: "8px",
-          border: selected === p.ally ? "2px solid #534ab7" : done ? "1px solid #1d9e75" : "0.5px solid var(--color-border-tertiary)",
-          background: done ? "#e1f5ee" : (selected === p.ally ? "#eeedfe" : "var(--color-background-primary)"),
-          cursor: done ? "default" : "pointer",
-          textAlign: "left", fontSize: "12px", fontWeight: 500,
-          color: done ? "#085041" : "var(--color-text-primary)"
-        }
-      }, p.icon + " " + p.ally + (done ? " ✓" : ""));
-    })));
-
-  const strengthCol = el("div", null, [el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)", marginBottom: "8px" } }, "2026 flagship / strength")]
-    .concat(quest.pairs.map(function (p) {
-      const isMatched = Object.keys(matched).some(function (k) { return matched[k] === p.strength; });
-      return el("button", {
-        onclick: function () { handleStrength(p.strength); },
-        style: {
-          display: "block", width: "100%", marginBottom: "8px",
-          padding: "8px 12px", borderRadius: "8px",
-          border: isMatched ? "1px solid #1d9e75" : "0.5px solid var(--color-border-tertiary)",
-          background: isMatched ? "#e1f5ee" : "var(--color-background-primary)",
-          cursor: isMatched ? "default" : "pointer",
-          textAlign: "left", fontSize: "12px",
-          color: isMatched ? "#085041" : "var(--color-text-primary)"
-        }
-      }, p.strength + (isMatched ? " ✓" : ""));
-    })));
 
   const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
-    el("p", { style: { fontWeight: 500, fontSize: "14px", marginBottom: "12px" } }, quest.question),
-    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "16px" } }, [allyCol, strengthCol])
+    el("p", { class: "faculty" }, session.story),
+    el("div", { class: "scenario" }, session.scenario),
+    el("div", { class: "compare-grid", style: { marginBottom: "16px" } }, [card(session.responseA), card(session.responseB)])
   ];
-  if (selected) children.push(el("p", { style: { fontSize: "12px", color: "#534ab7", marginTop: "8px" } }, "Now select the matching strength for " + selected));
-  if (allMatched) {
-    const btn = primaryBtn("All matched! Continue ↗", onComplete);
-    btn.style.marginTop = "16px";
-    children.push(btn);
+  if (chosen) {
+    children.push(el("div", { class: "feedback " + (correct ? "is-correct" : "is-wrong") }, [
+      el("span", { class: "label" }, correct ? "Faculty note · correct" : "Faculty note"),
+      document.createTextNode(session.feedback)
+    ]));
+    children.push(el("div", { style: { marginTop: "20px" } },
+      el("button", { class: "btn", onclick: onComplete }, "Continue →")
+    ));
   }
   return el("div", null, children);
 }
 
-function renderPromptImprove(quest, onComplete) {
-  const t = getTransient(quest.id);
+function r_boss(session, onComplete) {
+  const t = getTransient(session.id);
+  const step = t.step || 0;
+  const children = [
+    el("p", { class: "faculty" }, session.story)
+  ];
+  if (step === 0) {
+    children.push(el("div", { class: "feedback is-wrong" }, [
+      el("span", { class: "label" }, "Failing prompt"),
+      el("div", { style: { fontFamily: "var(--serif)", fontStyle: "italic", fontSize: "15px" } }, session.brokenPrompt)
+    ]));
+    children.push(el("p", { class: "question-line", style: { marginTop: "20px" } }, "Diagnosis"));
+    children.push(el("div", { style: { marginBottom: "20px" } },
+      session.issues.map(function(issue){ return el("div", { class: "issue" }, "— " + issue); })
+    ));
+    children.push(el("button", { class: "btn", onclick: function(){ setTransient(session.id, { step: 1 }); } }, "Reveal corrected prompt →"));
+  } else {
+    children.push(el("p", { class: "question-line", style: { marginTop: "16px" } }, "Corrected prompt"));
+    children.push(el("div", { class: "fixed", style: { marginBottom: "20px" } }, session.fixedExample));
+    children.push(el("button", { class: "btn", onclick: onComplete }, "Continue →"));
+  }
+  return el("div", null, children);
+}
+
+function r_build(session, onComplete) {
+  const t = getTransient(session.id);
+  const chosen = t.chosen;
+
+  const cards = session.projects.map(function(p, i){
+    return el("button", {
+      class: "build-card" + (chosen === i ? " is-selected" : ""),
+      onclick: function(){ setTransient(session.id, { chosen: i }); }
+    }, [
+      el("div", { class: "build-tier" }, p.difficulty),
+      el("div", { class: "build-name" }, p.name),
+      el("div", { class: "build-tool" }, p.ally)
+    ]);
+  });
+
+  const children = [
+    el("p", { class: "faculty" }, session.story),
+    el("div", { class: "build-grid", style: { marginBottom: "20px" } }, cards)
+  ];
+  if (chosen != null) children.push(el("button", { class: "btn", onclick: onComplete }, "Commit to portfolio →"));
+  return el("div", null, children);
+}
+
+function r_match(session, onComplete) {
+  const t = getTransient(session.id);
+  const matched = t.matched || {};
+  const sel = t.selected || null;
+  const all = Object.keys(matched).length === session.pairs.length;
+
+  const handleA = function(ally){ if (matched[ally]) return; setTransient(session.id, { selected: ally }); };
+  const handleS = function(strength){
+    if (!sel) return;
+    const ok = (session.pairs.find(function(p){ return p.ally === sel; }) || {}).strength === strength;
+    if (ok) {
+      const next = Object.assign({}, matched); next[sel] = strength;
+      setTransient(session.id, { matched: next, selected: null });
+    } else {
+      setTransient(session.id, { selected: null });
+    }
+  };
+
+  const allyCol = el("div", null, [
+    el("div", { class: "match-col-label" }, "Provider"),
+  ].concat(session.pairs.map(function(p){
+    const done = !!matched[p.ally];
+    let cls = "match-item";
+    if (sel === p.ally) cls += " is-active";
+    if (done) cls += " is-done";
+    return el("button", { class: cls, onclick: function(){ handleA(p.ally); } }, [
+      el("span", { class: "match-mono" }, p.mono),
+      document.createTextNode(p.ally + (done ? "  ·  matched" : ""))
+    ]);
+  })));
+
+  const strCol = el("div", null, [
+    el("div", { class: "match-col-label" }, "May 2026 Flagship & Positioning")
+  ].concat(session.pairs.map(function(p){
+    const done = Object.keys(matched).some(function(k){ return matched[k] === p.strength; });
+    let cls = "match-item" + (done ? " is-done" : "");
+    return el("button", { class: cls, onclick: function(){ handleS(p.strength); } }, p.strength + (done ? "  ·  matched" : ""));
+  })));
+
+  const children = [
+    el("p", { class: "faculty" }, session.story),
+    el("p", { class: "question-line" }, session.question),
+    el("div", { class: "match-grid" }, [allyCol, strCol])
+  ];
+  if (sel) children.push(el("p", { class: "eyebrow", style: { marginTop: "12px" } }, "Now select the matching positioning for " + sel));
+  if (all) children.push(el("div", { style: { marginTop: "20px" } },
+    el("button", { class: "btn", onclick: onComplete }, "Continue →")
+  ));
+  return el("div", null, children);
+}
+
+function r_prompt_improve(session, onComplete) {
+  const t = getTransient(session.id);
   const val = t.val || "";
   const submitted = !!t.submitted;
 
   const children = [
-    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "12px", lineHeight: 1.6 } }, quest.story),
-    el("div", {
-      style: { padding: "10px 14px", borderRadius: "8px", background: "#fcebeb", border: "0.5px solid #f09595", marginBottom: "16px" }
-    }, [
-      el("div", { style: { fontSize: "11px", fontWeight: 500, color: "#a32d2d", marginBottom: "4px" } }, "Weak prompt:"),
-      el("div", { style: { fontSize: "13px", fontStyle: "italic", color: "#501313" } }, quest.badPrompt)
+    el("p", { class: "faculty" }, session.story),
+    el("div", { class: "feedback is-wrong" }, [
+      el("span", { class: "label" }, "Original prompt"),
+      el("div", { style: { fontFamily: "var(--serif)", fontStyle: "italic", fontSize: "15px" } }, session.badPrompt)
     ]),
-    el("div", { style: { display: "flex", gap: "8px", marginBottom: "12px", flexWrap: "wrap" } },
-      quest.hints.map(function (h) { return badge("Hint: " + h, "#534ab7", "#eeedfe"); })
-    )
+    el("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", margin: "16px 0" } },
+      session.hints.map(function(h){ return el("span", { class: "pill pill-muted" }, "Frame: " + h); }))
   ];
 
   if (!submitted) {
-    const ta = el("textarea", {
-      placeholder: "Write your improved prompt here...",
-      rows: 4,
-      style: {
-        width: "100%", borderRadius: "8px",
-        border: "0.5px solid var(--color-border-secondary)",
-        padding: "10px", fontSize: "13px", resize: "vertical",
-        background: "var(--color-background-primary)",
-        color: "var(--color-text-primary)"
-      }
-    });
+    const ta = el("textarea", { class: "prompt-input", placeholder: "Compose your refined inquiry…" });
     ta.value = val;
-    ta.addEventListener("input", function (e) {
-      state.transient[quest.id] = Object.assign({}, state.transient[quest.id] || {}, { val: e.target.value });
+    ta.addEventListener("input", function(e){
+      state.transient[session.id] = Object.assign({}, state.transient[session.id] || {}, { val: e.target.value });
     });
     children.push(ta);
-    const submit = el("button", {
-      onclick: function () {
-        const v = (state.transient[quest.id] && state.transient[quest.id].val) || "";
-        if (v.length > 10) setTransient(quest.id, { submitted: true });
-      },
-      style: {
-        marginTop: "8px", padding: "8px 20px", borderRadius: "8px",
-        border: "0.5px solid var(--color-border-secondary)",
-        background: "var(--color-background-primary)",
-        cursor: "pointer", fontSize: "14px", color: "var(--color-text-primary)"
-      }
-    }, "Submit my prompt");
-    children.push(submit);
+    children.push(el("div", { style: { marginTop: "12px" } },
+      el("button", { class: "btn", onclick: function(){
+        const v = (state.transient[session.id] && state.transient[session.id].val) || "";
+        if (v.length > 20) setTransient(session.id, { submitted: true });
+      }}, "Submit refined inquiry →")
+    ));
   } else {
-    children.push(el("div", {
-      style: { padding: "10px 14px", borderRadius: "8px", background: "#e1f5ee", border: "0.5px solid #5dcaa5", marginBottom: "12px" }
-    }, [
-      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#085041", marginBottom: "4px" } }, "Your prompt:"),
-      el("div", { style: { fontSize: "13px", color: "#04342c" } }, val)
+    children.push(el("div", { class: "feedback is-correct" }, [
+      el("span", { class: "label" }, "Your inquiry"),
+      el("div", { style: { fontFamily: "var(--serif)", fontSize: "15px" } }, val)
     ]));
-    children.push(el("div", {
-      style: { padding: "10px 14px", borderRadius: "8px", background: "#eeedfe", border: "0.5px solid #afa9ec", marginBottom: "12px" }
-    }, [
-      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#3c3489", marginBottom: "4px" } }, "Example strong prompt:"),
-      el("div", { style: { fontSize: "13px", color: "#26215c" } }, quest.exampleGoodPrompt)
+    children.push(el("div", { class: "feedback", style: { marginTop: "10px" } }, [
+      el("span", { class: "label" }, "Reference inquiry · faculty exemplar"),
+      el("div", { style: { fontFamily: "var(--serif)", fontSize: "15px" } }, session.exampleGoodPrompt)
     ]));
-    children.push(primaryBtn("Continue ↗", onComplete));
+    children.push(el("div", { style: { marginTop: "20px" } },
+      el("button", { class: "btn", onclick: onComplete }, "Continue →")
+    ));
   }
   return el("div", null, children);
 }
 
-function renderQuestView(quest, onComplete) {
-  switch (quest.type) {
-    case "choice": return renderChoice(quest, onComplete);
-    case "compare": return renderCompare(quest, onComplete);
-    case "learn": return renderLearn(quest, onComplete);
-    case "colosseum": return renderColosseum(quest, onComplete);
-    case "boss": return renderBoss(quest, onComplete);
-    case "build": return renderBuild(quest, onComplete);
-    case "match": return renderMatch(quest, onComplete);
-    case "prompt_improve": return renderPromptImprove(quest, onComplete);
-    default: return el("div", null, "Unknown quest type: " + quest.type);
+function renderSessionView(session, onComplete) {
+  switch (session.type) {
+    case "choice":         return r_choice(session, onComplete);
+    case "compare":        return r_compare(session, onComplete);
+    case "learn":          return r_learn(session, onComplete);
+    case "colosseum":      return r_colosseum(session, onComplete);
+    case "boss":           return r_boss(session, onComplete);
+    case "build":          return r_build(session, onComplete);
+    case "match":          return r_match(session, onComplete);
+    case "prompt_improve": return r_prompt_improve(session, onComplete);
+    default:               return el("div", null, "Unknown session type");
   }
 }
 
-/* ---------------- GAME LOGIC ---------------- */
-function gainXP(amount) {
-  const newXP = state.xp + amount;
-  const newLevel = Math.floor(newXP / 300) + 1;
-  state.xp = newXP;
-  if (newLevel > state.level) {
-    state.level = newLevel;
-    state.showLevelUp = true;
-    setTimeout(function () { state.showLevelUp = false; render(); }, 2500);
-  }
-  saveState();
+/* --------------- GAME LOGIC --------------- */
+function enterModule(idx) {
+  if (idx > 0 && state.completedModules.indexOf(idx - 1) === -1) return;
+  setState({ activeModuleIdx: idx, activeSessionIdx: 0, screen: "session" });
 }
 
-function enterWorld(idx) {
-  if (idx > 0 && state.completedWorlds.indexOf(idx - 1) === -1) return;
-  setState({ activeWorldIdx: idx, activeQuestIdx: 0, screen: "quest" });
-}
-
-function completeQuest() {
-  const world = WORLDS[state.activeWorldIdx];
-  const quest = world.quests[state.activeQuestIdx];
-  if (state.completedQuests.indexOf(quest.id) === -1) {
-    state.completedQuests.push(quest.id);
-    gainXP(Math.floor(world.xpReward / world.quests.length));
+function completeSession() {
+  const mod = MODULES[state.activeModuleIdx];
+  const session = mod.sessions[state.activeSessionIdx];
+  if (state.completedSessions.indexOf(session.id) === -1) {
+    state.completedSessions.push(session.id);
   }
-  delete state.transient[quest.id];
+  delete state.transient[session.id];
 
-  if (state.activeQuestIdx < world.quests.length - 1) {
-    setState({ activeQuestIdx: state.activeQuestIdx + 1 });
+  if (state.activeSessionIdx < mod.sessions.length - 1) {
+    setState({ activeSessionIdx: state.activeSessionIdx + 1 });
   } else {
-    if (state.completedWorlds.indexOf(state.activeWorldIdx) === -1) {
-      state.completedWorlds.push(state.activeWorldIdx);
-      const newBadge = BADGE_MAP[state.activeWorldIdx + 1];
-      if (newBadge && state.badges.indexOf(newBadge) === -1) state.badges.push(newBadge);
+    if (state.completedModules.indexOf(state.activeModuleIdx) === -1) {
+      state.completedModules.push(state.activeModuleIdx);
+      const dist = mod.distinction;
+      if (dist && state.distinctions.indexOf(dist) === -1) state.distinctions.push(dist);
+      state.showToast = mod.title + " — module complete";
+      setTimeout(function(){ state.showToast = null; render(); }, 2400);
     }
-    setState({ screen: "worldmap" });
+    setState({ screen: "index" });
   }
 }
 
-/* ---------------- SCREENS ---------------- */
+/* --------------- SCREENS --------------- */
 function renderTitle() {
-  const allyBadges = ALLIES.map(function (a) { return badge(a.icon + " " + a.name, a.color, a.bg); });
-  return el("div", {
-    style: { minHeight: "500px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "2rem", textAlign: "center" }
-  }, [
-    el("div", { style: { fontSize: "56px", marginBottom: "16px" } }, "⚔️"),
-    el("h1", { style: { fontSize: "28px", fontWeight: 500, marginBottom: "8px", color: "var(--color-text-primary)" } }, "Prompt Quest"),
-    el("p", { style: { fontSize: "15px", color: "var(--color-text-secondary)", marginBottom: "6px", maxWidth: "520px" } },
-      "An RPG adventure to master AI in 2026 — basics, prompting, skills, and agents."),
-    el("p", { style: { fontSize: "12px", color: "var(--color-text-tertiary)", marginBottom: "20px" } },
-      "Updated May 2026 · Featuring Opus 4.7, GPT-5.5, Gemini 3.1 Pro, and Copilot"),
-    el("div", { style: { display: "flex", gap: "8px", marginBottom: "28px", flexWrap: "wrap", justifyContent: "center" } }, allyBadges),
-    primaryBtn(state.completedQuests.length > 0 ? "Continue your quest" : "Begin your quest",
-      function () { setState({ screen: "worldmap" }); }, { large: true })
+  const continuing = state.completedSessions.length > 0;
+
+  const providers = el("div", { class: "providers" },
+    PROVIDERS.map(function(p){
+      return el("div", { class: "p" }, [
+        el("div", { class: "mono" }, p.mono),
+        el("div", { class: "label" }, [
+          el("div", { class: "name" }, p.name),
+          el("div", { class: "desc" }, p.desc)
+        ])
+      ]);
+    })
+  );
+
+  return el("div", { class: "pad", style: { textAlign: "center", paddingTop: "64px", paddingBottom: "64px" } }, [
+    el("div", { class: "eyebrow" }, "Executive Program · May 2026"),
+    el("hr", { class: "rule-accent", style: { margin: "16px auto 24px" } }),
+    el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15 } }, "The Frontier AI Briefing"),
+    el("p", { style: { fontSize: "16px", color: "var(--ink-2)", maxWidth: "560px", margin: "0 auto 8px", lineHeight: 1.6 } },
+      "A six-module program for senior leaders on the strategic, technical, and operational landscape of agentic AI."),
+    el("p", { class: "eyebrow", style: { marginTop: "20px" } }, "Featuring · Opus 4.7 · GPT-5.5 · Gemini 3.1 Pro · Copilot"),
+    providers,
+    el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px" } }, [
+      el("button", { class: "btn", onclick: function(){ setState({ screen: "index" }); } },
+        continuing ? "Resume program →" : "Begin program →")
+    ]),
+    el("p", { class: "eyebrow", style: { marginTop: "32px", color: "var(--ink-3)" } },
+      continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately 25 minutes · self-paced")
   ]);
 }
 
-function renderWorldMap() {
-  const container = el("div", { style: { padding: "1.5rem", position: "relative" } });
+function renderIndex() {
+  const container = el("div", null);
 
-  if (state.showLevelUp) {
-    container.appendChild(el("div", { class: "levelup" }, "Level up! You are now level " + state.level + " 🎉"));
+  if (state.showToast) {
+    container.appendChild(el("div", { class: "toast" }, state.showToast));
   }
 
-  const header = el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px", gap: "12px" } });
-  header.appendChild(el("div", { style: { flex: "1" } }, [
-    el("h2", { style: { fontSize: "18px", fontWeight: 500, margin: "0 0 4px 0" } }, "Guild of Minds"),
-    xpBar()
+  // Progress bar
+  const pct = Math.round((state.completedSessions.length / TOTAL_SESSIONS) * 100);
+  const progress = el("div", { class: "progress-row" }, [
+    el("div", { class: "stat" }, [
+      el("div", { class: "num" }, state.completedModules.length + " / " + MODULES.length),
+      el("div", { class: "lbl" }, "Modules complete")
+    ]),
+    el("div", { class: "progress-bar" }, el("div", { class: "fill", style: { width: pct + "%" } })),
+    el("div", { class: "stat", style: { textAlign: "right" } }, [
+      el("div", { class: "num" }, state.completedSessions.length + " / " + TOTAL_SESSIONS),
+      el("div", { class: "lbl" }, "Sessions complete")
+    ])
+  ]);
+  container.appendChild(progress);
+
+  // Header
+  container.appendChild(el("div", { class: "pad-tight", style: { paddingBottom: "8px" } }, [
+    el("div", { class: "eyebrow" }, "Program Index · Six Modules"),
+    el("hr", { class: "rule-accent", style: { marginTop: "10px" } }),
+    el("h2", { class: "display", style: { fontSize: "26px", margin: "0 0 6px 0" } }, "The Frontier AI Briefing"),
+    el("p", { style: { color: "var(--ink-2)", margin: 0, fontSize: "14px" } },
+      "Each module contains one or two sessions. Complete a module to unlock the next.")
   ]));
-  header.appendChild(el("div", {
-    style: { padding: "6px 12px", borderRadius: "8px", background: "#faeeda", fontSize: "13px", fontWeight: 500, color: "#412402", whiteSpace: "nowrap" }
-  }, "🔥 " + state.streak + " day streak"));
-  container.appendChild(header);
 
-  const worldList = el("div", { style: { display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" } });
-  WORLDS.forEach(function (w, i) {
-    const unlocked = i === 0 || state.completedWorlds.indexOf(i - 1) !== -1;
-    const done = state.completedWorlds.indexOf(i) !== -1;
-    const row = el("button", {
-      onclick: function () { if (unlocked) enterWorld(i); },
-      disabled: !unlocked,
-      style: {
-        padding: "14px 18px", borderRadius: "10px",
-        border: done ? "1px solid " + w.border : "0.5px solid var(--color-border-tertiary)",
-        background: done ? w.color : (unlocked ? "var(--color-background-primary)" : "var(--color-background-secondary)"),
-        cursor: unlocked ? "pointer" : "not-allowed",
-        textAlign: "left", opacity: unlocked ? 1 : 0.5,
-        font: "inherit", color: "inherit"
-      }
+  // Module list
+  const list = el("div", { class: "pad-tight", style: { paddingTop: "12px", paddingBottom: "12px" } });
+  MODULES.forEach(function(m, i){
+    const unlocked = i === 0 || state.completedModules.indexOf(i - 1) !== -1;
+    const done = state.completedModules.indexOf(i) !== -1;
+    const sessionsDone = m.sessions.filter(function(s){ return state.completedSessions.indexOf(s.id) !== -1; }).length;
+
+    let metaPill;
+    if (done) metaPill = el("span", { class: "pill pill-success" }, "Complete");
+    else if (!unlocked) metaPill = el("span", { class: "pill pill-muted" }, "Locked");
+    else if (sessionsDone > 0) metaPill = el("span", { class: "pill" }, "In progress");
+    else metaPill = el("span", { class: "pill pill-muted" }, "Available");
+
+    const row = el("div", {
+      class: "mod-row" + (unlocked ? "" : " is-locked"),
+      onclick: function(){ if (unlocked) enterModule(i); }
     }, [
-      el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, [
-        el("div", null, [
-          el("span", { style: { fontSize: "18px", marginRight: "8px" } }, w.icon),
-          el("span", { style: { fontWeight: 500, fontSize: "14px", color: done ? w.textColor : "var(--color-text-primary)" } },
-            "World " + w.id + ": " + w.name)
-        ]),
-        el("div", { style: { display: "flex", gap: "6px", alignItems: "center" } }, [
-          badge("+" + w.xpReward + " XP", w.textColor, w.color),
-          done ? el("span", { style: { fontSize: "16px" } }, "✓") : null,
-          !unlocked ? el("span", { style: { fontSize: "14px" } }, "🔒") : null
-        ])
+      el("div", { class: "mod-num" }, ROMAN[i]),
+      el("div", null, [
+        el("div", { class: "mod-title" }, m.title),
+        el("div", { class: "mod-sub" }, m.subtitle)
       ]),
-      el("p", { style: { margin: "4px 0 0 28px", fontSize: "12px", color: "var(--color-text-secondary)" } },
-        w.tagline + " · " + w.quests.length + " quest" + (w.quests.length > 1 ? "s" : ""))
+      el("div", { class: "mod-meta" }, [
+        metaPill,
+        el("div", { style: { marginTop: "6px" } }, m.sessions.length + " session" + (m.sessions.length === 1 ? "" : "s"))
+      ])
     ]);
-    worldList.appendChild(row);
+    list.appendChild(row);
   });
-  container.appendChild(worldList);
+  container.appendChild(list);
 
-  if (state.badges.length > 0) {
-    container.appendChild(el("div", null, [
-      el("div", { style: { fontSize: "13px", fontWeight: 500, marginBottom: "8px", color: "var(--color-text-secondary)" } }, "Your badges"),
-      el("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } },
-        state.badges.map(function (b) { return badge("🏅 " + b, "#534ab7", "#eeedfe"); }))
+  // Distinctions
+  if (state.distinctions.length > 0) {
+    container.appendChild(el("div", { class: "pad-tight", style: { paddingTop: "16px" } }, [
+      el("div", { class: "eyebrow" }, "Distinctions earned"),
+      el("hr", { class: "rule-thin" }),
+      el("div", { class: "distinctions" },
+        state.distinctions.map(function(d){ return el("span", { class: "pill pill-gold" }, d); }))
     ]));
   }
 
-  const allComplete = state.completedWorlds.length === WORLDS.length;
-  container.appendChild(el("div", { style: { marginTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", flexWrap: "wrap" } }, [
-    el("button", {
-      onclick: function () { setState({ screen: "title" }); },
-      style: { padding: "6px 12px", borderRadius: "8px", border: "0.5px solid var(--color-border-secondary)", background: "var(--color-background-primary)", cursor: "pointer", fontSize: "12px", color: "var(--color-text-secondary)" }
-    }, "← Title"),
-    allComplete ? el("div", { style: { fontSize: "13px", fontWeight: 500, color: "#1d9e75" } }, "🎉 You’ve completed every world!") : null,
-    el("button", {
-      onclick: resetProgress,
-      style: { padding: "6px 12px", borderRadius: "8px", border: "0.5px solid var(--color-border-secondary)", background: "var(--color-background-primary)", cursor: "pointer", fontSize: "12px", color: "var(--color-text-tertiary)" }
-    }, "Reset progress")
+  // Footer actions
+  const allComplete = state.completedModules.length === MODULES.length;
+  container.appendChild(el("div", { class: "pad-tight", style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--line)", marginTop: "8px" } }, [
+    el("button", { class: "btn-text", onclick: function(){ setState({ screen: "title" }); } }, "← Title"),
+    allComplete ? el("span", { class: "pill pill-gold" }, "Program complete · Capstone earned") : null,
+    el("button", { class: "btn-text", onclick: resetProgress, style: { color: "var(--ink-3)" } }, "Reset")
   ]));
 
   return container;
 }
 
-function renderQuestScreen() {
-  const world = WORLDS[state.activeWorldIdx];
-  if (!world) { setState({ screen: "worldmap" }); return el("div"); }
-  const quest = world.quests[state.activeQuestIdx];
+function renderSessionScreen() {
+  const mod = MODULES[state.activeModuleIdx];
+  if (!mod) { setState({ screen: "index" }); return el("div"); }
+  const session = mod.sessions[state.activeSessionIdx];
 
-  const header = el("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" } }, [
-    el("button", {
-      onclick: function () { setState({ screen: "worldmap" }); },
-      style: { padding: "6px 12px", borderRadius: "8px", border: "0.5px solid var(--color-border-secondary)", background: "var(--color-background-primary)", cursor: "pointer", fontSize: "13px", color: "var(--color-text-secondary)" }
-    }, "← Map"),
-    el("div", { style: { flex: "1" } }, [
-      el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)" } }, world.icon + " " + world.name),
-      el("div", { style: { fontSize: "14px", fontWeight: 500 } }, quest.title)
+  const head = el("div", { class: "quest-head" }, [
+    el("div", { class: "crumb" }, [
+      el("button", { class: "btn-text", onclick: function(){ setState({ screen: "index" }); }, style: { marginRight: "16px" } }, "← Index"),
+      document.createTextNode("Module " + ROMAN[state.activeModuleIdx] + " · "),
+      el("b", null, mod.title)
     ]),
-    badge((state.activeQuestIdx + 1) + "/" + world.quests.length, "#534ab7", "#eeedfe")
+    el("div", null, [
+      el("span", { class: "pill" }, "Session " + (state.activeSessionIdx + 1) + " / " + mod.sessions.length)
+    ])
   ]);
 
-  return el("div", { style: { padding: "1.5rem" } }, [
-    header,
-    renderQuestView(quest, completeQuest)
+  const body = el("div", { class: "pad" }, [
+    el("div", { class: "eyebrow" }, mod.eyebrow + " · Session " + ROMAN[state.activeSessionIdx]),
+    el("hr", { class: "rule-accent", style: { marginTop: "10px" } }),
+    el("h2", { class: "display", style: { fontSize: "28px", margin: "0 0 24px 0", lineHeight: 1.2 } }, session.title),
+    renderSessionView(session, completeSession)
   ]);
+
+  return el("div", null, [head, body]);
 }
 
-/* ---------------- RENDER ---------------- */
+/* --------------- RENDER --------------- */
 function render() {
   $app.innerHTML = "";
-  if (state.screen === "title") $app.appendChild(renderTitle());
-  else if (state.screen === "worldmap") $app.appendChild(renderWorldMap());
-  else if (state.screen === "quest") $app.appendChild(renderQuestScreen());
+  if (state.screen === "title")   $app.appendChild(renderTitle());
+  else if (state.screen === "index")  $app.appendChild(renderIndex());
+  else if (state.screen === "session") $app.appendChild(renderSessionScreen());
   else $app.appendChild(renderTitle());
 }
 
