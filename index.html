@@ -1985,8 +1985,7 @@ function renderTitle() {
     providers,
     el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" } }, [
       el("button", { class: "btn", onclick: function(){ setState({ screen: "index" }); } },
-        continuing ? "Resume program →" : "Begin program →"),
-      state.certificateClaimed ? el("button", { class: "btn btn-gold", onclick: function(){ setState({ screen: "certificate" }); } }, "View certificate →") : null
+        continuing ? "Resume program →" : "Begin program →")
     ]),
     el("p", { class: "eyebrow", style: { marginTop: "32px", color: "var(--ink-3)" } },
       continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately two hours · self-paced · eleven modules · 41 sessions"),
