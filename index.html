@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>The Frontier AI Briefing — Executive Program (May 2026)</title>
+<title>The Frontier AI Fundamental Training — The Substrate Academy</title>
 <style>
   :root {
     --bg:        #F6F3EC;
@@ -16,12 +16,14 @@
     --accent:    #1A3A6E;
     --accent-2:  #E8EDF5;
     --gold:      #A6803E;
+    --gold-2:    #D7B88A;
     --success:   #2C5F3F;
     --success-bg:#EBF1EC;
     --error:     #7C2D29;
     --error-bg:  #F5E9E8;
     --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --script: "Apple Chancery", "Snell Roundhand", "Lucida Handwriting", "Brush Script MT", cursive;
   }
   * { box-sizing: border-box; }
   html, body {
@@ -57,7 +59,6 @@
     min-height: calc(100vh - 36px - 60px);
   }
 
-  /* Editorial primitives */
   .eyebrow {
     font-size: 11px;
     text-transform: uppercase;
@@ -67,15 +68,10 @@
   }
   .serif { font-family: var(--serif); font-weight: 400; }
   .display { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; }
-  .rule {
-    height: 1px; background: var(--line); border: 0; margin: 20px 0;
-  }
+  .rule { height: 1px; background: var(--line); border: 0; margin: 20px 0; }
   .rule-thin { height: 1px; background: var(--line-2); border: 0; margin: 14px 0; }
-  .rule-accent {
-    height: 2px; width: 36px; background: var(--ink); border: 0; margin: 0 0 18px 0;
-  }
+  .rule-accent { height: 2px; width: 36px; background: var(--ink); border: 0; margin: 0 0 18px 0; }
 
-  /* Buttons */
   button { font: inherit; color: inherit; cursor: pointer; }
   .btn {
     display: inline-flex; align-items: center; gap: 10px;
@@ -88,6 +84,12 @@
   }
   .btn:hover { background: var(--accent); border-color: var(--accent); }
   .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-gold {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: #fff;
+  }
+  .btn-gold:hover { background: #B6925A; border-color: #B6925A; }
   .btn-ghost {
     background: transparent; color: var(--ink); border: 1px solid var(--line);
   }
@@ -99,7 +101,6 @@
   }
   .btn-text:hover { color: var(--accent); }
 
-  /* Pills */
   .pill {
     display: inline-block;
     font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
@@ -107,11 +108,10 @@
     background: var(--accent-2); color: var(--accent);
     font-weight: 600;
   }
-  .pill-muted { background: var(--line-2); color: var(--ink-2); }
+  .pill-muted   { background: var(--line-2); color: var(--ink-2); }
   .pill-success { background: var(--success-bg); color: var(--success); }
-  .pill-gold { background: rgba(166,128,62,0.10); color: var(--gold); }
+  .pill-gold    { background: rgba(166,128,62,0.10); color: var(--gold); }
 
-  /* Cards / option rows */
   .opt {
     width: 100%; text-align: left;
     background: var(--surface);
@@ -127,8 +127,8 @@
   }
   .opt:hover { border-color: var(--ink-2); border-left-color: var(--ink); }
   .opt.is-selected { border-left-color: var(--accent); background: #FBFAF6; }
-  .opt.is-correct { border-left-color: var(--success); background: var(--success-bg); }
-  .opt.is-wrong   { border-left-color: var(--error);   background: var(--error-bg); }
+  .opt.is-correct  { border-left-color: var(--success); background: var(--success-bg); }
+  .opt.is-wrong    { border-left-color: var(--error);   background: var(--error-bg); }
   .opt .opt-num {
     font-family: var(--serif);
     color: var(--ink-3);
@@ -152,7 +152,6 @@
     font-weight: 700; margin-bottom: 6px; display: block;
   }
 
-  /* Module index rows */
   .mod-row {
     display: grid;
     grid-template-columns: 60px 1fr auto;
@@ -180,10 +179,7 @@
     margin: 0 0 4px 0;
     letter-spacing: -0.005em;
   }
-  .mod-row .mod-sub {
-    font-size: 13px;
-    color: var(--ink-2);
-  }
+  .mod-row .mod-sub { font-size: 13px; color: var(--ink-2); }
   .mod-row .mod-meta {
     text-align: right;
     font-size: 11px;
@@ -192,10 +188,7 @@
     text-transform: uppercase;
   }
 
-  /* Match grid */
-  .match-grid {
-    display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px;
-  }
+  .match-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; }
   .match-col-label {
     font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--ink-3); font-weight: 700; margin-bottom: 10px;
@@ -215,7 +208,7 @@
   }
   .match-item:hover { border-color: var(--ink-2); }
   .match-item.is-active { border-left-color: var(--accent); background: var(--accent-2); }
-  .match-item.is-done { border-left-color: var(--success); background: var(--success-bg); color: var(--success); cursor: default; }
+  .match-item.is-done   { border-left-color: var(--success); background: var(--success-bg); color: var(--success); cursor: default; }
   .match-mono {
     display: inline-block; width: 22px; height: 22px;
     border: 1px solid var(--ink); border-radius: 50%;
@@ -226,7 +219,6 @@
   }
   .match-item.is-done .match-mono { border-color: var(--success); color: var(--success); }
 
-  /* Compare cards */
   .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .compare-card {
     border: 1px solid var(--line);
@@ -248,7 +240,6 @@
   }
   .compare-card .body { font-family: var(--serif); font-size: 15px; line-height: 1.55; color: var(--ink); }
 
-  /* Scenario quote */
   .scenario {
     border-left: 3px solid var(--gold);
     padding: 12px 18px;
@@ -261,28 +252,13 @@
     margin: 18px 0;
   }
 
-  /* Technique list */
-  .tech-row {
-    border-bottom: 1px solid var(--line);
-    padding: 18px 0;
-    cursor: pointer;
-    transition: background .15s;
-  }
+  .tech-row { border-bottom: 1px solid var(--line); padding: 18px 0; cursor: pointer; transition: background .15s; }
   .tech-row:hover { background: #FBFAF6; }
   .tech-row.is-open { cursor: default; }
-  .tech-row .tech-head {
-    display: flex; align-items: baseline; gap: 14px;
-  }
-  .tech-row .tech-num {
-    font-family: var(--serif); color: var(--ink-3); font-size: 13px;
-    letter-spacing: 0.1em; min-width: 28px;
-  }
-  .tech-row .tech-title {
-    font-family: var(--serif); font-size: 18px; color: var(--ink); flex: 1;
-  }
-  .tech-row .tech-tap {
-    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3);
-  }
+  .tech-row .tech-head { display: flex; align-items: baseline; gap: 14px; }
+  .tech-row .tech-num { font-family: var(--serif); color: var(--ink-3); font-size: 13px; letter-spacing: 0.1em; min-width: 28px; }
+  .tech-row .tech-title { font-family: var(--serif); font-size: 18px; color: var(--ink); flex: 1; }
+  .tech-row .tech-tap { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); }
   .tech-row .tech-body { padding-top: 12px; padding-left: 42px; }
   .tech-row .tech-example {
     font-family: "SF Mono", Menlo, Consolas, monospace;
@@ -293,7 +269,6 @@
   }
   .tech-row .tech-why { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
 
-  /* Boss issues */
   .issue {
     padding: 10px 14px; border: 1px solid var(--error); border-left-width: 3px;
     background: var(--error-bg); color: var(--error);
@@ -306,7 +281,6 @@
     font-family: var(--serif); font-size: 15px; line-height: 1.6;
   }
 
-  /* Build grid */
   .build-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .build-card {
     border: 1px solid var(--line);
@@ -320,14 +294,10 @@
   }
   .build-card:hover { border-color: var(--ink-2); }
   .build-card.is-selected { border-color: var(--accent); border-left: 3px solid var(--accent); background: #FBFAF6; }
-  .build-card .build-tier {
-    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold); font-weight: 700; margin-bottom: 8px;
-  }
+  .build-card .build-tier { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
   .build-card .build-name { font-family: var(--serif); font-size: 16px; color: var(--ink); margin-bottom: 6px; }
   .build-card .build-tool { font-size: 12px; color: var(--ink-2); }
 
-  /* Prompt improve textarea */
   textarea.prompt-input {
     width: 100%; min-height: 110px;
     border: 1px solid var(--line); border-radius: 2px;
@@ -338,7 +308,6 @@
   }
   textarea.prompt-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 
-  /* Header / footer / progress */
   .pad { padding: 36px 48px; }
   .pad-tight { padding: 24px 48px; }
   .progress-row {
@@ -350,13 +319,9 @@
   }
   .progress-row .stat .num { font-family: var(--serif); font-size: 22px; color: var(--ink); line-height: 1; }
   .progress-row .stat .lbl { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; font-weight: 700; }
-  .progress-bar {
-    flex: 1; max-width: 280px; margin: 0 24px;
-    height: 4px; background: var(--line); border-radius: 0; overflow: hidden;
-  }
+  .progress-bar { flex: 1; max-width: 280px; margin: 0 24px; height: 4px; background: var(--line); border-radius: 0; overflow: hidden; }
   .progress-bar .fill { height: 100%; background: var(--ink); transition: width .6s ease; }
 
-  /* Toast */
   .toast {
     position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
     background: var(--ink); color: #fff;
@@ -368,7 +333,6 @@
   }
   @keyframes pop { from { transform: translate(-50%, -8px); opacity: 0;} to {transform: translate(-50%, 0); opacity: 1;} }
 
-  /* Footer */
   .colophon {
     text-align: center; color: var(--ink-3);
     font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
@@ -377,17 +341,11 @@
   .colophon a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
   .colophon a:hover { color: var(--ink); border-bottom-color: var(--ink); }
 
-  /* Provider list on title */
   .providers {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 28px;
     max-width: 540px; margin: 28px auto 0;
   }
-  .providers .p {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 0;
-    border-top: 1px solid var(--line);
-  }
-  .providers .p:nth-child(2n) { border-top: 1px solid var(--line); }
+  .providers .p { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
   .providers .mono {
     width: 28px; height: 28px; border: 1px solid var(--ink); border-radius: 50%;
     text-align: center; line-height: 26px;
@@ -397,7 +355,6 @@
   .providers .name { font-family: var(--serif); font-size: 14px; color: var(--ink); line-height: 1.2; }
   .providers .desc { font-size: 11px; color: var(--ink-3); letter-spacing: 0.04em; }
 
-  /* Quest header */
   .quest-head {
     display: flex; align-items: center; justify-content: space-between;
     padding: 14px 48px;
@@ -407,7 +364,6 @@
   .quest-head .crumb { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
   .quest-head .crumb b { color: var(--ink); font-weight: 600; }
 
-  /* Faculty note (story) */
   .faculty {
     font-family: var(--serif);
     font-size: 16px;
@@ -434,27 +390,241 @@
     letter-spacing: -0.005em;
   }
 
-  /* Distinctions */
   .distinctions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Capstone CTA */
+  .capstone-cta {
+    margin: 28px 48px 8px;
+    padding: 24px 28px;
+    border: 1px solid var(--gold);
+    border-left: 4px solid var(--gold);
+    background: #FBF7EE;
+    border-radius: 2px;
+    display: flex; gap: 18px; align-items: center; justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .capstone-cta .ct-text {
+    flex: 1; min-width: 260px;
+  }
+  .capstone-cta .ct-eyebrow {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 6px;
+  }
+  .capstone-cta .ct-title { font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 4px; }
+  .capstone-cta .ct-desc { font-size: 13px; color: var(--ink-2); }
+
+  /* Claim form */
+  .claim-form { max-width: 520px; margin: 0 auto; padding: 8px 0; }
+  .claim-field { margin-bottom: 18px; }
+  .claim-label {
+    display: block; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 700; margin-bottom: 8px;
+  }
+  .claim-input {
+    width: 100%;
+    border: 1px solid var(--line); border-bottom: 1px solid var(--ink);
+    border-radius: 0;
+    padding: 10px 0;
+    font-family: var(--serif); font-size: 22px;
+    color: var(--ink); background: transparent;
+    transition: border-color .15s;
+  }
+  .claim-input:focus { outline: none; border-bottom-color: var(--accent); }
+  .claim-input.is-small { font-size: 16px; }
+
+  /* ============== CERTIFICATE ============== */
+  .cert-screen {
+    padding: 32px 48px 56px;
+    background: var(--bg);
+  }
+  .cert-actions {
+    display: flex; justify-content: space-between; gap: 12px;
+    margin: 20px 0 0;
+    flex-wrap: wrap;
+  }
+  .cert-frame {
+    background: #FCFAF3;
+    background-image:
+      radial-gradient(circle at 12% 12%, rgba(166,128,62,0.04), transparent 40%),
+      radial-gradient(circle at 88% 88%, rgba(26,58,110,0.04), transparent 40%);
+    border: 6px double var(--ink);
+    padding: 56px 64px 64px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 12px 40px rgba(14,26,43,0.12);
+    color: var(--ink);
+    aspect-ratio: 11 / 8.5;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .cert-frame::before {
+    content: "";
+    position: absolute; inset: 8px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+  }
+  .cert-top {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .cert-monogram {
+    width: 56px; height: 56px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .cert-academy {
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ink); font-weight: 600;
+  }
+  .cert-academy-rule {
+    width: 60px; height: 1px; background: var(--gold);
+    margin: 16px auto 0;
+  }
+  .cert-mid {
+    margin-top: 10px;
+  }
+  .cert-this-certifies {
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--ink-2); font-weight: 600;
+    margin-bottom: 22px;
+  }
+  .cert-name {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 52px;
+    color: var(--accent);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .cert-title-line {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-2);
+    font-style: italic;
+    margin: 0 0 18px;
+    min-height: 18px;
+  }
+  .cert-name-rule {
+    width: 60%; height: 1px; background: var(--ink);
+    margin: 6px auto 22px;
+    opacity: 0.4;
+  }
+  .cert-completed {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-2); font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .cert-program {
+    font-family: var(--serif);
+    font-size: 38px;
+    color: var(--ink);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin: 0 0 16px;
+  }
+  .cert-desc {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    max-width: 540px;
+    margin: 0 auto;
+    font-style: italic;
+  }
+  .cert-foot {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 30px;
+    align-items: end;
+    margin-top: 32px;
+  }
+  .cert-foot-col {
+    text-align: center;
+  }
+  .cert-foot-col.left  { text-align: left; }
+  .cert-foot-col.right { text-align: right; }
+  .cert-foot-rule {
+    height: 1px; background: var(--ink);
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+  .cert-foot-label {
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 700;
+  }
+  .cert-foot-value {
+    font-family: var(--serif); font-size: 15px; color: var(--ink);
+    margin-top: 2px;
+  }
+  .cert-signature {
+    font-family: var(--script);
+    font-size: 32px;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+  }
+  .cert-seal {
+    width: 92px; height: 92px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700;
+    line-height: 1.3;
+    background: #FCFAF3;
+    margin: 0 auto;
+  }
+  .cert-seal-inner {
+    width: 76px; height: 76px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 6px;
+  }
+
+  @media (max-width: 760px) {
+    .cert-frame { padding: 32px 24px 36px; aspect-ratio: auto; }
+    .cert-name { font-size: 38px; }
+    .cert-program { font-size: 26px; }
+    .cert-foot { grid-template-columns: 1fr; gap: 18px; text-align: center; }
+    .cert-foot-col.left, .cert-foot-col.right { text-align: center; }
+  }
+
+  @media print {
+    @page { size: landscape; margin: 0.4in; }
+    body { background: #fff; }
+    .topbar, .colophon, .cert-actions, .quest-head, .progress-row, .pad, .pad-tight, .capstone-cta { display: none !important; }
+    #app { border: 0; max-width: none; }
+    .cert-screen { padding: 0; background: #fff; }
+    .cert-frame { box-shadow: none; aspect-ratio: auto; }
+  }
 
   @media (max-width: 700px) {
     .pad, .pad-tight { padding: 24px 22px; }
     .progress-row, .quest-head { padding: 14px 22px; }
     .compare-grid, .build-grid, .match-grid { grid-template-columns: 1fr; }
     .progress-bar { display: none; }
+    .capstone-cta { margin: 22px 22px 8px; }
   }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <span class="gold">●</span>&nbsp; Executive Program &nbsp;·&nbsp; Issue I &nbsp;·&nbsp; May 2026
+  <span class="gold">●</span>&nbsp; The Substrate Academy &nbsp;·&nbsp; Executive Program &nbsp;·&nbsp; May 2026
 </div>
 
 <div id="app"></div>
 
 <div class="colophon">
-  Independent open-source program · runs entirely in your browser · no telemetry &nbsp;·&nbsp;
+  A Substrate Academy program · Ram Srinivasan, Founder &nbsp;·&nbsp;
   <a href="https://ram1729.github.io/AILearningGamev0.1/">Live</a> &nbsp;·&nbsp;
   <a href="https://github.com/ram1729/AILearningGamev0.1">Source</a>
 </div>
@@ -463,16 +633,20 @@
 "use strict";
 
 /* ==========================================================
-   THE FRONTIER AI BRIEFING — Executive Program (May 2026)
+   THE FRONTIER AI FUNDAMENTAL TRAINING
+   The Substrate Academy · Ram Srinivasan, Founder
    ========================================================== */
+
+const PROGRAM_TITLE = "The Frontier AI Fundamental Training";
+const ACADEMY = "The Substrate Academy";
+const FOUNDER = "Ram Srinivasan";
 
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 const TWO = function (n) { return n < 10 ? "0" + n : "" + n; };
 
 const MODULES = [
   {
-    id: 1,
-    title: "Foundations",
+    id: 1, title: "Foundations",
     subtitle: "The frontier AI landscape, characterized for the boardroom",
     eyebrow: "Module I · Foundations",
     distinction: "Foundations Distinction",
@@ -483,17 +657,13 @@ const MODULES = [
         type: "choice",
         question: "Which framing most accurately characterizes today's frontier AI systems?",
         options: [
-          { text: "Highly advanced statistical models that predict the next token in a sequence — sophisticated autocomplete.",
-            correct: false,
+          { text: "Highly advanced statistical models that predict the next token in a sequence — sophisticated autocomplete.", correct: false,
             feedback: "A reasonable description circa 2022. By 2026 the frontier is materially broader: long-context reasoning, planning, tool use, and self-verification. Limiting your board to the autocomplete framing understates both the upside and the governance burden." },
-          { text: "Software systems that reason across long contexts, plan and execute multi-step work, and interface with external tools — what the industry now calls agentic AI.",
-            correct: true,
+          { text: "Software systems that reason across long contexts, plan and execute multi-step work, and interface with external tools — what the industry now calls agentic AI.", correct: true,
             feedback: "Correct. The defining 2026 capability is agentic execution — the ability to plan, use tools, verify outputs, and complete multi-step work with limited supervision. Anchoring the board to this framing sets up every subsequent strategy conversation: vendor selection, governance, and capital allocation all follow from it." },
-          { text: "Synthetic intelligence that has achieved general human-level cognition across most knowledge work.",
-            correct: false,
+          { text: "Synthetic intelligence that has achieved general human-level cognition across most knowledge work.", correct: false,
             feedback: "An overreach. Frontier systems remain meaningfully imperfect — calibration, novel reasoning under uncertainty, and reliable autonomy over very long horizons are open problems. Avoid framings that overpromise; they erode credibility in the boardroom." },
-          { text: "A class of recommendation engines optimized for productivity gains in white-collar workflows.",
-            correct: false,
+          { text: "A class of recommendation engines optimized for productivity gains in white-collar workflows.", correct: false,
             feedback: "An understatement. Productivity is one ROI vector, but the strategic significance of frontier AI in 2026 lies in net-new operating modes — autonomous workflows, synthetic R&D, and revenue lines that did not previously exist." }
         ]
       },
@@ -524,12 +694,27 @@ const MODULES = [
           { text: "AI capabilities are uniform across domains, making detailed role-by-role analysis unnecessary.", correct: false,
             feedback: "The opposite is true. The unevenness of frontier capability is precisely what requires careful, function-specific analysis. A uniform model of AI capability produces uniform — and uniformly wrong — conclusions." }
         ]
+      },
+      {
+        id: "1d", title: "The agentic responsibility gap",
+        story: "An autonomous agent your firm deployed processes a client refund decision in real time. The decision is later flagged as potentially incorrect. The audit committee asks the foundational question: who is accountable? You have been asked to brief the board on the responsibility framework.",
+        type: "choice",
+        question: "Which response best frames the agentic responsibility question for board governance?",
+        options: [
+          { text: "The vendor of the AI system bears full accountability under standard product liability.", correct: false,
+            feedback: "Oversimplified. Vendor terms typically disclaim downstream decision liability, and shifting accountability outside the firm obscures the internal governance failure that allowed an inappropriate autonomy envelope." },
+          { text: "Accountability runs through the human executive who authorized the agent within a defined autonomy envelope. The board's role is to ratify the envelope — budget, scope, and escalation rules — not to ratify each agent action. This is the 'Architecture of Constraint' approach.", correct: true,
+            feedback: "Correct. The emerging governance model assigns accountability to the human executive who deployed the agent within a board-ratified envelope: explicit budgets, scope limits, and escalation triggers. The board's discipline is to set the envelope, not to micromanage agent decisions. This is the 'Architecture of Constraint.'" },
+          { text: "Autonomous agents should be treated as legal persons with their own liability.", correct: false,
+            feedback: "No jurisdiction supports this. Personhood for agents is a science-fiction framing, not a governance one." },
+          { text: "Until legal frameworks catch up, the firm should not deploy any agents in customer-facing processes.", correct: false,
+            feedback: "An overcorrection. Competitors will move regardless of legal certainty; the discipline is to deploy within carefully constrained envelopes, not to abstain." }
+        ]
       }
     ]
   },
   {
-    id: 2,
-    title: "Trajectory & Lexicon",
+    id: 2, title: "Trajectory & Lexicon",
     subtitle: "The non-linear pace of progress and the architectural primitives",
     eyebrow: "Module II · Trajectory & Lexicon",
     distinction: "Trajectory Distinction",
@@ -540,10 +725,10 @@ const MODULES = [
         type: "match",
         question: "Match each milestone to its strategic consequence for the enterprise.",
         pairs: [
-          { ally: "ImageNet Moment (2012)", strength: "Proved viability of deep learning for pattern recognition", mono: "1" },
-          { ally: "The Transformer (2017)", strength: "Enabled long-context understanding and attention weighting", mono: "2" },
-          { ally: "GPT-3 Scaling (2020)",   strength: "Revealed emergent reasoning and zero-shot capability from scale", mono: "3" },
-          { ally: "ChatGPT Launch (2022)",  strength: "Mainstream adoption; the start of the GenAI investment cycle", mono: "4" },
+          { ally: "ImageNet Moment (2012)",    strength: "Proved viability of deep learning for pattern recognition", mono: "1" },
+          { ally: "The Transformer (2017)",    strength: "Enabled long-context understanding and attention weighting", mono: "2" },
+          { ally: "GPT-3 Scaling (2020)",      strength: "Revealed emergent reasoning and zero-shot capability from scale", mono: "3" },
+          { ally: "ChatGPT Launch (2022)",     strength: "Mainstream adoption; the start of the GenAI investment cycle", mono: "4" },
           { ally: "The Agentic Pivot (2025–26)", strength: "Transition from information retrieval to autonomous execution", mono: "5" }
         ]
       },
@@ -563,8 +748,7 @@ const MODULES = [
     ]
   },
   {
-    id: 3,
-    title: "Strategic Inquiry",
+    id: 3, title: "Strategic Inquiry",
     subtitle: "How senior leaders pose questions to AI systems",
     eyebrow: "Module III · Strategic Inquiry",
     distinction: "Inquiry Distinction",
@@ -590,8 +774,7 @@ const MODULES = [
     ]
   },
   {
-    id: 4,
-    title: "Prompt Architecture",
+    id: 4, title: "Prompt Architecture",
     subtitle: "Engineering inquiries for decision-grade output",
     eyebrow: "Module IV · Prompt Architecture",
     distinction: "Architecture Distinction",
@@ -601,21 +784,11 @@ const MODULES = [
         story: "Across every frontier provider in 2026, the same five prompt techniques deliver the largest quality gains. Treat these as the executive's standard kit — they apply equally to GPT-5.5, Opus 4.7, Gemini 3.1 Pro, and Copilot.",
         type: "learn",
         techniques: [
-          { name: "Role assignment",
-            example: "Act as an experienced M&A integration partner advising the COO...",
-            why: "Frames the response from a credible expert perspective. Empirically, this single technique meaningfully lifts the analytical depth and domain register of the output." },
-          { name: "Few-shot exemplars",
-            example: "Here are two examples of the analytical style I require: [Example 1] [Example 2]",
-            why: "Anchors the model to your house style and reasoning pattern. Essential for producing brand-aligned, repeatable output across teams." },
-          { name: "Extended reasoning",
-            example: "Think through this carefully step by step before answering. Consider counterarguments and second-order effects.",
-            why: "Frontier models — Opus 4.7, Gemini 3 Deep Think, GPT-5.5 thinking — produce substantially better analysis when explicitly invited to reason longer. The latency cost is usually trivial." },
-          { name: "Output specification",
-            example: "Respond as a 250-word memo with three numbered recommendations and a single executive summary line at the top.",
-            why: "Eliminates revision cycles. Specify length, structure, and tone — the model conforms." },
-          { name: "Tool and verification guidance",
-            example: "Use web search to confirm any market data points. Cite sources. Flag uncertainty explicitly.",
-            why: "Critical in the agentic era. Models can use tools, but you must direct them — and require verification. This is the boundary between 'useful draft' and 'defensible analysis.'" }
+          { name: "Role assignment", example: "Act as an experienced M&A integration partner advising the COO...", why: "Frames the response from a credible expert perspective. Empirically, this single technique meaningfully lifts the analytical depth and domain register of the output." },
+          { name: "Few-shot exemplars", example: "Here are two examples of the analytical style I require: [Example 1] [Example 2]", why: "Anchors the model to your house style and reasoning pattern. Essential for producing brand-aligned, repeatable output across teams." },
+          { name: "Extended reasoning", example: "Think through this carefully step by step before answering. Consider counterarguments and second-order effects.", why: "Frontier models — Opus 4.7, Gemini 3 Deep Think, GPT-5.5 thinking — produce substantially better analysis when explicitly invited to reason longer. The latency cost is usually trivial." },
+          { name: "Output specification", example: "Respond as a 250-word memo with three numbered recommendations and a single executive summary line at the top.", why: "Eliminates revision cycles. Specify length, structure, and tone — the model conforms." },
+          { name: "Tool and verification guidance", example: "Use web search to confirm any market data points. Cite sources. Flag uncertainty explicitly.", why: "Critical in the agentic era. Models can use tools, but you must direct them — and require verification. This is the boundary between 'useful draft' and 'defensible analysis.'" }
         ]
       },
       {
@@ -634,8 +807,7 @@ const MODULES = [
     ]
   },
   {
-    id: 5,
-    title: "Capability Selection",
+    id: 5, title: "Capability Selection",
     subtitle: "Choosing the right system for the right engagement",
     eyebrow: "Module V · Capability Selection",
     distinction: "Selection Distinction",
@@ -675,12 +847,24 @@ const MODULES = [
           { text: "Benchmarks generally are unreliable; the committee should ignore them.", correct: false,
             feedback: "An overcorrection. Modern benchmarks — GDPval, GPQA Diamond, SWE-bench Pro, ARC-AGI-2 — are designed precisely to resist saturation and discriminate at the frontier. The discipline is selecting the right benchmark for the decision." }
         ]
+      },
+      {
+        id: "5d", title: "The five companies' positioning",
+        story: "The strategy team has prepared a competitive landscape map for next quarter's planning cycle. The Operating Committee wants a clean view of where each major provider sits — not by feature list, but by strategic position.",
+        type: "match",
+        question: "Match each provider to its primary strategic position in May 2026.",
+        pairs: [
+          { ally: "OpenAI",     strength: "Consumer & developer leader — fastest product cadence and broadest brand reach", mono: "O" },
+          { ally: "Anthropic",  strength: "Enterprise & coding leader — safety-first messaging and long-context strength", mono: "A" },
+          { ally: "Google",     strength: "Integrated platform player — planetary distribution and vertical compute stack (TPUs)", mono: "G" },
+          { ally: "Microsoft",  strength: "Enterprise distribution giant — deep integration with Office and Azure compliance posture", mono: "M" },
+          { ally: "Salesforce", strength: "Agentic system of record — CRM-data leverage and outcome-priced digital labor", mono: "S" }
+        ]
       }
     ]
   },
   {
-    id: 6,
-    title: "The Economics of AI",
+    id: 6, title: "The Economics of AI",
     subtitle: "Capital allocation, supply-chain risk, and where the moat actually sits",
     eyebrow: "Module VI · Economics",
     distinction: "Economics Distinction",
@@ -716,12 +900,27 @@ const MODULES = [
           { text: "Move all AI workloads to a single sovereign cloud to simplify governance.", correct: false,
             feedback: "Single-vendor consolidation in the name of governance simplicity reintroduces precisely the concentration risk the question is asking you to address. Resilience requires deliberate diversification." }
         ]
+      },
+      {
+        id: "6c", title: "The inference cost trajectory",
+        story: "Your CFO asks for guidance on AI services budgeting for the next 24 months. Inference costs across frontier providers have fallen approximately 10× per year for three consecutive years. How should this empirical trend shape your contracting and capital strategy?",
+        type: "choice",
+        question: "Which budgeting posture is most consistent with the cost trajectory?",
+        options: [
+          { text: "Lock in long-dated, fixed-price contracts with the lowest-priced provider today to secure a price advantage.", correct: false,
+            feedback: "Long-dated contracts in a market with 10× annual deflation lock in yesterday's premium as tomorrow's floor. Procurement should run shorter, not longer." },
+          { text: "Default to consumption-based pricing with short contract terms; reallocate the savings from falling inference costs into 'context plumbing' — the data pipelines that determine output quality.", correct: true,
+            feedback: "Correct. With inference costs falling roughly 10× annually, the disciplined posture is short-term, consumption-priced contracts paired with reinvestment into the assets whose marginal cost is not falling: clean data, semantic layers, and integration infrastructure. Yesterday's premium becomes tomorrow's default." },
+          { text: "Defer all material AI spend until prices stabilize.", correct: false,
+            feedback: "Prices are unlikely to stabilize on a meaningful horizon, and deferral forfeits the strategic learning curve. Deflation is the operating environment, not a temporary anomaly to wait out." },
+          { text: "Treat the cost trajectory as a contractual nicety; budgeting can be deprioritized as 'noise.'", correct: false,
+            feedback: "The trajectory is a structural feature of the market, not noise. It changes how contracts should be written, how capital should be reallocated, and what differentiates a sophisticated buyer." }
+        ]
       }
     ]
   },
   {
-    id: 7,
-    title: "Persistent Programs & Connectivity",
+    id: 7, title: "Persistent Programs & Connectivity",
     subtitle: "Codifying knowledge into reusable assistants and standardizing tool access",
     eyebrow: "Module VII · Persistent Programs",
     distinction: "Programs Distinction",
@@ -731,23 +930,15 @@ const MODULES = [
         story: "Every frontier provider in 2026 supports a form of persistent, customized AI program — pre-loaded with your context, your style, and your knowledge. The terminology varies; the strategic capability is the same. Codifying institutional knowledge into reusable assistants is one of the highest-ROI moves available to a CIO this year.",
         type: "learn",
         techniques: [
-          { name: "Claude Projects & Skills (Anthropic)",
-            example: "Per-project instructions, uploaded reference documents, and reusable Skills for repeat workflows.",
-            why: "Anthropic's enterprise lever: persistent context, knowledge bases, and reusable capabilities tied to a domain or function. Strong fit for engineering, legal, and analyst workflows." },
-          { name: "Custom GPTs (OpenAI)",
-            example: "Configurable assistants with system instructions, knowledge files, and external actions, shareable across the organization.",
-            why: "OpenAI's most-deployed enterprise primitive. Purpose-built personas at organizational scale, with the broadest integration surface area." },
-          { name: "Gemini Gems (Google)",
-            example: "Customized Gemini personas authored in plain language and shared across the team like a Drive file.",
-            why: "Workspace-native, exceptionally low authoring overhead. Strong fit where the user base already lives in Google's surface." },
-          { name: "Copilot Agents (Microsoft, Agent 365)",
-            example: "Agents authored in Copilot Studio and embedded across the Microsoft 365 surface — Outlook, Teams, Office, SharePoint.",
-            why: "Microsoft's central wager for 2026: agents as the new operating layer for enterprise work. The default choice for organizations standardized on Microsoft 365." }
+          { name: "Claude Projects & Skills (Anthropic)", example: "Per-project instructions, uploaded reference documents, and reusable Skills for repeat workflows.", why: "Anthropic's enterprise lever: persistent context, knowledge bases, and reusable capabilities tied to a domain or function. Strong fit for engineering, legal, and analyst workflows." },
+          { name: "Custom GPTs (OpenAI)", example: "Configurable assistants with system instructions, knowledge files, and external actions, shareable across the organization.", why: "OpenAI's most-deployed enterprise primitive. Purpose-built personas at organizational scale, with the broadest integration surface area." },
+          { name: "Gemini Gems (Google)", example: "Customized Gemini personas authored in plain language and shared across the team like a Drive file.", why: "Workspace-native, exceptionally low authoring overhead. Strong fit where the user base already lives in Google's surface." },
+          { name: "Copilot Agents (Microsoft, Agent 365)", example: "Agents authored in Copilot Studio and embedded across the Microsoft 365 surface — Outlook, Teams, Office, SharePoint.", why: "Microsoft's central wager for 2026: agents as the new operating layer for enterprise work. The default choice for organizations standardized on Microsoft 365." }
         ]
       },
       {
         id: "7b", title: "The connectivity standard (MCP)",
-        story: "Your Head of Enterprise Architecture brings you a procurement question. The team is being asked to build custom integrations between your corporate AI assistant and a dozen internal systems — Slack, Jira, your CRM, your ERP, your data warehouse. The estimated build cost is $3.2M. Before approving, your architect asks if you've heard of the Model Context Protocol.",
+        story: "Your Head of Enterprise Architecture brings you a procurement question. The team is being asked to build custom integrations between your corporate AI assistant and a dozen internal systems — Slack, Jira, your CRM, your ERP, your data warehouse. The estimated build cost is $3.2M. Before approving, your architect asks if you have heard of the Model Context Protocol.",
         type: "choice",
         question: "How does MCP change the architecture decision in front of you?",
         options: [
@@ -764,8 +955,7 @@ const MODULES = [
     ]
   },
   {
-    id: 8,
-    title: "The Agentic Pivot",
+    id: 8, title: "The Agentic Pivot",
     subtitle: "From pilots to autonomous workflows in production",
     eyebrow: "Module VIII · The Agentic Pivot",
     distinction: "Agentic Distinction",
@@ -787,13 +977,29 @@ const MODULES = [
         type: "match",
         question: "Match each autonomy level to its operating description.",
         pairs: [
-          { ally: "Assistive", strength: "Agent recommends steps; human executes — the entry point for risk-averse functions", mono: "1" },
-          { ally: "Copilot",   strength: "Agent acts only after explicit human approval — the dominant 2026 deployment pattern", mono: "2" },
+          { ally: "Assistive",  strength: "Agent recommends steps; human executes — the entry point for risk-averse functions", mono: "1" },
+          { ally: "Copilot",    strength: "Agent acts only after explicit human approval — the dominant 2026 deployment pattern", mono: "2" },
           { ally: "Auto-pilot", strength: "Agent operates autonomously within defined budgets and policies, escalating only exceptions — the destination state for mature programs", mono: "3" }
         ]
       },
       {
-        id: "8c", title: "What 'agent' actually means",
+        id: "8c", title: "Multi-agent systems and integration debt",
+        story: "Your enterprise architecture team has proposed a multi-agent deployment for your accounts-payable workflow: a 'classifier' agent, an 'extraction' agent, an 'approval' agent, and a 'reconciliation' agent. The pitch cites research showing multi-agent systems deliver 3× the ROI of single-agent equivalents. Your CIO asks whether this is automatically true.",
+        type: "choice",
+        question: "What is the strategically accurate framing for the proposed deployment?",
+        options: [
+          { text: "Multi-agent systems uniformly deliver 3× ROI; approve the deployment as proposed.", correct: false,
+            feedback: "An overstatement of the research. The 3× ROI finding is conditional — it materializes only when agents share a common semantic and policy substrate, which is rarely true at procurement." },
+          { text: "Multi-agent systems can deliver 3× the ROI of single-agent equivalents — but only when the agents share a common data and policy language. Without that shared substrate, integration debt inverts the ROI. Approve only after the architecture team demonstrates a working semantic layer and policy enforcement plane.", correct: true,
+            feedback: "Correct. The 3× ROI finding is real but conditional. The condition — a shared semantic and policy substrate — is rarely met at procurement. Without it, multiple agents reading the same data interpret it inconsistently, and you build expensive 'agentic chaos.' The disciplined approval requires demonstrated interoperability before the build, not after." },
+          { text: "Multi-agent systems are unproven; reject the proposal.", correct: false,
+            feedback: "Categorical rejection forfeits a structurally significant capability. The disciplined response is to set the condition (interoperable substrate) and then approve, not to refuse." },
+          { text: "Multi-agent systems should be deferred until the standards mature.", correct: false,
+            feedback: "Standards are maturing in real time, and competitive parity in agentic operations is a 12–18 month window. Deferral concedes the window." }
+        ]
+      },
+      {
+        id: "8d", title: "What 'agent' actually means",
         story: "The term 'agent' is now ubiquitous in vendor pitches and analyst coverage. Discriminating between marketing usage and the strategic threshold is a competence senior leaders are expected to demonstrate.",
         type: "choice",
         question: "Which of the following best meets the strategic threshold of an 'AI agent' as defined by frontier labs in May 2026?",
@@ -811,8 +1017,7 @@ const MODULES = [
     ]
   },
   {
-    id: 9,
-    title: "Governance & Risk",
+    id: 9, title: "Governance & Risk",
     subtitle: "The architecture of constraint for autonomous systems",
     eyebrow: "Module IX · Governance & Risk",
     distinction: "Governance Distinction",
@@ -822,21 +1027,11 @@ const MODULES = [
         story: "The board's risk committee has asked you to present the governance framework your firm will adopt for autonomous agents. Industry consensus has converged on five pillars; each is non-negotiable. Reference data: an estimated 68% of employees use AI tools without IT approval, and documented AI incidents rose 55% in the last year. Governance is no longer optional.",
         type: "learn",
         techniques: [
-          { name: "Comprehensive agent inventory",
-            example: "Scan network traffic and API calls to surface every AI tool in use — sanctioned and unsanctioned.",
-            why: "You cannot govern what you cannot see. With most employees using AI outside IT approval, inventory is the precondition for every other control." },
-          { name: "Agent identity & access management",
-            example: "Every agent receives a unique Non-Human Identity (NHI), distinct from its human owner.",
-            why: "Establishes the audit trail. Without unique identity per agent, no action is reliably attributable, and post-incident forensics collapses." },
-          { name: "Dynamic least privilege",
-            example: "Permissions are task-scoped and expire on completion of the task.",
-            why: "Replaces broad role-based access with the principle that most agent actions should hold permissions for minutes, not months. Limits blast radius of any single compromise." },
-          { name: "Observability & behavioral monitoring",
-            example: "Real-time dashboards track agent reasoning chains and tool calls; anomalies trigger intervention before action.",
-            why: "The runtime equivalent of SOC monitoring. The objective is to detect — and pause — the rogue action before it executes, not after." },
-          { name: "Continuous compliance",
-            example: "Static checklists are insufficient; compliance is enforced at runtime by automated policy checks at every tool call.",
-            why: "Marks the shift from 'audit annually' to 'enforce continuously' — a fundamental change in the compliance operating model that the audit and risk committees need to ratify." }
+          { name: "Comprehensive agent inventory", example: "Scan network traffic and API calls to surface every AI tool in use — sanctioned and unsanctioned.", why: "You cannot govern what you cannot see. With most employees using AI outside IT approval, inventory is the precondition for every other control." },
+          { name: "Agent identity & access management", example: "Every agent receives a unique Non-Human Identity (NHI), distinct from its human owner.", why: "Establishes the audit trail. Without unique identity per agent, no action is reliably attributable, and post-incident forensics collapses." },
+          { name: "Dynamic least privilege", example: "Permissions are task-scoped and expire on completion of the task.", why: "Replaces broad role-based access with the principle that most agent actions should hold permissions for minutes, not months. Limits blast radius of any single compromise." },
+          { name: "Observability & behavioral monitoring", example: "Real-time dashboards track agent reasoning chains and tool calls; anomalies trigger intervention before action.", why: "The runtime equivalent of SOC monitoring. The objective is to detect — and pause — the rogue action before it executes, not after." },
+          { name: "Continuous compliance", example: "Static checklists are insufficient; compliance is enforced at runtime by automated policy checks at every tool call.", why: "Marks the shift from 'audit annually' to 'enforce continuously' — a fundamental change in the compliance operating model that the audit and risk committees need to ratify." }
         ]
       },
       {
@@ -854,36 +1049,52 @@ const MODULES = [
           { text: "Ban AI use for strategy work entirely until the technology matures.", correct: false,
             feedback: "An overcorrection. The risk is real but the mitigation is operational — model choice, prompt design, and reviewer discipline — not abstinence." }
         ]
+      },
+      {
+        id: "9c", title: "The top three risks for the board",
+        story: "The board's risk committee has asked you to characterize the three highest-priority AI-specific risks the firm faces in 2026, each with its primary mitigation. The committee will use this to shape the firm's risk register and audit plan for the year.",
+        type: "match",
+        question: "Match each risk to its primary mitigation strategy.",
+        pairs: [
+          { ally: "Prompt injection / jailbreaking", strength: "Input filtering, sandboxed tool execution, and adversarial testing in pre-production", mono: "1" },
+          { ally: "Sensitive data leakage",          strength: "Strict data residency policies, no PII in shared model contexts, and contractual data-use prohibitions", mono: "2" },
+          { ally: "Rogue agent action",              strength: "Dynamic least-privilege permissions, real-time observability, and pre-defined escalation thresholds", mono: "3" }
+        ]
       }
     ]
   },
   {
-    id: 10,
-    title: "The Executive Playbook",
-    subtitle: "Five working rules to escape the pilot treadmill",
+    id: 10, title: "The Executive Playbook",
+    subtitle: "Working rules and the lead-vs-follow discipline",
     eyebrow: "Module X · The Playbook",
     distinction: "Playbook Distinction",
     sessions: [
       {
         id: "10a", title: "The MIT Sloan five working rules",
-        story: "The closing module of your program. The MIT Sloan 'Road Map Project' has identified five working rules that distinguish AI programs producing material P&L impact from those stuck on the 'pilot treadmill.' Each rule is deceptively simple. Each is regularly violated. Carry these with you.",
+        story: "The MIT Sloan 'Road Map Project' has identified five working rules that distinguish AI programs producing material P&L impact from those stuck on the 'pilot treadmill.' Each rule is deceptively simple. Each is regularly violated.",
         type: "learn",
         techniques: [
-          { name: "Workflow-first",
-            example: "Begin with a specific friction point in an existing workflow — not with a technology you have heard about.",
-            why: "Technology in search of a problem rarely produces ROI. The 81% of organizations reporting no EBIT impact from AI almost universally violated this rule." },
-          { name: "Instrument today",
-            example: "Map every step of the current process before attempting to automate any portion of it.",
-            why: "You cannot automate what you cannot describe. Most failed pilots failed at this stage and never knew it — they automated the visible 30% and missed the 70% that determined throughput." },
-          { name: "Invest in plumbing",
-            example: "Build the data pipelines and clean context that agents actually need to perform.",
-            why: "Intelligence is becoming a commodity. The proprietary data and clean context you supply to that intelligence is the durable moat. Inference costs are falling roughly 10× per year; data quality is not." },
-          { name: "Redesign work",
-            example: "Do not staple AI onto existing processes. True gains come from changing how the work is done.",
-            why: "The 'piecemeal' approach — AI bolted onto legacy workflows — is the dominant pattern of AI failure. Workflow redesign with AI as a first-class participant from the start is the differentiator." },
-          { name: "Grade outcomes",
-            example: "Track P&L impact and decision quality, not 'tokens consumed' or 'queries served.'",
-            why: "Activity is a cost. Outcomes are value. The ultimate executive discipline — and the metric that distinguishes AI programs that survive a downturn from those that do not." }
+          { name: "Workflow-first", example: "Begin with a specific friction point in an existing workflow — not with a technology you have heard about.", why: "Technology in search of a problem rarely produces ROI. The 81% of organizations reporting no EBIT impact from AI almost universally violated this rule." },
+          { name: "Instrument today", example: "Map every step of the current process before attempting to automate any portion of it.", why: "You cannot automate what you cannot describe. Most failed pilots failed at this stage and never knew it — they automated the visible 30% and missed the 70% that determined throughput." },
+          { name: "Invest in plumbing", example: "Build the data pipelines and clean context that agents actually need to perform.", why: "Intelligence is becoming a commodity. The proprietary data and clean context you supply to that intelligence is the durable moat. Inference costs are falling roughly 10× per year; data quality is not." },
+          { name: "Redesign work", example: "Do not staple AI onto existing processes. True gains come from changing how the work is done.", why: "The 'piecemeal' approach — AI bolted onto legacy workflows — is the dominant pattern of AI failure. Workflow redesign with AI as a first-class participant from the start is the differentiator." },
+          { name: "Grade outcomes", example: "Track P&L impact and decision quality, not 'tokens consumed' or 'queries served.'", why: "Activity is a cost. Outcomes are value. The ultimate executive discipline — and the metric that distinguishes AI programs that survive a downturn from those that do not." }
+        ]
+      },
+      {
+        id: "10b", title: "Lead versus follow",
+        story: "The closing question of your program. You are setting the firm's AI investment posture for the next two-year cycle. Resources are constrained; you cannot lead in every domain. Where should the firm lead with custom development, and where should it follow with off-the-shelf tools?",
+        type: "choice",
+        question: "Which framing most accurately captures the lead-versus-follow discipline?",
+        options: [
+          { text: "Lead in every AI domain; the technology is too strategic to follow.", correct: false,
+            feedback: "Capital-impossible for any non-hyperscaler, and strategically incoherent — leading everywhere means leading nowhere with any depth." },
+          { text: "Lead where you have proprietary context — unique data, processes, or relationships a competitor cannot replicate. Follow with off-the-shelf tools (Microsoft, Google) for commodity tasks like email summarization or basic coding, where custom development cannot earn its capital.", correct: true,
+            feedback: "Correct. The discipline is investing scarce custom-development capacity exactly where the firm has unreplicable advantage — proprietary data, unique workflow context, or distinctive customer relationships. Everywhere else, off-the-shelf tools are good enough, and the capital is better deployed elsewhere. This is the same discipline that distinguishes good from poor capital allocation in any domain." },
+          { text: "Follow in every AI domain; proprietary AI is rarely worth the build cost.", correct: false,
+            feedback: "Forfeits the moat. The areas where the firm has genuine information or process advantage are precisely the areas where off-the-shelf tools cannot compete." },
+          { text: "Lead and follow are symmetrical; allocate equally across both.", correct: false,
+            feedback: "Symmetric allocation misallocates the scarce input — custom-development capacity — and produces 'good enough' coverage everywhere instead of decisive advantage somewhere." }
         ]
       }
     ]
@@ -898,7 +1109,7 @@ const PROVIDERS = [
 ];
 
 /* --------------- STATE / PERSISTENCE --------------- */
-const STORAGE_KEY = "execAI.brief.v2";
+const STORAGE_KEY = "execAI.brief.v3";
 const TOTAL_SESSIONS = MODULES.reduce(function(a, m){ return a + m.sessions.length; }, 0);
 
 function loadState() {
@@ -913,7 +1124,11 @@ function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       completedModules: state.completedModules,
       completedSessions: state.completedSessions,
-      distinctions: state.distinctions
+      distinctions: state.distinctions,
+      recipientName: state.recipientName,
+      recipientTitle: state.recipientTitle,
+      issuedDate: state.issuedDate,
+      certificateClaimed: state.certificateClaimed
     }));
   } catch (_) {}
 }
@@ -926,7 +1141,12 @@ function freshState() {
     activeModuleIdx: null,
     activeSessionIdx: 0,
     showToast: null,
-    transient: {}
+    transient: {},
+    recipientName: "",
+    recipientTitle: "",
+    issuedDate: "",
+    certificateClaimed: false,
+    claimDraft: { name: "", title: "" }
   };
 }
 const state = (function(){
@@ -944,7 +1164,7 @@ function setTransient(id, patch) {
 function getTransient(id) { return state.transient[id] || {}; }
 
 function resetProgress() {
-  if (!confirm("Reset all program progress? Distinctions and completion records will be cleared.")) return;
+  if (!confirm("Reset all program progress? Distinctions, certificate, and completion records will be cleared.")) return;
   try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
   Object.assign(state, freshState());
   render();
@@ -971,6 +1191,36 @@ function el(tag, attrs, children) {
     }
   }
   return n;
+}
+
+/* Per-page-load random seed for shuffling — stable within a session */
+const SHUFFLE_SEED = Math.floor(Math.random() * 1e9);
+function seededShuffleOrder(n, seed) {
+  let h = (seed >>> 0) || 1;
+  const rand = function() {
+    h ^= h << 13; h ^= h >>> 17; h ^= h << 5;
+    return (h >>> 0) / 4294967296;
+  };
+  const order = [];
+  for (let i = 0; i < n; i++) order.push(i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    const t = order[i]; order[i] = order[j]; order[j] = t;
+  }
+  // Ensure not the identity shuffle
+  let identity = true;
+  for (let i = 0; i < n; i++) if (order[i] !== i) { identity = false; break; }
+  if (identity && n >= 2) { const t = order[0]; order[0] = order[1]; order[1] = t; }
+  return order;
+}
+
+function strHash(s) {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = (h * 16777619) >>> 0;
+  }
+  return h;
 }
 
 /* --------------- SESSION RENDERERS --------------- */
@@ -1000,11 +1250,10 @@ function r_choice(session, onComplete) {
   ];
 
   if (submitted && sel != null) {
-    const fb = el("div", { class: "feedback " + (correct ? "is-correct" : "is-wrong") }, [
+    children.push(el("div", { class: "feedback " + (correct ? "is-correct" : "is-wrong") }, [
       el("span", { class: "label" }, correct ? "Faculty note · correct" : "Faculty note"),
       document.createTextNode(session.options[sel].feedback)
-    ]);
-    children.push(fb);
+    ]));
   }
 
   const actions = el("div", { style: { marginTop: "20px", display: "flex", gap: "12px" } });
@@ -1169,6 +1418,16 @@ function r_match(session, onComplete) {
   const sel = t.selected || null;
   const all = Object.keys(matched).length === session.pairs.length;
 
+  // Compute / cache the right-column shuffle order for this session
+  if (!t.strengthOrder || t.strengthOrder.length !== session.pairs.length) {
+    const seed = (SHUFFLE_SEED ^ strHash(session.id)) >>> 0;
+    state.transient[session.id] = Object.assign({}, t, {
+      strengthOrder: seededShuffleOrder(session.pairs.length, seed)
+    });
+  }
+  const order = state.transient[session.id].strengthOrder;
+  const shuffledStrengths = order.map(function(i){ return session.pairs[i]; });
+
   const handleA = function(ally){ if (matched[ally]) return; setTransient(session.id, { selected: ally }); };
   const handleS = function(strength){
     if (!sel) return;
@@ -1182,7 +1441,7 @@ function r_match(session, onComplete) {
   };
 
   const allyCol = el("div", null, [
-    el("div", { class: "match-col-label" }, "Provider"),
+    el("div", { class: "match-col-label" }, "Provider")
   ].concat(session.pairs.map(function(p){
     const done = !!matched[p.ally];
     let cls = "match-item";
@@ -1195,8 +1454,8 @@ function r_match(session, onComplete) {
   })));
 
   const strCol = el("div", null, [
-    el("div", { class: "match-col-label" }, "May 2026 Flagship & Positioning")
-  ].concat(session.pairs.map(function(p){
+    el("div", { class: "match-col-label" }, "May 2026 flagship & positioning")
+  ].concat(shuffledStrengths.map(function(p){
     const done = Object.keys(matched).some(function(k){ return matched[k] === p.strength; });
     let cls = "match-item" + (done ? " is-done" : "");
     return el("button", { class: cls, onclick: function(){ handleS(p.strength); } }, p.strength + (done ? "  ·  matched" : ""));
@@ -1207,7 +1466,7 @@ function r_match(session, onComplete) {
     el("p", { class: "question-line" }, session.question),
     el("div", { class: "match-grid" }, [allyCol, strCol])
   ];
-  if (sel) children.push(el("p", { class: "eyebrow", style: { marginTop: "12px" } }, "Now select the matching positioning for " + sel));
+  if (sel) children.push(el("p", { class: "eyebrow", style: { marginTop: "12px" } }, "Now select the matching item for " + sel));
   if (all) children.push(el("div", { style: { marginTop: "20px" } },
     el("button", { class: "btn", onclick: onComplete }, "Continue →")
   ));
@@ -1300,6 +1559,25 @@ function completeSession() {
   }
 }
 
+function formatIssueDate(iso) {
+  const d = iso ? new Date(iso) : new Date();
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
+}
+
+function issueCertificate() {
+  const name = (state.claimDraft.name || "").trim();
+  if (name.length < 2) return;
+  const title = (state.claimDraft.title || "").trim();
+  setState({
+    recipientName: name,
+    recipientTitle: title,
+    issuedDate: new Date().toISOString().slice(0, 10),
+    certificateClaimed: true,
+    screen: "certificate"
+  });
+}
+
 /* --------------- SCREENS --------------- */
 function renderTitle() {
   const continuing = state.completedSessions.length > 0;
@@ -1317,19 +1595,21 @@ function renderTitle() {
   );
 
   return el("div", { class: "pad", style: { textAlign: "center", paddingTop: "64px", paddingBottom: "64px" } }, [
-    el("div", { class: "eyebrow" }, "Executive Program · May 2026"),
+    el("div", { class: "eyebrow" }, ACADEMY + " · Executive Program · May 2026"),
     el("hr", { class: "rule-accent", style: { margin: "16px auto 24px" } }),
-    el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15 } }, "The Frontier AI Briefing"),
-    el("p", { style: { fontSize: "16px", color: "var(--ink-2)", maxWidth: "560px", margin: "0 auto 8px", lineHeight: 1.6 } },
-      "A ten-module program for senior leaders on the strategy, architecture, economics, governance, and operationalization of agentic AI."),
+    el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15 } }, PROGRAM_TITLE),
+    el("p", { style: { fontSize: "16px", color: "var(--ink-2)", maxWidth: "580px", margin: "0 auto 8px", lineHeight: 1.6 } },
+      "A ten-module program for senior leaders on the strategy, architecture, economics, governance, and operationalization of agentic AI. Certification awarded on completion."),
     el("p", { class: "eyebrow", style: { marginTop: "20px" } }, "Featuring · Opus 4.7 · GPT-5.5 · Gemini 3.1 Pro · Copilot"),
     providers,
-    el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px" } }, [
+    el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" } }, [
       el("button", { class: "btn", onclick: function(){ setState({ screen: "index" }); } },
-        continuing ? "Resume program →" : "Begin program →")
+        continuing ? "Resume program →" : "Begin program →"),
+      state.certificateClaimed ? el("button", { class: "btn btn-gold", onclick: function(){ setState({ screen: "certificate" }); } }, "View certificate →") : null
     ]),
     el("p", { class: "eyebrow", style: { marginTop: "32px", color: "var(--ink-3)" } },
-      continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately 60 minutes · self-paced · ten modules")
+      continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately 75 minutes · self-paced · ten modules · 28 sessions"),
+    el("p", { class: "eyebrow", style: { marginTop: "8px", color: "var(--ink-3)" } }, "Founded by " + FOUNDER)
   ]);
 }
 
@@ -1340,7 +1620,6 @@ function renderIndex() {
     container.appendChild(el("div", { class: "toast" }, state.showToast));
   }
 
-  // Progress bar
   const pct = Math.round((state.completedSessions.length / TOTAL_SESSIONS) * 100);
   const progress = el("div", { class: "progress-row" }, [
     el("div", { class: "stat" }, [
@@ -1355,14 +1634,31 @@ function renderIndex() {
   ]);
   container.appendChild(progress);
 
-  // Header
   container.appendChild(el("div", { class: "pad-tight", style: { paddingBottom: "8px" } }, [
-    el("div", { class: "eyebrow" }, "Program Index · Six Modules"),
+    el("div", { class: "eyebrow" }, "Program Index · Ten Modules"),
     el("hr", { class: "rule-accent", style: { marginTop: "10px" } }),
-    el("h2", { class: "display", style: { fontSize: "26px", margin: "0 0 6px 0" } }, "The Frontier AI Briefing"),
+    el("h2", { class: "display", style: { fontSize: "26px", margin: "0 0 6px 0" } }, PROGRAM_TITLE),
     el("p", { style: { color: "var(--ink-2)", margin: 0, fontSize: "14px" } },
-      "Each module contains one or two sessions. Complete a module to unlock the next.")
+      "Each module contains one to four sessions. Complete a module to unlock the next.")
   ]));
+
+  // Capstone CTA when all modules complete
+  const allComplete = state.completedModules.length === MODULES.length;
+  if (allComplete) {
+    const ctaButton = state.certificateClaimed
+      ? el("button", { class: "btn btn-gold", onclick: function(){ setState({ screen: "certificate" }); } }, "View certificate →")
+      : el("button", { class: "btn btn-gold", onclick: function(){ setState({ screen: "claim", claimDraft: { name: state.recipientName || "", title: state.recipientTitle || "" } }); } }, "Claim certificate →");
+    container.appendChild(el("div", { class: "capstone-cta" }, [
+      el("div", { class: "ct-text" }, [
+        el("div", { class: "ct-eyebrow" }, "Program complete"),
+        el("div", { class: "ct-title" }, state.certificateClaimed ? "Your certificate has been issued" : "You have completed every module"),
+        el("div", { class: "ct-desc" }, state.certificateClaimed
+          ? ("Issued to " + state.recipientName + " on " + formatIssueDate(state.issuedDate) + ".")
+          : "Claim your Certificate of Completion from The Substrate Academy, signed by Ram Srinivasan.")
+      ]),
+      ctaButton
+    ]));
+  }
 
   // Module list
   const list = el("div", { class: "pad-tight", style: { paddingTop: "12px", paddingBottom: "12px" } });
@@ -1374,7 +1670,7 @@ function renderIndex() {
     let metaPill;
     if (done) metaPill = el("span", { class: "pill pill-success" }, "Complete");
     else if (!unlocked) metaPill = el("span", { class: "pill pill-muted" }, "Locked");
-    else if (sessionsDone > 0) metaPill = el("span", { class: "pill" }, "In progress");
+    else if (sessionsDone > 0) metaPill = el("span", { class: "pill" }, sessionsDone + " of " + m.sessions.length + " done");
     else metaPill = el("span", { class: "pill pill-muted" }, "Available");
 
     const row = el("div", {
@@ -1395,7 +1691,6 @@ function renderIndex() {
   });
   container.appendChild(list);
 
-  // Distinctions
   if (state.distinctions.length > 0) {
     container.appendChild(el("div", { class: "pad-tight", style: { paddingTop: "16px" } }, [
       el("div", { class: "eyebrow" }, "Distinctions earned"),
@@ -1405,15 +1700,113 @@ function renderIndex() {
     ]));
   }
 
-  // Footer actions
-  const allComplete = state.completedModules.length === MODULES.length;
   container.appendChild(el("div", { class: "pad-tight", style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--line)", marginTop: "8px" } }, [
     el("button", { class: "btn-text", onclick: function(){ setState({ screen: "title" }); } }, "← Title"),
-    allComplete ? el("span", { class: "pill pill-gold" }, "Program complete · Capstone earned") : null,
     el("button", { class: "btn-text", onclick: resetProgress, style: { color: "var(--ink-3)" } }, "Reset")
   ]));
 
   return container;
+}
+
+function renderClaim() {
+  const draft = state.claimDraft || { name: "", title: "" };
+
+  const nameInput = el("input", {
+    class: "claim-input",
+    type: "text",
+    placeholder: "e.g., Jane M. Doe",
+    maxlength: "80"
+  });
+  nameInput.value = draft.name || "";
+  nameInput.addEventListener("input", function(e){
+    state.claimDraft = Object.assign({}, state.claimDraft || {}, { name: e.target.value });
+  });
+
+  const titleInput = el("input", {
+    class: "claim-input is-small",
+    type: "text",
+    placeholder: "e.g., Chief Technology Officer, Acme Industries (optional)",
+    maxlength: "120"
+  });
+  titleInput.value = draft.title || "";
+  titleInput.addEventListener("input", function(e){
+    state.claimDraft = Object.assign({}, state.claimDraft || {}, { title: e.target.value });
+  });
+
+  return el("div", { class: "pad" }, [
+    el("div", { class: "eyebrow" }, ACADEMY + " · Certificate of Completion"),
+    el("hr", { class: "rule-accent", style: { marginTop: "10px" } }),
+    el("h2", { class: "display", style: { fontSize: "30px", margin: "0 0 8px 0" } }, "Claim your certificate"),
+    el("p", { style: { color: "var(--ink-2)", margin: "0 0 28px 0", maxWidth: "560px" } },
+      "Enter your name as you would like it to appear on the certificate. Title and firm are optional and will appear beneath your name."),
+    el("div", { class: "claim-form" }, [
+      el("div", { class: "claim-field" }, [
+        el("label", { class: "claim-label" }, "Recipient name"),
+        nameInput
+      ]),
+      el("div", { class: "claim-field" }, [
+        el("label", { class: "claim-label" }, "Title and firm  ·  optional"),
+        titleInput
+      ]),
+      el("div", { style: { display: "flex", gap: "12px", marginTop: "28px" } }, [
+        el("button", { class: "btn btn-gold", onclick: issueCertificate }, "Issue certificate →"),
+        el("button", { class: "btn btn-ghost", onclick: function(){ setState({ screen: "index" }); } }, "Back to index")
+      ]),
+      el("p", { class: "eyebrow", style: { marginTop: "20px", color: "var(--ink-3)" } }, "You may return and re-issue the certificate at any time")
+    ])
+  ]);
+}
+
+function renderCertificate() {
+  const desc = "a ten-module executive program on the strategy, architecture, economics, governance, and operationalization of agentic AI in 2026.";
+
+  const frame = el("div", { class: "cert-frame" }, [
+    el("div", { class: "cert-top" }, [
+      el("div", { class: "cert-monogram" }, "SA"),
+      el("div", { class: "cert-academy" }, ACADEMY),
+      el("div", { class: "cert-academy-rule" })
+    ]),
+    el("div", { class: "cert-mid" }, [
+      el("div", { class: "cert-this-certifies" }, "This certifies that"),
+      el("div", { class: "cert-name" }, state.recipientName || "—"),
+      state.recipientTitle ? el("div", { class: "cert-title-line" }, state.recipientTitle) : el("div", { class: "cert-title-line" }, ""),
+      el("div", { class: "cert-name-rule" }),
+      el("div", { class: "cert-completed" }, "has successfully completed"),
+      el("div", { class: "cert-program" }, PROGRAM_TITLE),
+      el("div", { class: "cert-desc" }, desc)
+    ]),
+    el("div", { class: "cert-foot" }, [
+      el("div", { class: "cert-foot-col left" }, [
+        el("div", { class: "cert-foot-rule" }),
+        el("div", { class: "cert-foot-label" }, "Issued"),
+        el("div", { class: "cert-foot-value" }, formatIssueDate(state.issuedDate))
+      ]),
+      el("div", { class: "cert-foot-col" }, [
+        el("div", { class: "cert-seal" },
+          el("div", { class: "cert-seal-inner" }, [
+            el("div", null, "Certified"),
+            el("div", { style: { marginTop: "4px", fontSize: "11px" } }, "MMXXVI")
+          ])
+        )
+      ]),
+      el("div", { class: "cert-foot-col right" }, [
+        el("div", { class: "cert-signature" }, "Ram Srinivasan"),
+        el("div", { class: "cert-foot-rule" }),
+        el("div", { class: "cert-foot-label" }, "Founder · " + ACADEMY)
+      ])
+    ])
+  ]);
+
+  return el("div", { class: "cert-screen" }, [
+    frame,
+    el("div", { class: "cert-actions" }, [
+      el("button", { class: "btn-text", onclick: function(){ setState({ screen: "index" }); } }, "← Back to index"),
+      el("div", { style: { display: "flex", gap: "10px" } }, [
+        el("button", { class: "btn btn-ghost", onclick: function(){ setState({ screen: "claim", claimDraft: { name: state.recipientName, title: state.recipientTitle } }); } }, "Edit details"),
+        el("button", { class: "btn", onclick: function(){ window.print(); } }, "Print or save as PDF")
+      ])
+    ])
+  ]);
 }
 
 function renderSessionScreen() {
@@ -1445,9 +1838,11 @@ function renderSessionScreen() {
 /* --------------- RENDER --------------- */
 function render() {
   $app.innerHTML = "";
-  if (state.screen === "title")   $app.appendChild(renderTitle());
-  else if (state.screen === "index")  $app.appendChild(renderIndex());
+  if (state.screen === "title")        $app.appendChild(renderTitle());
+  else if (state.screen === "index")   $app.appendChild(renderIndex());
   else if (state.screen === "session") $app.appendChild(renderSessionScreen());
+  else if (state.screen === "claim")   $app.appendChild(renderClaim());
+  else if (state.screen === "certificate") $app.appendChild(renderCertificate());
   else $app.appendChild(renderTitle());
 }
 
