@@ -1,10 +1,10 @@
 # The Frontier AI Fundamental Training
 
-**The Substrate Academy** · Founded by **Ram Srinivasan**
+**Uncert | Free AI Training | Founded by Ram Srinivasan**
 
 A ten-module, in-browser executive program on the strategy, architecture, economics, governance, and operationalization of agentic AI in 2026. Designed in the editorial register of MIT Sloan Executive Education and McKinsey learning materials — written for senior leaders (CIO / CFO / COO / board), not for first-time users.
 
-**Certification awarded on completion**, signed by Ram Srinivasan, Founder · The Substrate Academy. Print or save as PDF.
+**Official Certificate of Completion** awarded on finishing all ten modules — issued under the authority of Uncert, signed by Ram Srinivasan, with a unique certificate number. Print or save as PDF.
 
 ## Play it
 
@@ -34,16 +34,18 @@ Or open `index.html` directly in any modern browser — same file, no setup.
 | IX   | Governance & Risk                    | Five pillars of agentic governance · Sycophancy · Top three risks for the board |
 | X    | The Executive Playbook               | The MIT Sloan five working rules · Lead versus follow |
 
-Each module unlocks on completion of the previous one. Distinctions are awarded per module. On completion of all ten modules, the recipient claims a printable Certificate of Completion.
+Each module unlocks on completion of the previous one. Distinctions are awarded per module. On completion, the recipient claims a printable Certificate of Completion.
 
 ## Design notes
 
 - **Editorial typography** — serif headlines (Iowan Old Style → Palatino → Georgia), system sans body. Ink-on-cream palette, navy accent, gold for editorial highlights.
 - **No emoji in chrome** — small-caps eyebrows, Roman numerals, monogram circles.
 - **Match-pair right column is shuffled** per visit so the answer order doesn't mirror the prompt order.
-- **Certificate** uses double-rule navy frame with gold inner border, script signature, and circular gold seal — designed for landscape print or PDF export.
+- **Certificate** uses a triple-frame border (navy / gold / navy) with corner ornaments, gold-rimmed monogram seal with Roman-numeral year, formal date language ("the 6th day of May, MMXXVI"), and a unique 16-character certificate ID. Designed for landscape print or PDF export.
 
-Content is written in the register expected of an executive audience — board-level scenarios, capital-allocation framing, vendor-selection logic, and governance implications.
+## Brand
+
+**Uncert** — Free AI Training, founded by Ram Srinivasan. The certificate is issued under the authority of Uncert.
 
 ## Sources
 

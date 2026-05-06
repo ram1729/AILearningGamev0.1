@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>The Frontier AI Fundamental Training — The Substrate Academy</title>
+<title>Uncert | Free AI Training | Founded by Ram Srinivasan</title>
 <style>
   :root {
     --bg:        #F6F3EC;
@@ -445,52 +445,87 @@
   .cert-frame {
     background: #FCFAF3;
     background-image:
-      radial-gradient(circle at 12% 12%, rgba(166,128,62,0.04), transparent 40%),
-      radial-gradient(circle at 88% 88%, rgba(26,58,110,0.04), transparent 40%);
-    border: 6px double var(--ink);
-    padding: 56px 64px 64px;
+      radial-gradient(circle at 50% 0%, rgba(166,128,62,0.05), transparent 60%),
+      radial-gradient(circle at 50% 100%, rgba(26,58,110,0.04), transparent 60%);
+    border: 2px solid var(--ink);
+    padding: 14px;
     text-align: center;
     position: relative;
-    box-shadow: 0 12px 40px rgba(14,26,43,0.12);
+    box-shadow: 0 14px 50px rgba(14,26,43,0.18);
     color: var(--ink);
     aspect-ratio: 11 / 8.5;
-    display: flex; flex-direction: column; justify-content: space-between;
   }
-  .cert-frame::before {
-    content: "";
-    position: absolute; inset: 8px;
-    border: 1px solid var(--gold);
-    pointer-events: none;
+  .cert-band {
+    border: 4px solid var(--gold);
+    padding: 6px;
+    height: 100%;
+  }
+  .cert-inner {
+    border: 1px solid var(--ink);
+    padding: 44px 56px 48px;
+    height: 100%;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+  .cert-corner {
+    position: absolute;
+    width: 22px; height: 22px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
+  }
+  .cert-corner.tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+  .cert-corner.tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+  .cert-corner.bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+  .cert-corner.br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+  .cert-flourish {
+    text-align: center;
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 1.5em;
+    margin: 14px 0 10px;
+    padding-left: 1.5em;
   }
   .cert-top {
     display: flex; flex-direction: column; align-items: center;
   }
   .cert-monogram {
-    width: 56px; height: 56px;
+    width: 64px; height: 64px;
     border: 1.5px solid var(--ink);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--serif); font-size: 22px;
-    font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 30px;
+    font-weight: 500;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin: 0 auto 14px;
     letter-spacing: -0.02em;
+    position: relative;
+  }
+  .cert-monogram::after {
+    content: "";
+    position: absolute; inset: 4px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
   }
   .cert-academy {
-    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    font-size: 13px; letter-spacing: 0.36em; text-transform: uppercase;
     color: var(--ink); font-weight: 600;
   }
+  .cert-tagline {
+    font-family: var(--serif); font-style: italic;
+    font-size: 13px; color: var(--ink-2);
+    margin-top: 4px;
+  }
   .cert-academy-rule {
-    width: 60px; height: 1px; background: var(--gold);
-    margin: 16px auto 0;
+    width: 72px; height: 1px; background: var(--gold);
+    margin: 14px auto 0;
   }
-  .cert-mid {
-    margin-top: 10px;
-  }
+  .cert-mid { margin-top: 6px; }
   .cert-this-certifies {
     font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
     color: var(--ink-2); font-weight: 600;
-    margin-bottom: 22px;
+    margin-bottom: 14px;
+    line-height: 1.7;
   }
   .cert-name {
     font-family: var(--serif);
@@ -499,40 +534,40 @@
     color: var(--accent);
     line-height: 1.1;
     letter-spacing: -0.01em;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
   }
   .cert-title-line {
     font-family: var(--serif);
     font-size: 14px;
     color: var(--ink-2);
     font-style: italic;
-    margin: 0 0 18px;
+    margin: 0 0 14px;
     min-height: 18px;
   }
   .cert-name-rule {
     width: 60%; height: 1px; background: var(--ink);
-    margin: 6px auto 22px;
+    margin: 6px auto 18px;
     opacity: 0.4;
   }
   .cert-completed {
-    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--ink-2); font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .cert-program {
     font-family: var(--serif);
-    font-size: 38px;
+    font-size: 36px;
     color: var(--ink);
-    line-height: 1.1;
+    line-height: 1.08;
     letter-spacing: -0.015em;
-    margin: 0 0 16px;
+    margin: 0 0 12px;
   }
   .cert-desc {
     font-family: var(--serif);
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--ink-2);
     line-height: 1.55;
-    max-width: 540px;
+    max-width: 580px;
     margin: 0 auto;
     font-style: italic;
   }
@@ -570,23 +605,47 @@
     letter-spacing: 0.01em;
   }
   .cert-seal {
-    width: 92px; height: 92px;
-    border: 1.5px solid var(--gold);
+    width: 96px; height: 96px;
+    border: 2px solid var(--gold);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     text-align: center;
-    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-size: 8.5px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--gold); font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.4;
     background: #FCFAF3;
     margin: 0 auto;
+    position: relative;
+  }
+  .cert-seal::before {
+    content: "";
+    position: absolute; inset: 4px;
+    border: 1px dashed var(--gold);
+    border-radius: 50%;
+    opacity: 0.55;
   }
   .cert-seal-inner {
     width: 76px; height: 76px;
     border: 1px solid var(--gold);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 6px;
+    background: #FCFAF3;
+    z-index: 1;
+  }
+  .cert-seal-brand {
+    font-size: 9px; letter-spacing: 0.22em; color: var(--gold);
+    font-weight: 700; margin-bottom: 2px;
+  }
+  .cert-seal-year {
+    font-family: var(--serif); font-size: 13px; color: var(--gold);
+    letter-spacing: 0.12em; font-weight: 500;
+  }
+  .cert-id {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 9.5px; color: var(--ink-3);
+    letter-spacing: 0.12em;
+    margin-top: 4px;
   }
 
   @media (max-width: 760px) {
@@ -618,13 +677,13 @@
 <body>
 
 <div class="topbar">
-  <span class="gold">●</span>&nbsp; The Substrate Academy &nbsp;·&nbsp; Executive Program &nbsp;·&nbsp; May 2026
+  <span class="gold">●</span>&nbsp; Uncert &nbsp;·&nbsp; Free AI Training &nbsp;·&nbsp; May 2026
 </div>
 
 <div id="app"></div>
 
 <div class="colophon">
-  A Substrate Academy program · Ram Srinivasan, Founder &nbsp;·&nbsp;
+  Uncert · Free AI Training · Founded by Ram Srinivasan &nbsp;·&nbsp;
   <a href="https://ram1729.github.io/AILearningGamev0.1/">Live</a> &nbsp;·&nbsp;
   <a href="https://github.com/ram1729/AILearningGamev0.1">Source</a>
 </div>
@@ -634,12 +693,15 @@
 
 /* ==========================================================
    THE FRONTIER AI FUNDAMENTAL TRAINING
-   The Substrate Academy · Ram Srinivasan, Founder
+   Uncert · Free AI Training · Founded by Ram Srinivasan
    ========================================================== */
 
 const PROGRAM_TITLE = "The Frontier AI Fundamental Training";
-const ACADEMY = "The Substrate Academy";
+const BRAND = "Uncert";
+const TAGLINE = "Free AI Training";
 const FOUNDER = "Ram Srinivasan";
+const ATTRIBUTION = BRAND + " · " + TAGLINE + " · Founded by " + FOUNDER;
+const ATTRIBUTION_PIPED = BRAND + " | " + TAGLINE + " | Founded by " + FOUNDER;
 
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 const TWO = function (n) { return n < 10 ? "0" + n : "" + n; };
@@ -1565,6 +1627,35 @@ function formatIssueDate(iso) {
   return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
 }
 
+function ordinal(n) {
+  if (n >= 11 && n <= 13) return n + "th";
+  const last = n % 10;
+  if (last === 1) return n + "st";
+  if (last === 2) return n + "nd";
+  if (last === 3) return n + "rd";
+  return n + "th";
+}
+
+function toRoman(num) {
+  const map = [["M",1000],["CM",900],["D",500],["CD",400],["C",100],["XC",90],["L",50],["XL",40],["X",10],["IX",9],["V",5],["IV",4],["I",1]];
+  let r = "";
+  for (const [s, v] of map) { while (num >= v) { r += s; num -= v; } }
+  return r;
+}
+
+function formatFormalDate(iso) {
+  const d = iso ? new Date(iso) : new Date();
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  return "the " + ordinal(d.getDate()) + " day of " + months[d.getMonth()] + ", " + toRoman(d.getFullYear());
+}
+
+function certificateId(name, isoDate) {
+  const a = strHash((name || "") + "|a|" + (isoDate || ""));
+  const b = strHash((isoDate || "") + "|b|" + (name || ""));
+  const hex = (a.toString(16).padStart(8, "0") + b.toString(16).padStart(8, "0")).toUpperCase();
+  return hex.slice(0, 4) + "-" + hex.slice(4, 8) + "-" + hex.slice(8, 12) + "-" + hex.slice(12, 16);
+}
+
 function issueCertificate() {
   const name = (state.claimDraft.name || "").trim();
   if (name.length < 2) return;
@@ -1595,11 +1686,11 @@ function renderTitle() {
   );
 
   return el("div", { class: "pad", style: { textAlign: "center", paddingTop: "64px", paddingBottom: "64px" } }, [
-    el("div", { class: "eyebrow" }, ACADEMY + " · Executive Program · May 2026"),
+    el("div", { class: "eyebrow" }, BRAND + " · " + TAGLINE + " · May 2026"),
     el("hr", { class: "rule-accent", style: { margin: "16px auto 24px" } }),
-    el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15 } }, PROGRAM_TITLE),
+    el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15, letterSpacing: "-0.01em" } }, PROGRAM_TITLE),
     el("p", { style: { fontSize: "16px", color: "var(--ink-2)", maxWidth: "580px", margin: "0 auto 8px", lineHeight: 1.6 } },
-      "A ten-module program for senior leaders on the strategy, architecture, economics, governance, and operationalization of agentic AI. Certification awarded on completion."),
+      "A ten-module program for senior leaders on the strategy, architecture, economics, governance, and operationalization of agentic AI. Free, open-source, and certified on completion."),
     el("p", { class: "eyebrow", style: { marginTop: "20px" } }, "Featuring · Opus 4.7 · GPT-5.5 · Gemini 3.1 Pro · Copilot"),
     providers,
     el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" } }, [
@@ -1609,7 +1700,7 @@ function renderTitle() {
     ]),
     el("p", { class: "eyebrow", style: { marginTop: "32px", color: "var(--ink-3)" } },
       continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately 75 minutes · self-paced · ten modules · 28 sessions"),
-    el("p", { class: "eyebrow", style: { marginTop: "8px", color: "var(--ink-3)" } }, "Founded by " + FOUNDER)
+    el("p", { class: "eyebrow", style: { marginTop: "8px", color: "var(--ink-3)" } }, ATTRIBUTION_PIPED)
   ]);
 }
 
@@ -1654,7 +1745,7 @@ function renderIndex() {
         el("div", { class: "ct-title" }, state.certificateClaimed ? "Your certificate has been issued" : "You have completed every module"),
         el("div", { class: "ct-desc" }, state.certificateClaimed
           ? ("Issued to " + state.recipientName + " on " + formatIssueDate(state.issuedDate) + ".")
-          : "Claim your Certificate of Completion from The Substrate Academy, signed by Ram Srinivasan.")
+          : "Claim your official Certificate of Completion from " + BRAND + ", signed by " + FOUNDER + ".")
       ]),
       ctaButton
     ]));
@@ -1734,7 +1825,7 @@ function renderClaim() {
   });
 
   return el("div", { class: "pad" }, [
-    el("div", { class: "eyebrow" }, ACADEMY + " · Certificate of Completion"),
+    el("div", { class: "eyebrow" }, BRAND + " · " + TAGLINE + " · Certificate of Completion"),
     el("hr", { class: "rule-accent", style: { marginTop: "10px" } }),
     el("h2", { class: "display", style: { fontSize: "30px", margin: "0 0 8px 0" } }, "Claim your certificate"),
     el("p", { style: { color: "var(--ink-2)", margin: "0 0 28px 0", maxWidth: "560px" } },
@@ -1758,44 +1849,59 @@ function renderClaim() {
 }
 
 function renderCertificate() {
-  const desc = "a ten-module executive program on the strategy, architecture, economics, governance, and operationalization of agentic AI in 2026.";
+  const desc = "a ten-module program on the strategy, architecture, economics, governance, and operationalization of agentic AI in 2026.";
+  const certId = certificateId(state.recipientName, state.issuedDate);
 
-  const frame = el("div", { class: "cert-frame" }, [
-    el("div", { class: "cert-top" }, [
-      el("div", { class: "cert-monogram" }, "SA"),
-      el("div", { class: "cert-academy" }, ACADEMY),
-      el("div", { class: "cert-academy-rule" })
-    ]),
-    el("div", { class: "cert-mid" }, [
-      el("div", { class: "cert-this-certifies" }, "This certifies that"),
-      el("div", { class: "cert-name" }, state.recipientName || "—"),
-      state.recipientTitle ? el("div", { class: "cert-title-line" }, state.recipientTitle) : el("div", { class: "cert-title-line" }, ""),
-      el("div", { class: "cert-name-rule" }),
-      el("div", { class: "cert-completed" }, "has successfully completed"),
-      el("div", { class: "cert-program" }, PROGRAM_TITLE),
-      el("div", { class: "cert-desc" }, desc)
-    ]),
-    el("div", { class: "cert-foot" }, [
-      el("div", { class: "cert-foot-col left" }, [
-        el("div", { class: "cert-foot-rule" }),
-        el("div", { class: "cert-foot-label" }, "Issued"),
-        el("div", { class: "cert-foot-value" }, formatIssueDate(state.issuedDate))
-      ]),
-      el("div", { class: "cert-foot-col" }, [
-        el("div", { class: "cert-seal" },
-          el("div", { class: "cert-seal-inner" }, [
-            el("div", null, "Certified"),
-            el("div", { style: { marginTop: "4px", fontSize: "11px" } }, "MMXXVI")
+  const frame = el("div", { class: "cert-frame" },
+    el("div", { class: "cert-band" },
+      el("div", { class: "cert-inner" }, [
+        el("div", { class: "cert-corner tl" }),
+        el("div", { class: "cert-corner tr" }),
+        el("div", { class: "cert-corner bl" }),
+        el("div", { class: "cert-corner br" }),
+
+        el("div", { class: "cert-top" }, [
+          el("div", { class: "cert-monogram" }, "U"),
+          el("div", { class: "cert-academy" }, BRAND),
+          el("div", { class: "cert-tagline" }, TAGLINE),
+          el("div", { class: "cert-academy-rule" })
+        ]),
+
+        el("div", { class: "cert-mid" }, [
+          el("div", { class: "cert-this-certifies" }, "By the authority of " + BRAND + ",  this is to certify that"),
+          el("div", { class: "cert-name" }, state.recipientName || "—"),
+          state.recipientTitle ? el("div", { class: "cert-title-line" }, state.recipientTitle) : el("div", { class: "cert-title-line" }, ""),
+          el("div", { class: "cert-name-rule" }),
+          el("div", { class: "cert-completed" }, "has successfully completed the program of study"),
+          el("div", { class: "cert-program" }, PROGRAM_TITLE),
+          el("div", { class: "cert-desc" }, desc),
+          el("div", { class: "cert-flourish" }, "✦ ✦ ✦")
+        ]),
+
+        el("div", { class: "cert-foot" }, [
+          el("div", { class: "cert-foot-col left" }, [
+            el("div", { class: "cert-foot-rule" }),
+            el("div", { class: "cert-foot-label" }, "Issued"),
+            el("div", { class: "cert-foot-value" }, formatFormalDate(state.issuedDate)),
+            el("div", { class: "cert-id" }, "Certificate № " + certId)
+          ]),
+          el("div", { class: "cert-foot-col" }, [
+            el("div", { class: "cert-seal" },
+              el("div", { class: "cert-seal-inner" }, [
+                el("div", { class: "cert-seal-brand" }, BRAND),
+                el("div", { class: "cert-seal-year" }, toRoman(new Date(state.issuedDate || Date.now()).getFullYear()))
+              ])
+            )
+          ]),
+          el("div", { class: "cert-foot-col right" }, [
+            el("div", { class: "cert-signature" }, FOUNDER),
+            el("div", { class: "cert-foot-rule" }),
+            el("div", { class: "cert-foot-label" }, "Founder · " + BRAND)
           ])
-        )
-      ]),
-      el("div", { class: "cert-foot-col right" }, [
-        el("div", { class: "cert-signature" }, "Ram Srinivasan"),
-        el("div", { class: "cert-foot-rule" }),
-        el("div", { class: "cert-foot-label" }, "Founder · " + ACADEMY)
+        ])
       ])
-    ])
-  ]);
+    )
+  );
 
   return el("div", { class: "cert-screen" }, [
     frame,
