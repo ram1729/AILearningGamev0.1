@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Prompt Quest — AI Learning Game (May 2026)</title>
+<style>
+  :root {
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f4f4f6;
+    --color-text-primary: #1a1a1c;
+    --color-text-secondary: #555560;
+    --color-text-tertiary: #8a8a96;
+    --color-border-secondary: #d6d6dc;
+    --color-border-tertiary: #e6e6ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background-primary: #1c1c1e;
+      --color-background-secondary: #2a2a2d;
+      --color-text-primary: #f4f4f6;
+      --color-text-secondary: #c8c8d0;
+      --color-text-tertiary: #8a8a96;
+      --color-border-secondary: #3a3a3f;
+      --color-border-tertiary: #2f2f33;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #app {
+    max-width: 760px;
+    margin: 24px auto;
+    background: var(--color-background-primary);
+    border-radius: 14px;
+    border: 0.5px solid var(--color-border-tertiary);
+    overflow: hidden;
+    min-height: 540px;
+  }
+  button { font-family: inherit; }
+  button:focus-visible { outline: 2px solid #7f77dd; outline-offset: 2px; }
+  textarea { font-family: inherit; }
+  .badge {
+    font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 99px;
+    display: inline-block;
+  }
+  .levelup {
+    position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    background: #7f77dd; color: #fff; padding: 10px 24px;
+    border-radius: 99px; font-weight: 500; z-index: 100;
+    box-shadow: 0 6px 24px rgba(127,119,221,.35);
+    animation: pop .4s ease;
+  }
+  @keyframes pop { from { transform: translate(-50%, -10px); opacity: 0;} to {transform: translate(-50%, 0); opacity: 1;} }
+  .footer-note {
+    text-align: center; color: var(--color-text-tertiary);
+    font-size: 11px; padding: 14px;
+  }
+  .link { color: #7f77dd; text-decoration: none; }
+  .link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="footer-note">
+  Prompt Quest · runs entirely in your browser · no API, no tracking · open-source on
+  <a class="link" href="https://github.com/ram1729/AILearningGamev0.1">GitHub</a>
+</div>
+
+<script>
+"use strict";
+
+/* ---------------- DATA ---------------- */
+const WORLDS = [
+  {
+    id: 1, name: "The Beginner's Village", icon: "🏡", color: "#e1f5ee",
+    border: "#1d9e75", textColor: "#085041",
+    tagline: "What is AI in 2026?",
+    xpReward: 100,
+    quests: [
+      {
+        id: "1a", title: "The Guild Summons",
+        story: "You've arrived at the Guild of Minds in the spring of 2026. The gatekeeper, a wise old owl named Orrin, peers over his spectacles. 'Tell me, apprentice — what IS this AI everyone's talking about?'",
+        type: "choice",
+        question: "What best describes today's frontier AI assistants?",
+        options: [
+          { text: "A robot that thinks exactly like a human", correct: false, feedback: "Not quite! Today's AI mimics some human reasoning, but it works very differently from a human brain." },
+          { text: "Software trained on huge data that reasons, uses tools, and takes multi-step actions", correct: true, feedback: "Exactly right! In 2026, frontier models don't just chat — they reason, use tools, and complete multi-step tasks. This is the 'agentic' era." },
+          { text: "A computer program that follows strict rules only", correct: false, feedback: "That's traditional software. AI learns and adapts from patterns in data." },
+          { text: "A search engine with a friendlier interface", correct: false, feedback: "Closer than rule-based software, but modern AI does much more — it reasons, generates, codes, and acts." }
+        ]
+      },
+      {
+        id: "1b", title: "Meet Your Allies (May 2026)",
+        story: "Orrin leads you to the Hall of Allies. Four powerful beings stand before you, each carrying their newest weapons. 'These are your companions for 2026,' he whispers.",
+        type: "match",
+        question: "Match each AI ally to their current flagship model:",
+        pairs: [
+          { ally: "Claude (Anthropic)", strength: "Opus 4.7 — agentic coding & long tasks", icon: "🟣" },
+          { ally: "ChatGPT (OpenAI)", strength: "GPT-5.5 — agents & computer use", icon: "🟢" },
+          { ally: "Gemini (Google)", strength: "Gemini 3.1 Pro — multimodal & Deep Think", icon: "🔵" },
+          { ally: "Copilot (Microsoft)", strength: "Multi-model — picks GPT-5, Claude, etc.", icon: "🟡" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 2, name: "The Whispering Forest", icon: "🌲", color: "#e6f1fb",
+    border: "#185fa5", textColor: "#042c53",
+    tagline: "Learn to talk to AI",
+    xpReward: 150,
+    quests: [
+      {
+        id: "2a", title: "The Art of the Ask",
+        story: "Deep in the forest, a prompt echoes through the trees. A mischievous sprite challenges you: 'Can you spot the better prompt?'",
+        type: "compare",
+        question: "Which prompt will get a better answer from any AI ally?",
+        optionA: "Tell me about marketing.",
+        optionB: "I run a small bakery. Give me 3 specific social media marketing tips for attracting local customers on a $50/month budget.",
+        correctChoice: "B",
+        feedback: "Option B wins! It gives context (small bakery), a specific goal (local customers), a format (3 tips), and a constraint (budget). This works the same across Claude, ChatGPT, Gemini, and Copilot."
+      },
+      {
+        id: "2b", title: "The Clarity Crystal",
+        story: "You find a foggy crystal. To clear it, you must improve a vague prompt by adding context, goal, and format.",
+        type: "prompt_improve",
+        badPrompt: "Write something about dogs.",
+        hints: ["Who is it for?", "What format? (list, essay, story)", "What's the goal?"],
+        exampleGoodPrompt: "Write a fun 3-paragraph blog post for first-time dog owners about the top 3 mistakes to avoid in the first week."
+      }
+    ]
+  },
+  {
+    id: 3, name: "The Engineer's Forge", icon: "⚒️", color: "#faeeda",
+    border: "#ba7517", textColor: "#412402",
+    tagline: "Master prompt engineering",
+    xpReward: 200,
+    quests: [
+      {
+        id: "3a", title: "The Technique Vault",
+        story: "The Master Forger reveals the secret techniques used by the greatest prompt engineers — still essential in the era of GPT-5.5 and Opus 4.7.",
+        type: "learn",
+        techniques: [
+          { name: "Role assignment", example: "You are an expert nutritionist...", why: "Gives the AI a persona to respond from" },
+          { name: "Few-shot examples", example: "Here are 2 examples of the style I want: [example 1] [example 2]...", why: "Shows the AI exactly what output you expect" },
+          { name: "Extended thinking", example: "Think step by step before answering...", why: "Modern models like Opus 4.7 and Gemini 3 Deep Think reason longer when asked" },
+          { name: "Output format", example: "Respond only in a numbered list with max 10 words per item...", why: "Controls the shape and length of the response" },
+          { name: "Tool/agent guidance", example: "Use web search if you need current info; verify before answering...", why: "Crucial in 2026 — models can use tools, but you must guide them" }
+        ]
+      },
+      {
+        id: "3b", title: "Boss Battle: Fix the Prompt",
+        story: "A broken prompt has corrupted the Forge! It keeps giving terrible answers. Can you identify what's wrong?",
+        type: "boss",
+        brokenPrompt: "Help me write emails.",
+        issues: ["No context about who the emails are for", "No tone or style specified", "No format or length guidance", "No example of what 'good' looks like"],
+        fixedExample: "Act as a professional business writer. Help me write concise follow-up emails (max 150 words) to potential clients after a sales call. Use a warm but professional tone. Here's an example of the style I like: [example]"
+      }
+    ]
+  },
+  {
+    id: 4, name: "The Comparison Colosseum", icon: "⚔️", color: "#fbeaf0",
+    border: "#993556", textColor: "#4b1528",
+    tagline: "Know your allies (2026 edition)",
+    xpReward: 250,
+    quests: [
+      {
+        id: "4a", title: "The Coding Arena",
+        story: "The Colosseum Master sets a complex, multi-file coding task. 'Pick the right ally for the job — and explain why.'",
+        type: "colosseum",
+        scenario: "Task: 'Refactor this 5,000-line codebase across 12 files, run tests, and verify your work autonomously.'",
+        responseA: { ally: "Claude Opus 4.7", text: "Built specifically for long-running agentic coding. In 2026, it powers Cursor, Windsurf, and Claude Code. Strong at catching its own logical faults, verifying outputs, and handling multi-step refactors with minimal supervision." },
+        responseB: { ally: "Gemini 3.1 Pro", text: "Excellent for reasoning and multimodal work, especially when you need to look at screenshots, diagrams, or videos alongside code. Strong on PhD-level reasoning benchmarks. Works well in Google's developer tools." },
+        correctAlly: "Claude Opus 4.7",
+        feedback: "Claude Opus 4.7 wins for this specific task. It's the current go-to for long agentic coding sessions and powers most major AI coding tools. Gemini is excellent — but for autonomous, long-horizon coding work in May 2026, Claude leads. Knowing which ally for which job is your superpower."
+      },
+      {
+        id: "4b", title: "The Real-Time Quest",
+        story: "A new task arrives: 'Tell me what's happening at Google I/O THIS WEEK and pull data from a live spreadsheet.' Which ally?",
+        type: "colosseum",
+        scenario: "Task: 'Get me real-time news + analyze a Google Sheet I just shared.'",
+        responseA: { ally: "Gemini 3.1 Pro", text: "Native Google integration. Lives inside Workspace — Gmail, Docs, Sheets, Calendar — and can pull from Google Search in real time. Designed exactly for this." },
+        responseB: { ally: "ChatGPT (GPT-5.5)", text: "Has web search and connectors, but Google's own services integrate more naturally with Gemini. Great for general agentic tasks but extra friction here." },
+        correctAlly: "Gemini 3.1 Pro",
+        feedback: "Gemini wins! For real-time Google services + Workspace data, it has the native edge. ChatGPT can do it too, but Gemini's home-court advantage matters when the task is Google-shaped."
+      }
+    ]
+  },
+  {
+    id: 5, name: "The Skill Sanctum", icon: "✨", color: "#eeedfe",
+    border: "#534ab7", textColor: "#26215c",
+    tagline: "Teach AI your way",
+    xpReward: 250,
+    quests: [
+      {
+        id: "5a", title: "The Persona Forge",
+        story: "Every modern AI lets you save custom instructions — Claude Projects, ChatGPT Custom GPTs, Gemini Gems, Copilot Agents. Build one that lasts.",
+        type: "learn",
+        techniques: [
+          { name: "Claude Projects & Skills", example: "Upload reference docs, set custom instructions per project", why: "Persistent context for ongoing work — your style guide stays loaded" },
+          { name: "ChatGPT Custom GPTs", example: "Build a 'GPT' with instructions, knowledge files, and actions", why: "Shareable AI personas that other users can run" },
+          { name: "Gemini Gems", example: "Create a Gem with detailed instructions; share like a Drive file", why: "Workspace-integrated personas you can share with your team" },
+          { name: "Copilot Agents (Agent 365)", example: "Author agents in natural language inside Copilot Studio", why: "Microsoft's 2026 push: agents as the new operating layer for work" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 6, name: "The Artifact Tower", icon: "🏰", color: "#fcebeb",
+    border: "#a32d2d", textColor: "#501313",
+    tagline: "Build real things with AI",
+    xpReward: 300,
+    quests: [
+      {
+        id: "6a", title: "The Master Artificer",
+        story: "You've reached the top of the Tower. The Grand Artificer nods. 'You know the theory. Now let's see what you can BUILD. Choose your first artifact.'",
+        type: "build",
+        projects: [
+          { name: "Email template generator", difficulty: "Beginner", ally: "Any chatbot", icon: "📧" },
+          { name: "Custom Gem / GPT / Project", difficulty: "Intermediate", ally: "Claude / GPT / Gemini", icon: "🤖" },
+          { name: "Multi-step agent (autonomous task)", difficulty: "Advanced", ally: "Claude Code or Agent 365", icon: "⚡" },
+          { name: "Full app via vibe coding", difficulty: "Expert", ally: "Claude Code, Cursor, GPT Codex", icon: "🛠️" }
+        ]
+      },
+      {
+        id: "6b", title: "The Agent Awakening",
+        story: "The Grand Artificer's final lesson: 'In 2026, the real shift isn't smarter chatbots — it's AGENTS. AI that takes multi-step actions on your behalf.'",
+        type: "choice",
+        question: "Which is the BEST example of an 'AI agent' in May 2026?",
+        options: [
+          { text: "Asking ChatGPT to write you a poem", correct: false, feedback: "That's a single-turn task. Useful, but not agentic — no multi-step actions or tool use." },
+          { text: "Claude Code refactoring a codebase autonomously across many files, running tests, then fixing what broke", correct: true, feedback: "Yes! Multi-step, autonomous, uses tools, verifies its own work. This is the agentic era — Claude Code, Agent 365, GPT-5.5 with Codex, all do versions of this." },
+          { text: "Gemini summarizing a single email", correct: false, feedback: "Useful, but again — single task. An agent would handle the email AND draft the reply AND schedule the follow-up." },
+          { text: "Copilot generating an image in PowerPoint", correct: false, feedback: "Cool feature, but a single creative output isn't agentic. Agents chain actions over time." }
+        ]
+      }
+    ]
+  }
+];
+
+const ALLIES = [
+  { name: "Claude Opus 4.7", color: "#7f77dd", bg: "#eeedfe", desc: "Agentic coding leader", icon: "🟣" },
+  { name: "GPT-5.5", color: "#1d9e75", bg: "#e1f5ee", desc: "The versatile agent", icon: "🟢" },
+  { name: "Gemini 3.1 Pro", color: "#185fa5", bg: "#e6f1fb", desc: "Multimodal & Google-native", icon: "🔵" },
+  { name: "Copilot", color: "#ba7517", bg: "#faeeda", desc: "Multi-model, Microsoft-deep", icon: "🟡" }
+];
+
+const BADGE_MAP = { 1: "Village Hero", 2: "Forest Whisperer", 3: "Master Forger", 4: "Colosseum Champion", 5: "Skill Sage", 6: "Artifact Crafter" };
+
+/* ---------------- STATE ---------------- */
+const STORAGE_KEY = "promptQuest.save.v1";
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return null;
+    return parsed;
+  } catch (_) { return null; }
+}
+
+function saveState() {
+  try {
+    const slim = {
+      xp: state.xp, level: state.level,
+      completedWorlds: state.completedWorlds,
+      completedQuests: state.completedQuests,
+      badges: state.badges,
+      streak: state.streak,
+      lastVisitISO: state.lastVisitISO
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(slim));
+  } catch (_) {}
+}
+
+function freshState() {
+  return {
+    screen: "title",
+    xp: 0,
+    level: 1,
+    completedWorlds: [],
+    completedQuests: [],
+    badges: ["First Steps"],
+    streak: 1,
+    lastVisitISO: new Date().toISOString().slice(0, 10),
+    activeWorldIdx: null,
+    activeQuestIdx: 0,
+    showLevelUp: false,
+    transient: {}
+  };
+}
+
+const state = (function () {
+  const fresh = freshState();
+  const saved = loadState();
+  if (saved) {
+    Object.assign(fresh, saved);
+    const today = new Date().toISOString().slice(0, 10);
+    if (fresh.lastVisitISO !== today) {
+      const prev = new Date(fresh.lastVisitISO);
+      const diffDays = Math.round((Date.now() - prev.getTime()) / 86400000);
+      fresh.streak = diffDays === 1 ? (fresh.streak || 1) + 1 : 1;
+      fresh.lastVisitISO = today;
+    }
+    fresh.screen = "title";
+    fresh.transient = {};
+  }
+  return fresh;
+})();
+
+function setState(patch) {
+  Object.assign(state, patch);
+  saveState();
+  render();
+}
+
+function setTransient(questId, patch) {
+  state.transient[questId] = Object.assign({}, state.transient[questId] || {}, patch);
+  render();
+}
+
+function getTransient(questId) {
+  return state.transient[questId] || {};
+}
+
+function resetProgress() {
+  if (!confirm("Reset all your progress? This cannot be undone.")) return;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+  Object.assign(state, freshState());
+  render();
+}
+
+/* ---------------- RENDER HELPERS ---------------- */
+const $app = document.getElementById("app");
+
+function el(tag, attrs, children) {
+  const node = document.createElement(tag);
+  if (attrs) {
+    for (const k in attrs) {
+      const v = attrs[k];
+      if (v == null || v === false) continue;
+      if (k === "style" && typeof v === "object") Object.assign(node.style, v);
+      else if (k === "class") node.className = v;
+      else if (k === "html") node.innerHTML = v;
+      else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2).toLowerCase(), v);
+      else if (k === "disabled") { if (v) node.setAttribute("disabled", ""); }
+      else node.setAttribute(k, v);
+    }
+  }
+  if (children != null) {
+    const arr = Array.isArray(children) ? children : [children];
+    for (const c of arr) {
+      if (c == null || c === false) continue;
+      node.appendChild(typeof c === "string" || typeof c === "number" ? document.createTextNode(String(c)) : c);
+    }
+  }
+  return node;
+}
+
+function badge(text, color, bg) {
+  return el("span", {
+    class: "badge",
+    style: { background: bg || "#eeedfe", color: color || "#7f77dd" }
+  }, text);
+}
+
+function xpBar() {
+  const maxXP = state.level * 300;
+  const pct = Math.min(100, Math.round((state.xp / maxXP) * 100));
+  return el("div", { style: { marginTop: "4px" } }, [
+    el("div", {
+      style: { display: "flex", justifyContent: "space-between", fontSize: "12px", color: "var(--color-text-secondary)", marginBottom: "4px" }
+    }, [
+      el("span", null, "Level " + state.level + " Apprentice"),
+      el("span", null, state.xp + " / " + maxXP + " XP")
+    ]),
+    el("div", { style: { background: "var(--color-background-secondary)", borderRadius: "99px", height: "8px", overflow: "hidden" } },
+      el("div", { style: { width: pct + "%", background: "#7f77dd", height: "100%", borderRadius: "99px", transition: "width 0.6s ease" } })
+    )
+  ]);
+}
+
+function primaryBtn(label, onClick, opts) {
+  opts = opts || {};
+  return el("button", {
+    onclick: onClick,
+    disabled: !!opts.disabled,
+    style: {
+      padding: opts.large ? "12px 32px" : "8px 20px",
+      borderRadius: opts.large ? "10px" : "8px",
+      border: "0.5px solid #7f77dd",
+      background: "#eeedfe",
+      cursor: opts.disabled ? "not-allowed" : "pointer",
+      fontSize: opts.large ? "16px" : "14px",
+      color: "#26215c",
+      fontWeight: 500,
+      opacity: opts.disabled ? 0.5 : 1
+    }
+  }, label);
+}
+
+function secondaryBtn(label, onClick, opts) {
+  opts = opts || {};
+  return el("button", {
+    onclick: onClick,
+    disabled: !!opts.disabled,
+    style: {
+      padding: "8px 20px", borderRadius: "8px",
+      border: "0.5px solid var(--color-border-secondary)",
+      background: "var(--color-background-primary)",
+      cursor: opts.disabled ? "not-allowed" : "pointer",
+      fontSize: "14px",
+      color: "var(--color-text-primary)",
+      opacity: opts.disabled ? 0.6 : 1
+    }
+  }, label);
+}
+
+/* ---------------- QUEST RENDERERS ---------------- */
+function renderChoice(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const selected = t.selected;
+  const submitted = t.submitted;
+  const correct = selected != null && quest.options[selected].correct;
+
+  const optButtons = quest.options.map(function (opt, i) {
+    let bg = "var(--color-background-primary)";
+    let border = "0.5px solid var(--color-border-tertiary)";
+    if (submitted && selected === i) {
+      bg = opt.correct ? "#e1f5ee" : "#fcebeb";
+      border = "1px solid " + (opt.correct ? "#1d9e75" : "#e24b4a");
+    } else if (selected === i && !submitted) {
+      bg = "var(--color-background-secondary)";
+    }
+    return el("button", {
+      onclick: function () { if (!submitted) setTransient(quest.id, { selected: i }); },
+      style: {
+        textAlign: "left", padding: "10px 14px", borderRadius: "8px",
+        border: border, background: bg,
+        cursor: submitted ? "default" : "pointer",
+        fontSize: "14px", color: "var(--color-text-primary)"
+      }
+    }, opt.text);
+  });
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
+    el("p", { style: { fontWeight: 500, marginBottom: "12px" } }, quest.question),
+    el("div", { style: { display: "flex", flexDirection: "column", gap: "8px" } }, optButtons)
+  ];
+
+  if (submitted && selected != null) {
+    children.push(el("div", {
+      style: {
+        marginTop: "12px", padding: "10px 14px", borderRadius: "8px",
+        background: correct ? "#e1f5ee" : "#fcebeb",
+        fontSize: "13px", color: correct ? "#085041" : "#501313"
+      }
+    }, quest.options[selected].feedback));
+  }
+
+  const actions = el("div", { style: { marginTop: "16px", display: "flex", gap: "8px" } });
+  if (!submitted) {
+    actions.appendChild(secondaryBtn("Submit answer", function () {
+      if (selected != null) setTransient(quest.id, { submitted: true });
+    }, { disabled: selected == null }));
+  } else {
+    actions.appendChild(primaryBtn("Continue ↗", onComplete));
+  }
+  children.push(actions);
+
+  return el("div", null, children);
+}
+
+function renderCompare(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const chosen = t.chosen;
+  const correct = chosen === quest.correctChoice;
+
+  const cardFor = function (k) {
+    const text = k === "A" ? quest.optionA : quest.optionB;
+    let border = "0.5px solid var(--color-border-tertiary)";
+    if (chosen === k) border = chosen === quest.correctChoice ? "2px solid #1d9e75" : "2px solid #e24b4a";
+    return el("button", {
+      onclick: function () { setTransient(quest.id, { chosen: k }); },
+      style: {
+        padding: "14px", borderRadius: "8px", border: border,
+        background: "var(--color-background-primary)", cursor: "pointer",
+        textAlign: "left", fontSize: "13px", color: "var(--color-text-primary)"
+      }
+    }, [
+      el("div", { style: { fontWeight: 500, marginBottom: "6px", color: "var(--color-text-secondary)" } }, "Option " + k),
+      document.createTextNode(text)
+    ]);
+  };
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
+    el("p", { style: { fontWeight: 500, marginBottom: "12px" } }, quest.question),
+    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" } }, [cardFor("A"), cardFor("B")])
+  ];
+
+  if (chosen) {
+    children.push(el("div", {
+      style: { padding: "10px 14px", borderRadius: "8px", background: correct ? "#e1f5ee" : "#fcebeb", fontSize: "13px", color: correct ? "#085041" : "#501313", marginBottom: "12px" }
+    }, quest.feedback));
+    children.push(primaryBtn("Continue ↗", onComplete));
+  }
+  return el("div", null, children);
+}
+
+function renderLearn(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const revealed = t.revealed || [];
+  const allRevealed = revealed.length === quest.techniques.length;
+
+  const techNodes = quest.techniques.map(function (tech, i) {
+    const isRev = revealed.indexOf(i) !== -1;
+    const inner = [
+      el("div", { style: { fontWeight: 500, fontSize: "14px", marginBottom: isRev ? "6px" : "0" } }, tech.name)
+    ];
+    if (isRev) {
+      inner.push(el("div", {
+        style: { fontSize: "12px", color: "#534ab7", fontFamily: "monospace", background: "#fff", border: "0.5px solid #afa9ec", borderRadius: "4px", padding: "4px 8px", marginBottom: "6px" }
+      }, tech.example));
+      inner.push(el("div", { style: { fontSize: "13px", color: "var(--color-text-secondary)" } }, tech.why));
+    } else {
+      inner.push(el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)" } }, "Tap to reveal"));
+    }
+    return el("div", {
+      onclick: function () {
+        if (revealed.indexOf(i) === -1) setTransient(quest.id, { revealed: revealed.concat([i]) });
+      },
+      style: {
+        padding: "12px 14px", borderRadius: "8px",
+        border: "0.5px solid var(--color-border-tertiary)",
+        background: isRev ? "#eeedfe" : "var(--color-background-primary)",
+        cursor: isRev ? "default" : "pointer"
+      }
+    }, inner);
+  });
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
+    el("div", { style: { display: "flex", flexDirection: "column", gap: "10px", marginBottom: "16px" } }, techNodes)
+  ];
+  if (allRevealed) children.push(primaryBtn("Continue ↗", onComplete));
+  else children.push(el("p", { style: { fontSize: "13px", color: "var(--color-text-tertiary)" } }, "Reveal all to continue"));
+  return el("div", null, children);
+}
+
+function renderColosseum(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const chosen = t.chosen;
+  const correct = chosen === quest.correctAlly;
+
+  const cardFor = function (r) {
+    let border = "0.5px solid var(--color-border-tertiary)";
+    if (chosen === r.ally) border = chosen === quest.correctAlly ? "2px solid #1d9e75" : "2px solid #e24b4a";
+    return el("button", {
+      onclick: function () { setTransient(quest.id, { chosen: r.ally }); },
+      style: {
+        padding: "14px", borderRadius: "8px", border: border,
+        background: "var(--color-background-primary)", cursor: "pointer", textAlign: "left"
+      }
+    }, [
+      el("div", { style: { fontWeight: 500, fontSize: "13px", marginBottom: "8px" } }, r.ally + ":"),
+      el("div", { style: { fontSize: "12px", color: "var(--color-text-secondary)", lineHeight: 1.6 } }, r.text)
+    ]);
+  };
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "8px", lineHeight: 1.6 } }, quest.story),
+    el("div", { style: { padding: "10px 14px", borderRadius: "8px", background: "var(--color-background-secondary)", fontSize: "13px", fontStyle: "italic", marginBottom: "16px" } }, quest.scenario),
+    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "16px" } }, [cardFor(quest.responseA), cardFor(quest.responseB)])
+  ];
+
+  if (chosen) {
+    children.push(el("div", {
+      style: { padding: "10px 14px", borderRadius: "8px", background: correct ? "#e1f5ee" : "#fcebeb", fontSize: "13px", color: correct ? "#085041" : "#501313", marginBottom: "12px" }
+    }, quest.feedback));
+    children.push(primaryBtn("Continue ↗", onComplete));
+  }
+  return el("div", null, children);
+}
+
+function renderBoss(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const step = t.step || 0;
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story)
+  ];
+
+  if (step === 0) {
+    children.push(el("div", {
+      style: { padding: "10px 14px", borderRadius: "8px", background: "#fcebeb", border: "0.5px solid #f09595", marginBottom: "12px" }
+    }, [
+      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#a32d2d", marginBottom: "4px" } }, "Broken prompt:"),
+      el("div", { style: { fontSize: "13px", fontStyle: "italic", color: "#501313" } }, quest.brokenPrompt)
+    ]));
+    children.push(el("p", { style: { fontWeight: 500, fontSize: "14px", marginBottom: "10px" } }, "What's wrong with this prompt?"));
+    children.push(el("div", { style: { display: "flex", flexDirection: "column", gap: "8px", marginBottom: "16px" } },
+      quest.issues.map(function (issue) {
+        return el("div", {
+          style: { padding: "8px 14px", borderRadius: "8px", border: "0.5px solid #f09595", background: "#fcebeb", fontSize: "13px", color: "#501313" }
+        }, "✗ " + issue);
+      })
+    ));
+    children.push(primaryBtn("Show the fix ↗", function () { setTransient(quest.id, { step: 1 }); }));
+  } else {
+    children.push(el("div", {
+      style: { padding: "10px 14px", borderRadius: "8px", background: "#e1f5ee", border: "0.5px solid #5dcaa5", marginBottom: "16px" }
+    }, [
+      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#085041", marginBottom: "4px" } }, "Fixed prompt:"),
+      el("div", { style: { fontSize: "13px", color: "#04342c", lineHeight: 1.6 } }, quest.fixedExample)
+    ]));
+    children.push(primaryBtn("Boss defeated! Continue ↗", onComplete));
+  }
+  return el("div", null, children);
+}
+
+function renderBuild(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const chosen = t.chosen;
+
+  const projectButtons = quest.projects.map(function (p, i) {
+    return el("button", {
+      onclick: function () { setTransient(quest.id, { chosen: i }); },
+      style: {
+        padding: "14px", borderRadius: "8px",
+        border: chosen === i ? "2px solid #534ab7" : "0.5px solid var(--color-border-tertiary)",
+        background: chosen === i ? "#eeedfe" : "var(--color-background-primary)",
+        cursor: "pointer", textAlign: "left"
+      }
+    }, [
+      el("div", { style: { fontSize: "20px", marginBottom: "6px" } }, p.icon),
+      el("div", { style: { fontWeight: 500, fontSize: "13px" } }, p.name),
+      el("div", { style: { fontSize: "11px", color: "var(--color-text-secondary)", marginTop: "4px" } }, p.difficulty + " · " + p.ally)
+    ]);
+  });
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
+    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "16px" } }, projectButtons)
+  ];
+  if (chosen != null) children.push(primaryBtn("Start building ↗", onComplete));
+  return el("div", null, children);
+}
+
+function renderMatch(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const matched = t.matched || {};
+  const selected = t.selected || null;
+  const allMatched = Object.keys(matched).length === quest.pairs.length;
+
+  const handleAlly = function (ally) {
+    if (matched[ally]) return;
+    setTransient(quest.id, { selected: ally });
+  };
+  const handleStrength = function (strength) {
+    if (!selected) return;
+    const isCorrect = (quest.pairs.find(function (p) { return p.ally === selected; }) || {}).strength === strength;
+    if (isCorrect) {
+      const next = Object.assign({}, matched);
+      next[selected] = strength;
+      setTransient(quest.id, { matched: next, selected: null });
+    } else {
+      setTransient(quest.id, { selected: null });
+    }
+  };
+
+  const allyCol = el("div", null, [el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)", marginBottom: "8px" } }, "AI Ally")]
+    .concat(quest.pairs.map(function (p) {
+      const done = !!matched[p.ally];
+      return el("button", {
+        onclick: function () { handleAlly(p.ally); },
+        style: {
+          display: "block", width: "100%", marginBottom: "8px",
+          padding: "8px 12px", borderRadius: "8px",
+          border: selected === p.ally ? "2px solid #534ab7" : done ? "1px solid #1d9e75" : "0.5px solid var(--color-border-tertiary)",
+          background: done ? "#e1f5ee" : (selected === p.ally ? "#eeedfe" : "var(--color-background-primary)"),
+          cursor: done ? "default" : "pointer",
+          textAlign: "left", fontSize: "12px", fontWeight: 500,
+          color: done ? "#085041" : "var(--color-text-primary)"
+        }
+      }, p.icon + " " + p.ally + (done ? " ✓" : ""));
+    })));
+
+  const strengthCol = el("div", null, [el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)", marginBottom: "8px" } }, "2026 flagship / strength")]
+    .concat(quest.pairs.map(function (p) {
+      const isMatched = Object.keys(matched).some(function (k) { return matched[k] === p.strength; });
+      return el("button", {
+        onclick: function () { handleStrength(p.strength); },
+        style: {
+          display: "block", width: "100%", marginBottom: "8px",
+          padding: "8px 12px", borderRadius: "8px",
+          border: isMatched ? "1px solid #1d9e75" : "0.5px solid var(--color-border-tertiary)",
+          background: isMatched ? "#e1f5ee" : "var(--color-background-primary)",
+          cursor: isMatched ? "default" : "pointer",
+          textAlign: "left", fontSize: "12px",
+          color: isMatched ? "#085041" : "var(--color-text-primary)"
+        }
+      }, p.strength + (isMatched ? " ✓" : ""));
+    })));
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "16px", lineHeight: 1.6 } }, quest.story),
+    el("p", { style: { fontWeight: 500, fontSize: "14px", marginBottom: "12px" } }, quest.question),
+    el("div", { style: { display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "16px" } }, [allyCol, strengthCol])
+  ];
+  if (selected) children.push(el("p", { style: { fontSize: "12px", color: "#534ab7", marginTop: "8px" } }, "Now select the matching strength for " + selected));
+  if (allMatched) {
+    const btn = primaryBtn("All matched! Continue ↗", onComplete);
+    btn.style.marginTop = "16px";
+    children.push(btn);
+  }
+  return el("div", null, children);
+}
+
+function renderPromptImprove(quest, onComplete) {
+  const t = getTransient(quest.id);
+  const val = t.val || "";
+  const submitted = !!t.submitted;
+
+  const children = [
+    el("p", { style: { fontSize: "14px", color: "var(--color-text-secondary)", marginBottom: "12px", lineHeight: 1.6 } }, quest.story),
+    el("div", {
+      style: { padding: "10px 14px", borderRadius: "8px", background: "#fcebeb", border: "0.5px solid #f09595", marginBottom: "16px" }
+    }, [
+      el("div", { style: { fontSize: "11px", fontWeight: 500, color: "#a32d2d", marginBottom: "4px" } }, "Weak prompt:"),
+      el("div", { style: { fontSize: "13px", fontStyle: "italic", color: "#501313" } }, quest.badPrompt)
+    ]),
+    el("div", { style: { display: "flex", gap: "8px", marginBottom: "12px", flexWrap: "wrap" } },
+      quest.hints.map(function (h) { return badge("Hint: " + h, "#534ab7", "#eeedfe"); })
+    )
+  ];
+
+  if (!submitted) {
+    const ta = el("textarea", {
+      placeholder: "Write your improved prompt here...",
+      rows: 4,
+      style: {
+        width: "100%", borderRadius: "8px",
+        border: "0.5px solid var(--color-border-secondary)",
+        padding: "10px", fontSize: "13px", resize: "vertical",
+        background: "var(--color-background-primary)",
+        color: "var(--color-text-primary)"
+      }
+    });
+    ta.value = val;
+    ta.addEventListener("input", function (e) {
+      state.transient[quest.id] = Object.assign({}, state.transient[quest.id] || {}, { val: e.target.value });
+    });
+    children.push(ta);
+    const submit = el("button", {
+      onclick: function () {
+        const v = (state.transient[quest.id] && state.transient[quest.id].val) || "";
+        if (v.length > 10) setTransient(quest.id, { submitted: true });
+      },
+      style: {
+        marginTop: "8px", padding: "8px 20px", borderRadius: "8px",
+        border: "0.5px solid var(--color-border-secondary)",
+        background: "var(--color-background-primary)",
+        cursor: "pointer", fontSize: "14px", color: "var(--color-text-primary)"
+      }
+    }, "Submit my prompt");
+    children.push(submit);
+  } else {
+    children.push(el("div", {
+      style: { padding: "10px 14px", borderRadius: "8px", background: "#e1f5ee", border: "0.5px solid #5dcaa5", marginBottom: "12px" }
+    }, [
+      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#085041", marginBottom: "4px" } }, "Your prompt:"),
+      el("div", { style: { fontSize: "13px", color: "#04342c" } }, val)
+    ]));
+    children.push(el("div", {
+      style: { padding: "10px 14px", borderRadius: "8px", background: "#eeedfe", border: "0.5px solid #afa9ec", marginBottom: "12px" }
+    }, [
+      el("div", { style: { fontSize: "12px", fontWeight: 500, color: "#3c3489", marginBottom: "4px" } }, "Example strong prompt:"),
+      el("div", { style: { fontSize: "13px", color: "#26215c" } }, quest.exampleGoodPrompt)
+    ]));
+    children.push(primaryBtn("Continue ↗", onComplete));
+  }
+  return el("div", null, children);
+}
+
+function renderQuestView(quest, onComplete) {
+  switch (quest.type) {
+    case "choice": return renderChoice(quest, onComplete);
+    case "compare": return renderCompare(quest, onComplete);
+    case "learn": return renderLearn(quest, onComplete);
+    case "colosseum": return renderColosseum(quest, onComplete);
+    case "boss": return renderBoss(quest, onComplete);
+    case "build": return renderBuild(quest, onComplete);
+    case "match": return renderMatch(quest, onComplete);
+    case "prompt_improve": return renderPromptImprove(quest, onComplete);
+    default: return el("div", null, "Unknown quest type: " + quest.type);
+  }
+}
+
+/* ---------------- GAME LOGIC ---------------- */
+function gainXP(amount) {
+  const newXP = state.xp + amount;
+  const newLevel = Math.floor(newXP / 300) + 1;
+  state.xp = newXP;
+  if (newLevel > state.level) {
+    state.level = newLevel;
+    state.showLevelUp = true;
+    setTimeout(function () { state.showLevelUp = false; render(); }, 2500);
+  }
+  saveState();
+}
+
+function enterWorld(idx) {
+  if (idx > 0 && state.completedWorlds.indexOf(idx - 1) === -1) return;
+  setState({ activeWorldIdx: idx, activeQuestIdx: 0, screen: "quest" });
+}
+
+function completeQuest() {
+  const world = WORLDS[state.activeWorldIdx];
+  const quest = world.quests[state.activeQuestIdx];
+  if (state.completedQuests.indexOf(quest.id) === -1) {
+    state.completedQuests.push(quest.id);
+    gainXP(Math.floor(world.xpReward / world.quests.length));
+  }
+  delete state.transient[quest.id];
+
+  if (state.activeQuestIdx < world.quests.length - 1) {
+    setState({ activeQuestIdx: state.activeQuestIdx + 1 });
+  } else {
+    if (state.completedWorlds.indexOf(state.activeWorldIdx) === -1) {
+      state.completedWorlds.push(state.activeWorldIdx);
+      const newBadge = BADGE_MAP[state.activeWorldIdx + 1];
+      if (newBadge && state.badges.indexOf(newBadge) === -1) state.badges.push(newBadge);
+    }
+    setState({ screen: "worldmap" });
+  }
+}
+
+/* ---------------- SCREENS ---------------- */
+function renderTitle() {
+  const allyBadges = ALLIES.map(function (a) { return badge(a.icon + " " + a.name, a.color, a.bg); });
+  return el("div", {
+    style: { minHeight: "500px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "2rem", textAlign: "center" }
+  }, [
+    el("div", { style: { fontSize: "56px", marginBottom: "16px" } }, "⚔️"),
+    el("h1", { style: { fontSize: "28px", fontWeight: 500, marginBottom: "8px", color: "var(--color-text-primary)" } }, "Prompt Quest"),
+    el("p", { style: { fontSize: "15px", color: "var(--color-text-secondary)", marginBottom: "6px", maxWidth: "520px" } },
+      "An RPG adventure to master AI in 2026 — basics, prompting, skills, and agents."),
+    el("p", { style: { fontSize: "12px", color: "var(--color-text-tertiary)", marginBottom: "20px" } },
+      "Updated May 2026 · Featuring Opus 4.7, GPT-5.5, Gemini 3.1 Pro, and Copilot"),
+    el("div", { style: { display: "flex", gap: "8px", marginBottom: "28px", flexWrap: "wrap", justifyContent: "center" } }, allyBadges),
+    primaryBtn(state.completedQuests.length > 0 ? "Continue your quest" : "Begin your quest",
+      function () { setState({ screen: "worldmap" }); }, { large: true })
+  ]);
+}
+
+function renderWorldMap() {
+  const container = el("div", { style: { padding: "1.5rem", position: "relative" } });
+
+  if (state.showLevelUp) {
+    container.appendChild(el("div", { class: "levelup" }, "Level up! You are now level " + state.level + " 🎉"));
+  }
+
+  const header = el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "20px", gap: "12px" } });
+  header.appendChild(el("div", { style: { flex: "1" } }, [
+    el("h2", { style: { fontSize: "18px", fontWeight: 500, margin: "0 0 4px 0" } }, "Guild of Minds"),
+    xpBar()
+  ]));
+  header.appendChild(el("div", {
+    style: { padding: "6px 12px", borderRadius: "8px", background: "#faeeda", fontSize: "13px", fontWeight: 500, color: "#412402", whiteSpace: "nowrap" }
+  }, "🔥 " + state.streak + " day streak"));
+  container.appendChild(header);
+
+  const worldList = el("div", { style: { display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" } });
+  WORLDS.forEach(function (w, i) {
+    const unlocked = i === 0 || state.completedWorlds.indexOf(i - 1) !== -1;
+    const done = state.completedWorlds.indexOf(i) !== -1;
+    const row = el("button", {
+      onclick: function () { if (unlocked) enterWorld(i); },
+      disabled: !unlocked,
+      style: {
+        padding: "14px 18px", borderRadius: "10px",
+        border: done ? "1px solid " + w.border : "0.5px solid var(--color-border-tertiary)",
+        background: done ? w.color : (unlocked ? "var(--color-background-primary)" : "var(--color-background-secondary)"),
+        cursor: unlocked ? "pointer" : "not-allowed",
+        textAlign: "left", opacity: unlocked ? 1 : 0.5,
+        font: "inherit", color: "inherit"
+      }
+    }, [
+      el("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, [
+        el("div", null, [
+          el("span", { style: { fontSize: "18px", marginRight: "8px" } }, w.icon),
+          el("span", { style: { fontWeight: 500, fontSize: "14px", color: done ? w.textColor : "var(--color-text-primary)" } },
+            "World " + w.id + ": " + w.name)
+        ]),
+        el("div", { style: { display: "flex", gap: "6px", alignItems: "center" } }, [
+          badge("+" + w.xpReward + " XP", w.textColor, w.color),
+          done ? el("span", { style: { fontSize: "16px" } }, "✓") : null,
+          !unlocked ? el("span", { style: { fontSize: "14px" } }, "🔒") : null
+        ])
+      ]),
+      el("p", { style: { margin: "4px 0 0 28px", fontSize: "12px", color: "var(--color-text-secondary)" } },
+        w.tagline + " · " + w.quests.length + " quest" + (w.quests.length > 1 ? "s" : ""))
+    ]);
+    worldList.appendChild(row);
+  });
+  container.appendChild(worldList);
+
+  if (state.badges.length > 0) {
+    container.appendChild(el("div", null, [
+      el("div", { style: { fontSize: "13px", fontWeight: 500, marginBottom: "8px", color: "var(--color-text-secondary)" } }, "Your badges"),
+      el("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } },
+        state.badges.map(function (b) { return badge("🏅 " + b, "#534ab7", "#eeedfe"); }))
+    ]));
+  }
+
+  const allComplete = state.completedWorlds.length === WORLDS.length;
+  container.appendChild(el("div", { style: { marginTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", flexWrap: "wrap" } }, [
+    el("button", {
+      onclick: function () { setState({ screen: "title" }); },
+      style: { padding: "6px 12px", borderRadius: "8px", border: "0.5px solid var(--color-border-secondary)", background: "var(--color-background-primary)", cursor: "pointer", fontSize: "12px", color: "var(--color-text-secondary)" }
+    }, "← Title"),
+    allComplete ? el("div", { style: { fontSize: "13px", fontWeight: 500, color: "#1d9e75" } }, "🎉 You’ve completed every world!") : null,
+    el("button", {
+      onclick: resetProgress,
+      style: { padding: "6px 12px", borderRadius: "8px", border: "0.5px solid var(--color-border-secondary)", background: "var(--color-background-primary)", cursor: "pointer", fontSize: "12px", color: "var(--color-text-tertiary)" }
+    }, "Reset progress")
+  ]));
+
+  return container;
+}
+
+function renderQuestScreen() {
+  const world = WORLDS[state.activeWorldIdx];
+  if (!world) { setState({ screen: "worldmap" }); return el("div"); }
+  const quest = world.quests[state.activeQuestIdx];
+
+  const header = el("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" } }, [
+    el("button", {
+      onclick: function () { setState({ screen: "worldmap" }); },
+      style: { padding: "6px 12px", borderRadius: "8px", border: "0.5px solid var(--color-border-secondary)", background: "var(--color-background-primary)", cursor: "pointer", fontSize: "13px", color: "var(--color-text-secondary)" }
+    }, "← Map"),
+    el("div", { style: { flex: "1" } }, [
+      el("div", { style: { fontSize: "12px", color: "var(--color-text-tertiary)" } }, world.icon + " " + world.name),
+      el("div", { style: { fontSize: "14px", fontWeight: 500 } }, quest.title)
+    ]),
+    badge((state.activeQuestIdx + 1) + "/" + world.quests.length, "#534ab7", "#eeedfe")
+  ]);
+
+  return el("div", { style: { padding: "1.5rem" } }, [
+    header,
+    renderQuestView(quest, completeQuest)
+  ]);
+}
+
+/* ---------------- RENDER ---------------- */
+function render() {
+  $app.innerHTML = "";
+  if (state.screen === "title") $app.appendChild(renderTitle());
+  else if (state.screen === "worldmap") $app.appendChild(renderWorldMap());
+  else if (state.screen === "quest") $app.appendChild(renderQuestScreen());
+  else $app.appendChild(renderTitle());
+}
+
+render();
+</script>
+</body>
+</html>
