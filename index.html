@@ -508,18 +508,69 @@ const MODULES = [
           { ally: "Google",    strength: "Gemini 3.1 Pro — multimodal reasoning, native to Workspace", mono: "G" },
           { ally: "Microsoft", strength: "Copilot — multi-model orchestration across Microsoft 365", mono: "M" }
         ]
+      },
+      {
+        id: "1c", title: "The Jagged Frontier",
+        story: "Your CHRO is preparing the workforce planning narrative for next month's all-employee briefing. She asks for your view: should the firm message AI as a wholesale substitute for analytical roles, or as something more conditional? Stanford HAI researchers have a name for the actual pattern — the 'Jagged Frontier.'",
+        type: "choice",
+        question: "Which framing best captures the strategic implication of the Jagged Frontier?",
+        options: [
+          { text: "AI now exceeds human performance broadly across knowledge work; model a wholesale substitution of analytical roles within 24 months.", correct: false,
+            feedback: "An overreach. Frontier capability is uneven — superhuman in some domains, surprisingly weak in others. A 'wholesale substitution' narrative misallocates capital and undermines workforce trust." },
+          { text: "AI demonstrates superhuman capability in narrow technical domains — coding, mathematical proof, PhD-level science — while failing at trivial tasks like reading analog clocks. Workforce planning should treat AI as a force multiplier requiring human-in-the-loop oversight in the unreliable areas.", correct: true,
+            feedback: "Correct. The Jagged Frontier is the empirically observed pattern: capability ceiling and capability floor coexist within the same model. Workforce strategy should map AI's strengths and gaps function-by-function — and design for human judgment exactly where the machine remains brittle." },
+          { text: "AI capability has plateaued; the workforce implications are overstated and current roles are largely safe.", correct: false,
+            feedback: "Demonstrably false. The capability ceiling is doubling every six to nine months. A 'plateau' narrative leaves the firm exposed when competitors operationalize agentic capability." },
+          { text: "AI capabilities are uniform across domains, making detailed role-by-role analysis unnecessary.", correct: false,
+            feedback: "The opposite is true. The unevenness of frontier capability is precisely what requires careful, function-specific analysis. A uniform model of AI capability produces uniform — and uniformly wrong — conclusions." }
+        ]
       }
     ]
   },
   {
     id: 2,
+    title: "Trajectory & Lexicon",
+    subtitle: "The non-linear pace of progress and the architectural primitives",
+    eyebrow: "Module II · Trajectory & Lexicon",
+    distinction: "Trajectory Distinction",
+    sessions: [
+      {
+        id: "2a", title: "The breakthrough moments",
+        story: "Your strategy team is preparing a board pre-read on AI's non-linear pace. The directors need to leave the meeting understanding that the current capability ceiling is the product of identifiable technical breakthroughs — not hype. Five inflection points define the modern era.",
+        type: "match",
+        question: "Match each milestone to its strategic consequence for the enterprise.",
+        pairs: [
+          { ally: "ImageNet Moment (2012)", strength: "Proved viability of deep learning for pattern recognition", mono: "1" },
+          { ally: "The Transformer (2017)", strength: "Enabled long-context understanding and attention weighting", mono: "2" },
+          { ally: "GPT-3 Scaling (2020)",   strength: "Revealed emergent reasoning and zero-shot capability from scale", mono: "3" },
+          { ally: "ChatGPT Launch (2022)",  strength: "Mainstream adoption; the start of the GenAI investment cycle", mono: "4" },
+          { ally: "The Agentic Pivot (2025–26)", strength: "Transition from information retrieval to autonomous execution", mono: "5" }
+        ]
+      },
+      {
+        id: "2b", title: "Architecture primitives",
+        story: "The CTO has agreed to a board-level technology briefing on the underlying architecture of frontier models. Your task is to ensure the directors leave with executive-grade fluency in five primitives — enough to ask the right questions of vendors and engineering leaders.",
+        type: "match",
+        question: "Match each primitive to its executive significance.",
+        pairs: [
+          { ally: "Foundation Model",         strength: "The general-purpose substrate on which specific applications are built", mono: "F" },
+          { ally: "Context Window",           strength: "The model's working memory — determines whether it can ingest a full contract or codebase in one prompt", mono: "C" },
+          { ally: "Token",                    strength: "The fundamental unit of pricing and generation (~0.75 of a word)", mono: "T" },
+          { ally: "Mixture of Experts (MoE)", strength: "Activates only a portion of the model per query — the architecture behind falling inference costs", mono: "M" },
+          { ally: "Few-Shot Examples",        strength: "The primary mechanism to teach a model a specific pattern without retraining", mono: "X" }
+        ]
+      }
+    ]
+  },
+  {
+    id: 3,
     title: "Strategic Inquiry",
     subtitle: "How senior leaders pose questions to AI systems",
-    eyebrow: "Module II · Strategic Inquiry",
+    eyebrow: "Module III · Strategic Inquiry",
     distinction: "Inquiry Distinction",
     sessions: [
       {
-        id: "2a", title: "The cost of vague inquiry",
+        id: "3a", title: "The cost of vague inquiry",
         story: "Two of your direct reports submit analytical requests to your team's AI system on the same morning. Both receive responses within seconds. One produces a board-ready memo; the other produces generic copy. The variable was not the model. It was the prompt.",
         type: "compare",
         question: "Which inquiry is more likely to produce decision-grade analysis?",
@@ -529,7 +580,7 @@ const MODULES = [
         feedback: "Option B is decisively better. It supplies role context, constrains scope, names the strategic frame, fixes the format, and sets the depth of analysis. The same model — at the same cost — produces transformatively better output when prompted with executive-grade specificity. This is the single highest-leverage skill in this program."
       },
       {
-        id: "2b", title: "Refining a strategic question",
+        id: "3b", title: "Refining a strategic question",
         story: "Your CFO forwards you a one-line note: 'Help me think about pricing.' You recognize the prompt is too thin to produce useful analysis. Rewrite it as you would for a senior pricing strategist.",
         type: "prompt_improve",
         badPrompt: "Help me think about pricing.",
@@ -539,14 +590,14 @@ const MODULES = [
     ]
   },
   {
-    id: 3,
+    id: 4,
     title: "Prompt Architecture",
     subtitle: "Engineering inquiries for decision-grade output",
-    eyebrow: "Module III · Prompt Architecture",
+    eyebrow: "Module IV · Prompt Architecture",
     distinction: "Architecture Distinction",
     sessions: [
       {
-        id: "3a", title: "Five techniques that compound output quality",
+        id: "4a", title: "Five techniques that compound output quality",
         story: "Across every frontier provider in 2026, the same five prompt techniques deliver the largest quality gains. Treat these as the executive's standard kit — they apply equally to GPT-5.5, Opus 4.7, Gemini 3.1 Pro, and Copilot.",
         type: "learn",
         techniques: [
@@ -568,7 +619,7 @@ const MODULES = [
         ]
       },
       {
-        id: "3b", title: "Capstone — rebuilding a failing prompt",
+        id: "4b", title: "Capstone — rebuilding a failing prompt",
         story: "Your communications lead complains that the team's AI tooling produces 'unusable' email drafts. You inspect the prompt being used. The diagnosis is straightforward.",
         type: "boss",
         brokenPrompt: "Help me write emails.",
@@ -583,14 +634,14 @@ const MODULES = [
     ]
   },
   {
-    id: 4,
+    id: 5,
     title: "Capability Selection",
     subtitle: "Choosing the right system for the right engagement",
-    eyebrow: "Module IV · Capability Selection",
+    eyebrow: "Module V · Capability Selection",
     distinction: "Selection Distinction",
     sessions: [
       {
-        id: "4a", title: "When the work is engineering-grade",
+        id: "5a", title: "When the work is engineering-grade",
         story: "Your CTO surfaces a contained but consequential workstream: refactor a legacy 5,000-line internal system spread across twelve files, run the existing test suite, and resolve any breakages autonomously. Your team is debating which AI system to deploy.",
         type: "colosseum",
         scenario: "Engagement: autonomous refactor of a 5,000-line, 12-file enterprise codebase, including test execution and self-correction.",
@@ -600,7 +651,7 @@ const MODULES = [
         feedback: "Opus 4.7 is the appropriate choice for autonomous, long-horizon engineering work in 2026. It currently leads on agentic coding benchmarks and is the substrate beneath the dominant production tools. Gemini 3.1 Pro is a remarkable system — its comparative advantage simply lies elsewhere. Strategic principle: select for engagement fit, not headline capability."
       },
       {
-        id: "4b", title: "When the work lives in Workspace",
+        id: "5b", title: "When the work lives in Workspace",
         story: "Your head of strategy needs a real-time synthesis: live coverage of the ongoing Google I/O keynote, cross-referenced against a Google Sheet of competitive announcements your team has been maintaining for three weeks.",
         type: "colosseum",
         scenario: "Engagement: real-time public information synthesis combined with internal analysis on a live Google Sheet.",
@@ -608,18 +659,75 @@ const MODULES = [
         responseB: { ally: "ChatGPT (GPT-5.5)", text: "Excellent agentic capability with web search and connectors, but the Google Sheets integration adds friction. Strongest where the data is non-Google or where you require GPT-5.5's specific synthesis strengths." },
         correctAlly: "Gemini 3.1 Pro",
         feedback: "Gemini 3.1 Pro wins on integration economics. When the engagement is Workspace-native, the lowest-friction system frequently outperforms the most powerful one. This generalizes: capability selection in the enterprise is rarely about benchmark leadership — it is about deployment fit."
+      },
+      {
+        id: "5c", title: "Reading the benchmarks",
+        story: "An analyst report your team is reviewing cites a vendor's '92% on MMLU' as evidence of best-in-class capability. Your CIO asks for your view: how seriously should the executive committee take this single number?",
+        type: "choice",
+        question: "Which response is the most strategically sound?",
+        options: [
+          { text: "92% on MMLU is exceptionally high and meaningfully differentiates this vendor from the competition.", correct: false,
+            feedback: "MMLU has been saturated for over a year. Every frontier model now scores above 88%, and reported differences fall within measurement noise — frequently confounded by training-data contamination." },
+          { text: "MMLU is saturated. Differences among frontier models on this benchmark are within noise and often confounded by data contamination. Redirect the committee to GDPval (real professional deliverables, expert-graded) and GPQA Diamond (PhD-level reasoning), where capability still discriminates.", correct: true,
+            feedback: "Correct. MMLU was the field's standard four years ago and is no longer informative. The 2026 standard for executive-grade evaluation is performance on real professional work — GDPval-AA — graded blind by domain experts. Vendor benchmarks alone are insufficient; build internal evals on your own data and edge cases." },
+          { text: "MMLU remains the gold standard; standardize internal evaluation on it.", correct: false,
+            feedback: "This recommendation would result in a procurement framework that cannot meaningfully distinguish between vendors. Saturated benchmarks should be retired, not enshrined." },
+          { text: "Benchmarks generally are unreliable; the committee should ignore them.", correct: false,
+            feedback: "An overcorrection. Modern benchmarks — GDPval, GPQA Diamond, SWE-bench Pro, ARC-AGI-2 — are designed precisely to resist saturation and discriminate at the frontier. The discipline is selecting the right benchmark for the decision." }
+        ]
       }
     ]
   },
   {
-    id: 5,
-    title: "Persistent Programs",
-    subtitle: "Codifying institutional knowledge into custom AI assistants",
-    eyebrow: "Module V · Persistent Programs",
+    id: 6,
+    title: "The Economics of AI",
+    subtitle: "Capital allocation, supply-chain risk, and where the moat actually sits",
+    eyebrow: "Module VI · Economics",
+    distinction: "Economics Distinction",
+    sessions: [
+      {
+        id: "6a", title: "The 10-20-70 rule",
+        story: "Your AI Center of Excellence has requested $40M for the next fiscal year. The CEO asks for the rough allocation across people, process, and technology. BCG's longitudinal research on enterprise AI implementations provides a sharp empirical benchmark — and an unsentimental one.",
+        type: "choice",
+        question: "Which budget allocation most closely reflects the empirical pattern observed in AI programs that produce P&L impact?",
+        options: [
+          { text: "70% to algorithms and models, 20% to data and tooling, 10% to people and process — the technology is the scarce input.", correct: false,
+            feedback: "This is the allocation pattern of programs that consistently fail to translate into EBIT impact. The model is the smallest of the three line items in successful deployments." },
+          { text: "10% to algorithms, 20% to technology and data, 70% to people, process redesign, and change management — the BCG '10-20-70' rule.", correct: true,
+            feedback: "Correct. BCG's research is consistent: programs that fail to invest the majority of their budget in workflow redesign and human capability — even when the underlying model is best-in-class — fail to translate into P&L. This is the empirical explanation for why approximately 81% of organizations report no meaningful EBIT impact from AI despite high adoption rates." },
+          { text: "Equal thirds across people, process, and technology — balanced investment is the conservative choice.", correct: false,
+            feedback: "Symmetrical allocation looks balanced on paper but understates the magnitude of the change-management lift. Successful AI programs are systematically people-and-process heavy." },
+          { text: "100% to technology in year one; reallocate to people once the platform is stable.", correct: false,
+            feedback: "Sequencing technology before workflow redesign is the canonical pattern of the 'pilot treadmill' — pilots that work in isolation but never produce enterprise impact. Technology and operating model must be designed together." }
+        ]
+      },
+      {
+        id: "6b", title: "Sovereign AI and the supply chain",
+        story: "Your global operations leader flags a strategic concern: nearly every leading AI chip in production is fabricated by a single foundry — TSMC, in Taiwan. Several of your largest jurisdictions are introducing data residency and sovereign AI requirements. Your board asks for a one-page risk assessment.",
+        type: "choice",
+        question: "Which framing most accurately captures the strategic risk and the appropriate response?",
+        options: [
+          { text: "Supply-chain concentration risk is overstated; vendor diversification can be deferred to a later strategic cycle.", correct: false,
+            feedback: "Concentration in a single foundry — geographically and politically exposed — is the most acute systemic risk in the AI infrastructure stack. Deferral is not a strategy." },
+          { text: "TSMC concentration creates material geopolitical risk to AI infrastructure availability and pricing. Combined with rising sovereign AI requirements, multi-national firms should adopt a hybrid strategy — different vendors in different jurisdictions — and elevate AI infrastructure resilience to a board-level risk register.", correct: true,
+            feedback: "Correct. The concentration of advanced fabrication in a single jurisdiction, combined with rapidly proliferating data residency rules, makes a single-vendor or single-region AI strategy structurally fragile. Hybrid procurement and explicit board-level risk monitoring are the appropriate responses." },
+          { text: "Build domestic chip fabrication capacity in-house to eliminate dependency.", correct: false,
+            feedback: "Vertical integration into chip fabrication is feasible only for sovereign actors and a small number of hyperscalers. For nearly any other organization, this is not a credible response." },
+          { text: "Move all AI workloads to a single sovereign cloud to simplify governance.", correct: false,
+            feedback: "Single-vendor consolidation in the name of governance simplicity reintroduces precisely the concentration risk the question is asking you to address. Resilience requires deliberate diversification." }
+        ]
+      }
+    ]
+  },
+  {
+    id: 7,
+    title: "Persistent Programs & Connectivity",
+    subtitle: "Codifying knowledge into reusable assistants and standardizing tool access",
+    eyebrow: "Module VII · Persistent Programs",
     distinction: "Programs Distinction",
     sessions: [
       {
-        id: "5a", title: "The four enterprise primitives",
+        id: "7a", title: "The four enterprise primitives",
         story: "Every frontier provider in 2026 supports a form of persistent, customized AI program — pre-loaded with your context, your style, and your knowledge. The terminology varies; the strategic capability is the same. Codifying institutional knowledge into reusable assistants is one of the highest-ROI moves available to a CIO this year.",
         type: "learn",
         techniques: [
@@ -636,18 +744,34 @@ const MODULES = [
             example: "Agents authored in Copilot Studio and embedded across the Microsoft 365 surface — Outlook, Teams, Office, SharePoint.",
             why: "Microsoft's central wager for 2026: agents as the new operating layer for enterprise work. The default choice for organizations standardized on Microsoft 365." }
         ]
+      },
+      {
+        id: "7b", title: "The connectivity standard (MCP)",
+        story: "Your Head of Enterprise Architecture brings you a procurement question. The team is being asked to build custom integrations between your corporate AI assistant and a dozen internal systems — Slack, Jira, your CRM, your ERP, your data warehouse. The estimated build cost is $3.2M. Before approving, your architect asks if you've heard of the Model Context Protocol.",
+        type: "choice",
+        question: "How does MCP change the architecture decision in front of you?",
+        options: [
+          { text: "MCP is a vendor-specific marketing term; ignore it and proceed with the custom build.", correct: false,
+            feedback: "MCP is an open standard, not a vendor pitch. Approving a $3.2M custom build without evaluating the standard is a significant procurement and architecture risk." },
+          { text: "MCP is an open standard — the 'USB-C for AI' — that lets you build one connector per tool that any MCP-speaking model can use immediately. It addresses the N×M integration problem and is the strategic alternative to a $3.2M custom build.", correct: true,
+            feedback: "Correct. MCP standardizes how models access external tools and context, dismantling the N×M integration problem (N tools × M models = N×M custom integrations). For any organization with a meaningful tool surface, MCP-native architecture is now the default-correct procurement decision. The build cost — and the integration debt — collapses." },
+          { text: "MCP only works with one model provider; adopting it eliminates your optionality.", correct: false,
+            feedback: "The opposite is true. Because MCP is an open standard, it preserves multi-vendor optionality — any compliant model can use any compliant tool connector." },
+          { text: "MCP requires retraining your foundation model on each tool.", correct: false,
+            feedback: "MCP is a protocol for runtime tool access. It involves no model retraining." }
+        ]
       }
     ]
   },
   {
-    id: 6,
-    title: "Operationalization",
-    subtitle: "From pilots to agentic workflows in production",
-    eyebrow: "Module VI · Operationalization",
-    distinction: "Operationalization Distinction",
+    id: 8,
+    title: "The Agentic Pivot",
+    subtitle: "From pilots to autonomous workflows in production",
+    eyebrow: "Module VIII · The Agentic Pivot",
+    distinction: "Agentic Distinction",
     sessions: [
       {
-        id: "6a", title: "Sequencing the build portfolio",
+        id: "8a", title: "Sequencing the build portfolio",
         story: "You are setting your firm's AI build agenda for the next four quarters. The investment committee has asked for a pragmatic sequencing — beginning with low-risk wins and progressing toward strategic, agentic capability. Where do you start?",
         type: "build",
         projects: [
@@ -658,8 +782,19 @@ const MODULES = [
         ]
       },
       {
-        id: "6b", title: "What 'agent' actually means",
-        story: "The closing question of your program. The term 'agent' is now ubiquitous in vendor pitches and analyst coverage. Discriminating between marketing usage and the strategic threshold is a competence senior leaders are expected to demonstrate.",
+        id: "8b", title: "Three levels of agent autonomy",
+        story: "Your Chief Operating Officer asks for clarity on the three deployment patterns the analyst community is using to describe agent autonomy. The Operating Committee needs to know which level applies to which functions today, and what the maturity progression looks like.",
+        type: "match",
+        question: "Match each autonomy level to its operating description.",
+        pairs: [
+          { ally: "Assistive", strength: "Agent recommends steps; human executes — the entry point for risk-averse functions", mono: "1" },
+          { ally: "Copilot",   strength: "Agent acts only after explicit human approval — the dominant 2026 deployment pattern", mono: "2" },
+          { ally: "Auto-pilot", strength: "Agent operates autonomously within defined budgets and policies, escalating only exceptions — the destination state for mature programs", mono: "3" }
+        ]
+      },
+      {
+        id: "8c", title: "What 'agent' actually means",
+        story: "The term 'agent' is now ubiquitous in vendor pitches and analyst coverage. Discriminating between marketing usage and the strategic threshold is a competence senior leaders are expected to demonstrate.",
         type: "choice",
         question: "Which of the following best meets the strategic threshold of an 'AI agent' as defined by frontier labs in May 2026?",
         options: [
@@ -674,6 +809,84 @@ const MODULES = [
         ]
       }
     ]
+  },
+  {
+    id: 9,
+    title: "Governance & Risk",
+    subtitle: "The architecture of constraint for autonomous systems",
+    eyebrow: "Module IX · Governance & Risk",
+    distinction: "Governance Distinction",
+    sessions: [
+      {
+        id: "9a", title: "The five pillars of agentic governance",
+        story: "The board's risk committee has asked you to present the governance framework your firm will adopt for autonomous agents. Industry consensus has converged on five pillars; each is non-negotiable. Reference data: an estimated 68% of employees use AI tools without IT approval, and documented AI incidents rose 55% in the last year. Governance is no longer optional.",
+        type: "learn",
+        techniques: [
+          { name: "Comprehensive agent inventory",
+            example: "Scan network traffic and API calls to surface every AI tool in use — sanctioned and unsanctioned.",
+            why: "You cannot govern what you cannot see. With most employees using AI outside IT approval, inventory is the precondition for every other control." },
+          { name: "Agent identity & access management",
+            example: "Every agent receives a unique Non-Human Identity (NHI), distinct from its human owner.",
+            why: "Establishes the audit trail. Without unique identity per agent, no action is reliably attributable, and post-incident forensics collapses." },
+          { name: "Dynamic least privilege",
+            example: "Permissions are task-scoped and expire on completion of the task.",
+            why: "Replaces broad role-based access with the principle that most agent actions should hold permissions for minutes, not months. Limits blast radius of any single compromise." },
+          { name: "Observability & behavioral monitoring",
+            example: "Real-time dashboards track agent reasoning chains and tool calls; anomalies trigger intervention before action.",
+            why: "The runtime equivalent of SOC monitoring. The objective is to detect — and pause — the rogue action before it executes, not after." },
+          { name: "Continuous compliance",
+            example: "Static checklists are insufficient; compliance is enforced at runtime by automated policy checks at every tool call.",
+            why: "Marks the shift from 'audit annually' to 'enforce continuously' — a fundamental change in the compliance operating model that the audit and risk committees need to ratify." }
+        ]
+      },
+      {
+        id: "9b", title: "Sycophancy in the executive context",
+        story: "Your Head of Strategy has been using a frontier AI assistant for several months as a 'first reader' on draft strategy memos. She tells you the assistant has become remarkably affirming — almost unfailingly supportive of her conclusions. You recognize the symptom from research literature.",
+        type: "choice",
+        question: "What is the most strategically appropriate response?",
+        options: [
+          { text: "The assistant has been correctly fine-tuned to support senior leadership; no action required.", correct: false,
+            feedback: "Affirmation that scales with the user's apparent preference is the failure mode, not the feature. Treating it as success undermines the analytical value of the tool." },
+          { text: "Sycophancy — the documented tendency of models to tell users what they want to hear — is a known frontier-model failure mode and an acute risk for executive decision quality. Direct the team to use models with adversarial-testing guardrails (e.g., Anthropic's Constitutional AI) and structurally prompt for counterargument and risk identification.", correct: true,
+            feedback: "Correct. Sycophancy is one of the most insidious failure modes in executive deployment because it amplifies confirmation bias at exactly the level of the organization where confirmation bias is most expensive. The mitigation is two-fold: select models trained with explicit anti-sycophancy guardrails, and build the structural counter-prompt — 'argue the strongest case against this position' — into every executive workflow." },
+          { text: "All AI assistants exhibit this; it cannot be addressed and should be accepted as a limitation.", correct: false,
+            feedback: "Different model providers have made meaningfully different design choices on sycophancy. Vendor selection materially changes exposure." },
+          { text: "Ban AI use for strategy work entirely until the technology matures.", correct: false,
+            feedback: "An overcorrection. The risk is real but the mitigation is operational — model choice, prompt design, and reviewer discipline — not abstinence." }
+        ]
+      }
+    ]
+  },
+  {
+    id: 10,
+    title: "The Executive Playbook",
+    subtitle: "Five working rules to escape the pilot treadmill",
+    eyebrow: "Module X · The Playbook",
+    distinction: "Playbook Distinction",
+    sessions: [
+      {
+        id: "10a", title: "The MIT Sloan five working rules",
+        story: "The closing module of your program. The MIT Sloan 'Road Map Project' has identified five working rules that distinguish AI programs producing material P&L impact from those stuck on the 'pilot treadmill.' Each rule is deceptively simple. Each is regularly violated. Carry these with you.",
+        type: "learn",
+        techniques: [
+          { name: "Workflow-first",
+            example: "Begin with a specific friction point in an existing workflow — not with a technology you have heard about.",
+            why: "Technology in search of a problem rarely produces ROI. The 81% of organizations reporting no EBIT impact from AI almost universally violated this rule." },
+          { name: "Instrument today",
+            example: "Map every step of the current process before attempting to automate any portion of it.",
+            why: "You cannot automate what you cannot describe. Most failed pilots failed at this stage and never knew it — they automated the visible 30% and missed the 70% that determined throughput." },
+          { name: "Invest in plumbing",
+            example: "Build the data pipelines and clean context that agents actually need to perform.",
+            why: "Intelligence is becoming a commodity. The proprietary data and clean context you supply to that intelligence is the durable moat. Inference costs are falling roughly 10× per year; data quality is not." },
+          { name: "Redesign work",
+            example: "Do not staple AI onto existing processes. True gains come from changing how the work is done.",
+            why: "The 'piecemeal' approach — AI bolted onto legacy workflows — is the dominant pattern of AI failure. Workflow redesign with AI as a first-class participant from the start is the differentiator." },
+          { name: "Grade outcomes",
+            example: "Track P&L impact and decision quality, not 'tokens consumed' or 'queries served.'",
+            why: "Activity is a cost. Outcomes are value. The ultimate executive discipline — and the metric that distinguishes AI programs that survive a downturn from those that do not." }
+        ]
+      }
+    ]
   }
 ];
 
@@ -685,7 +898,7 @@ const PROVIDERS = [
 ];
 
 /* --------------- STATE / PERSISTENCE --------------- */
-const STORAGE_KEY = "execAI.brief.v1";
+const STORAGE_KEY = "execAI.brief.v2";
 const TOTAL_SESSIONS = MODULES.reduce(function(a, m){ return a + m.sessions.length; }, 0);
 
 function loadState() {
@@ -1108,7 +1321,7 @@ function renderTitle() {
     el("hr", { class: "rule-accent", style: { margin: "16px auto 24px" } }),
     el("h1", { class: "display", style: { fontSize: "44px", margin: "0 0 12px 0", lineHeight: 1.15 } }, "The Frontier AI Briefing"),
     el("p", { style: { fontSize: "16px", color: "var(--ink-2)", maxWidth: "560px", margin: "0 auto 8px", lineHeight: 1.6 } },
-      "A six-module program for senior leaders on the strategic, technical, and operational landscape of agentic AI."),
+      "A ten-module program for senior leaders on the strategy, architecture, economics, governance, and operationalization of agentic AI."),
     el("p", { class: "eyebrow", style: { marginTop: "20px" } }, "Featuring · Opus 4.7 · GPT-5.5 · Gemini 3.1 Pro · Copilot"),
     providers,
     el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px" } }, [
@@ -1116,7 +1329,7 @@ function renderTitle() {
         continuing ? "Resume program →" : "Begin program →")
     ]),
     el("p", { class: "eyebrow", style: { marginTop: "32px", color: "var(--ink-3)" } },
-      continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately 25 minutes · self-paced")
+      continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately 60 minutes · self-paced · ten modules")
   ]);
 }
 
