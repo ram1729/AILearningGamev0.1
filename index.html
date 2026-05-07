@@ -392,6 +392,18 @@
 
   .distinctions { display: flex; gap: 8px; flex-wrap: wrap; }
 
+  /* Intro video */
+  .video-container {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: 0 8px 24px rgba(14,26,43,0.10);
+  }
+  .video-container iframe { width: 100%; height: 100%; border: 0; display: block; }
+
   /* Capstone CTA */
   .capstone-cta {
     margin: 28px 48px 8px;
@@ -1984,12 +1996,34 @@ function renderTitle() {
     el("p", { class: "eyebrow", style: { marginTop: "20px" } }, "Featuring · Opus 4.7 · GPT-5.5 · Gemini 3.1 Pro · Copilot"),
     providers,
     el("div", { style: { marginTop: "40px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" } }, [
-      el("button", { class: "btn", onclick: function(){ setState({ screen: "index" }); } },
+      el("button", { class: "btn", onclick: function(){ setState({ screen: continuing ? "index" : "intro" }); } },
         continuing ? "Resume program →" : "Begin program →")
     ]),
     el("p", { class: "eyebrow", style: { marginTop: "32px", color: "var(--ink-3)" } },
       continuing ? (state.completedSessions.length + " of " + TOTAL_SESSIONS + " sessions complete") : "Approximately two hours · self-paced · eleven modules · 41 sessions"),
     el("p", { class: "eyebrow", style: { marginTop: "8px", color: "var(--ink-3)" } }, ATTRIBUTION_PIPED)
+  ]);
+}
+
+function renderIntro() {
+  return el("div", { class: "pad", style: { textAlign: "center", paddingTop: "48px", paddingBottom: "56px" } }, [
+    el("div", { class: "eyebrow" }, "Before you begin · The overview"),
+    el("hr", { class: "rule-accent", style: { margin: "16px auto 24px" } }),
+    el("h2", { class: "display", style: { fontSize: "30px", margin: "0 0 12px 0", lineHeight: 1.2 } }, "A brief overview of the landscape"),
+    el("p", { style: { fontSize: "15px", color: "var(--ink-2)", maxWidth: "620px", margin: "0 auto 32px", lineHeight: 1.6 } },
+      "Watch this short overview before the quiz-based learning segments begin. The video frames the strategic landscape; the eleven modules that follow take you deep into the operational decisions."),
+    el("div", { class: "video-container", style: { maxWidth: "780px", margin: "0 auto" } },
+      el("iframe", {
+        src: "https://www.youtube-nocookie.com/embed/z4Fji04CJLI?rel=0&modestbranding=1",
+        title: "Frontier AI overview",
+        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+        allowfullscreen: ""
+      })
+    ),
+    el("div", { style: { marginTop: "36px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" } }, [
+      el("button", { class: "btn-text", onclick: function(){ setState({ screen: "title" }); } }, "← Back to title"),
+      el("button", { class: "btn", onclick: function(){ setState({ screen: "index" }); } }, "Continue to the program →")
+    ])
   ]);
 }
 
@@ -2080,8 +2114,9 @@ function renderIndex() {
     ]));
   }
 
-  container.appendChild(el("div", { class: "pad-tight", style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--line)", marginTop: "8px" } }, [
+  container.appendChild(el("div", { class: "pad-tight", style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid var(--line)", marginTop: "8px", gap: "12px", flexWrap: "wrap" } }, [
     el("button", { class: "btn-text", onclick: function(){ setState({ screen: "title" }); } }, "← Title"),
+    el("button", { class: "btn-text", onclick: function(){ setState({ screen: "intro" }); }, style: { color: "var(--ink-2)" } }, "Watch overview again"),
     el("button", { class: "btn-text", onclick: resetProgress, style: { color: "var(--ink-3)" } }, "Reset")
   ]));
 
@@ -2234,6 +2269,7 @@ function renderSessionScreen() {
 function render() {
   $app.innerHTML = "";
   if (state.screen === "title")        $app.appendChild(renderTitle());
+  else if (state.screen === "intro")   $app.appendChild(renderIntro());
   else if (state.screen === "index")   $app.appendChild(renderIndex());
   else if (state.screen === "session") $app.appendChild(renderSessionScreen());
   else if (state.screen === "claim")   $app.appendChild(renderClaim());
